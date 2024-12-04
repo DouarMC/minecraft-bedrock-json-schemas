@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:attachable"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:attachable": {"$ref": "#/definitions/minecraft:attachable-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"}
+        }}
+    },
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:attachable-def": {"type": "object", "required": ["description"], "description": "Contient toute la définition de l'Attachable."},
+        "description-def": {"type": "object", "required": ["identifier", "textures", "geometry"], "description": "Contient les propeiétés de Descriptions de l'Entité.", "properties": {
+            "identifier": {"type": "string", "description": "L'identifiant de l'Entité."},
+            "item": {"type": "object", "description": "Définit à quel Item est destiné l'Attachable en fonction de la requête Molang.", "additionalProperties": {
+                "type": "string"
+            }},
+            "materials": {"type": "object", "description": "Les Materiels à référencer pour cet Entité.", "properties": {
+                "default": {"anyOf": [
+                    {"type": "string", "enum": ["armor", "entity_alphatest", "elytra", "armor_leather"]},
+                    {"type": "string"}
+                ]},
+                "enchanted": {"anyOf": [
+                    {"type": "string", "enum": ["armor_enchanted", "entity_alphatest_glint", "elytra_glint", "armor_leather_enchanted"]},
+                    {"type": "string"}
+                ]}
+             },
+                "additionalProperties": {"type": "string"}
+            },
+            "textures": {"type": "object", "description": "Les Textures à référencer pour cet Entité.", "properties": {
+                "default": {"type": "string"},
+                "enchanted": {"anyOf": [
+                    {"type": "string", "enum": ["textures/misc/enchanted_item_glint", "textures/misc/enchanted_actor_glint"]},
+                    {"type": "string"}
+                ]}
+             },
+                "additionalProperties": {"type": "string"}
+            },
+            "geometry": {"type": "object", "description": "Les Modèles à référencer pour cet Entité.", "properties": {
+                "default": {"anyOf": [
+                    {"type": "string"},
+                    {"type": "string", "enum": [
+                        "geometry.humanoid.armor.boots", "geometry.player.armor.boots", "geometry.humanoid.armor.chestplate", "geometry.player.armor.chestplate",
+                        "geometry.humanoid.armor.helmet", "geometry.player.armor.helmet", "geometry.humanoid.armor.leggings", "geometry.player.armor.leggings",
+                        "geometry.elytra", "geometry.shield", "geometry.trident"
+                    ]}
+                ]}
+             },
+                "additionalProperties": {"type": "string"}
+            },
+            "animations": {"type": "object", "description": "Les animations et controlleurs d'animations à référencer.", "additionalProperties": {
+                "type": "string"
+            }},
+            "render_controllers": {"type": "array", "description": "La liste des controlleurs de rendu.", "items": {"anyOf": [
+                {"type": "string", "enum": ["controller.render.armor"]},
+                {"type": "string"}
+            ]}},
+            "scripts": {"type": "object", "description": "Définie certains script que l'entité execute à certains moments.", "properties": {
+                "parent_setup": {"type": "string", "description": "Définit la visibilité des éléments du parent avec l'aide de variables Molang."},
+                "scale": {"description": "Définit la taille du modèle de l'entité.", "oneOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "scaleX": {"description": "Définit la taille X du modèle de l'entité.", "oneOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "scaleY": {"description": "Définit la taille Y du modèle de l'entité.", "oneOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "scalez": {"description": "Définit la taille Z du modèle de l'entité.", "oneOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "initialize": {"type": "array", "items": {"type": "string"}, "description": "Ce script s'exécute lors de la première initialisation de l'entité, c'est-à-dire lorsqu'elle apparaît et à chaque fois qu'elle est chargée."},
+                "pre_animation": {"type": "array", "items": {"type": "string"}, "description": "Ce script s'exécute chaque image avant la lecture des animations. Ceci est utile pour calculer les variables qui seront utilisées dans les animations et qui doivent être calculées avant l'exécution de l'animation."},
+                "animate": {"type": "array", "description": "Ce script s'exécute chaque image après pre_animation. C'est ici que vous exécutez des animations et des contrôleurs d'animation. Chaque image, chaque animation ou contrôleur d'animation de cette clé sera exécuté.", "items": {"oneOf": [
+                    {"type": "string"},
+                    {"type": "object", "additionalProperties": {"type": "string"}}
+                ]}},
+                "should_update_bones_and_effects_offscreen": {"type": "boolean", "description": "Définie si les sons et particules d'animations continuent d'être joué hors écran."}
+            }},
+            "particle_effects": {"type": "object", "description": "Les effets de particules sont des fichiers contenant des informations sur le mouvement de nombreuses petites flèches pour créer des effets comme de la fumée ou du feu.", "additionalProperties": {
+                "type": "string"
+            }},
+            "sound_effects": {"type": "object", "description": "Les effets de sons à référencer pour l'Entité.", "additionalProperties": {
+                "type": "string"
+            }}
+        }}
+    }
+}

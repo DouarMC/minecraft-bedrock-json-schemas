@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version de format à utiliser."}
+    },
+    "additionalProperties": {"anyOf": [
+            {"type": "object","properties": {
+                "textures": {"$ref": "#/definitions/textures-def", "description": "Les textures à appliquer les différentes faces du Bloc."},
+                "sound": {"type": "string", "description": "Le son fait par le Bloc."},
+                "ambient_occlusion_exponent": {"type": "number", "description": "La luminosité du Bloc."},
+                "carried_textures": {"$ref": "#/definitions/textures-def", "description": "Définit les textures du Bloc quand il est dans l'inventaire."},
+                "isotropic": {"description": "Définit les faces qui seront rotationné aléatoirement.", "oneOf": [
+                    {"type": "boolean"},
+                    {"type": "object",
+                        "properties": {
+                            "down": {"type": "boolean"},
+                            "up": {"type": "boolean"},
+                            "north": {"type": "boolean"},
+                            "east": {"type": "boolean"},
+                            "south": {"type": "boolean"},
+                            "west": {"type": "boolean"}
+                        }
+                    }
+                ]}
+            }},
+            {"type": "string"}
+        ]
+    },
+    "definitions": {
+        "textures-def": {
+            "oneOf": [
+                {"type": "string"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "down": {"type": "string"},
+                        "up": {"type": "string"},
+                        "north": {"type": "string"},
+                        "east": {"type": "string"},
+                        "south": {"type": "string"},
+                        "west": {"type": "string"}
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["texture_name", "resource_pack_name", "texture_data"],
+    "properties": {
+        "texture_name": {"$ref": "#/definitions/texture_name-def"},
+        "resource_pack_name": {"$ref": "#/definitions/resource_pack_name-def"},
+        "texture_data": {"$ref": "#/definitions/texture_data-def"}
+    },
+    "definitions": {
+        "texture_name-def": {"default": "atlas.items", "type": "string", "description": "Le type d'appliquement de Textures."},
+        "resource_pack_name-def": {"type": "string", "description": "L'ID pour le pack de ressources."},
+        "texture_data-def": {"type": "object", "description": "L'inscription de short-name de Textures.", "additionalProperties": {"type": "object", "properties": {
+            "textures": {"description": "La/les texture(s) à spécifier", "anyOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"type": "string"}}
+            ]}
+        }}}
+    }
+}

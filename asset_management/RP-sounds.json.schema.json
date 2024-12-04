@@ -1,0 +1,246 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "block_sounds": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "events": {
+                        "type": "object",
+                        "properties": {
+                            "break": {"$ref": "#/definitions/sounds_events_def"},
+                            "default": {"type": "string", "const": ""},
+                            "hit": {"$ref": "#/definitions/sounds_events_def"},
+                            "item.use.on": {"$ref": "#/definitions/sounds_events_def"},
+                            "place": {"$ref": "#/definitions/sounds_events_def"},
+                            "power.off": {"$ref": "#/definitions/sounds_events_def"},
+                            "power.on": {"$ref": "#/definitions/sounds_events_def"},
+                            "button.click.off": {"$ref": "#/definitions/sounds_events_def"},
+                            "button.click.on": {"$ref": "#/definitions/sounds_events_def"},
+                            "door.close": {"$ref": "#/definitions/sounds_events_def"},
+                            "door.open": {"$ref": "#/definitions/sounds_events_def"},
+                            "fence_gate.close": {"$ref": "#/definitions/sounds_events_def"},
+                            "fence_gate.open": {"$ref": "#/definitions/sounds_events_def"},
+                            "pressure_plate.click.off": {"$ref": "#/definitions/sounds_events_def"},
+                            "pressure_plate.click_on": {"$ref": "#/definitions/sounds_events_def"},
+                            "trapdoor.close": {"$ref": "#/definitions/sounds_events_def"},
+                            "trapdoor.open": {"$ref": "#/definitions/sounds_events_def"},
+                            "insert": {"$ref": "#/definitions/sounds_events_def"},
+                            "insert_enchanted": {"$ref": "#/definitions/sounds_events_def"},
+                            "pickup": {"$ref": "#/definitions/sounds_events_def"},
+                            "pickup_enchanted": {"$ref": "#/definitions/sounds_events_def"},
+                            "break_pot": {"$ref": "#/definitions/sounds_events_def"},
+                            "fall": {"$ref": "#/definitions/sounds_events_def"},
+                            "shatter_pot": {"$ref": "#/definitions/sounds_events_def"},
+                            "step": {"$ref": "#/definitions/sounds_events_def"},
+                            "brush": {"$ref": "#/definitions/sounds_events_def"},
+                            "brush_completed": {"$ref": "#/definitions/sounds_events_def"}
+                        }
+                    },
+                    "pitch": {"type": "number"},
+                    "volume": {"type": "number"},
+                    "sound": {"type": "string"}
+                }
+            }
+        },
+        "entity_sounds": {
+            "type": "object",
+            "properties": {
+                "defaults": {
+                    "$ref": "#/definitions/entity_sounds_def"
+                },
+                "entities": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/entity_sounds_def"
+                    }
+                }
+            }
+        },
+        "individual_event_sounds": {
+            "type": "object",
+            "properties": {
+                "events": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/sounds_events_def"
+                    }
+                }
+            }
+        },
+        "interactive_sounds": {
+            "type": "object",
+            ""
+        }
+    },
+    "definitions": {
+        "sounds_events_def": {
+            "type": "object",
+            "properties": {
+                "sound": {"type": "string"},
+                "volume": {"type": "number"},
+                "pitch": {"oneOf": [{"type": "number"}, {"type": "array", "items": {"type": "number"}}]}
+            }
+        },
+        "entity_sounds_def": {
+            "properties": {
+                "events": {
+                    "type": "object",
+                    "properties": {
+                        "ambient": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.in.raid": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.in_water": {"$ref": "#/definitions/sounds_events_def"},
+                        "celebrate": {"$ref": "#/definitions/sounds_events_def"},
+                        "death": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.in.water": {"$ref": "#/definitions/sounds_events_def"},
+                        "drink": {"$ref": "#/definitions/sounds_events_def"},
+                        "drink.honey": {"$ref": "#/definitions/sounds_events_def"},
+                        "eat": {"$ref": "#/definitions/sounds_events_def"},
+                        "fall.big": {"$ref": "#/definitions/sounds_events_def"},
+                        "fall.small": {"$ref": "#/definitions/sounds_events_def"},
+                        "fizz": {"$ref": "#/definitions/sounds_events_def"},
+                        "flop": {"$ref": "#/definitions/sounds_events_def"},
+                        "hurt": {"$ref": "#/definitions/sounds_events_def"},
+                        "hurt.in.water": {"$ref": "#/definitions/sounds_events_def"},
+                        "splash": {"$ref": "#/definitions/sounds_events_def"},
+                        "swim": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.tame": {"$ref": "#/definitions/sounds_events_def"},
+                        "hurt.reduced": {"$ref": "#/definitions/sounds_events_def"},
+                        "step": {"$ref": "#/definitions/sounds_events_def"},
+                        "attack": {"$ref": "#/definitions/sounds_events_def"},
+                        "takeoff": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.pollinate": {"$ref": "#/definitions/sounds_events_def"},
+                        "shoot": {"$ref": "#/definitions/sounds_events_def"},
+                        "saddle": {"$ref": "#/definitions/sounds_events_def"},
+                        "step_sand": {"$ref": "#/definitions/sounds_events_def"},
+                        "purr": {"$ref": "#/definitions/sounds_events_def"},
+                        "purreow": {"$ref": "#/definitions/sounds_events_def"},
+                        "tempt": {"$ref": "#/definitions/sounds_events_def"},
+                        "plop": {"$ref": "#/definitions/sounds_events_def"},
+                        "fuse": {"$ref": "#/definitions/sounds_events_def"},
+                        "breathe": {"$ref": "#/definitions/sounds_events_def"},
+                        "jump": {"$ref": "#/definitions/sounds_events_def"},
+                        "add.chest": {"$ref": "#/definitions/sounds_events_def"},
+                        "armor": {"$ref": "#/definitions/sounds_events_def"},
+                        "land": {"$ref": "#/definitions/sounds_events_def"},
+                        "mad": {"$ref": "#/definitions/sounds_events_def"},
+                        "guardian.flop": {"$ref": "#/definitions/sounds_events_def"},
+                        "flap": {"$ref": "#/definitions/sounds_events_def"},
+                        "stare": {"$ref": "#/definitions/sounds_events_def"},
+                        "fang": {"$ref": "#/definitions/sounds_events_def"},
+                        "cast.spell": {"$ref": "#/definitions/sounds_events_def"},
+                        "prepare.attack": {"$ref": "#/definitions/sounds_events_def"},
+                        "prepare.summon": {"$ref": "#/definitions/sounds_events_def"},
+                        "prepare.wololo": {"$ref": "#/definitions/sounds_events_def"},
+                        "screech": {"$ref": "#/definitions/sounds_events_def"},
+                        "sleep": {"$ref": "#/definitions/sounds_events_def"},
+                        "sniff": {"$ref": "#/definitions/sounds_events_def"},
+                        "spit": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.baby": {"$ref": "#/definitions/sounds_events_def"},
+                        "jump_to_block": {"$ref": "#/definitions/sounds_events_def"},
+                        "scream": {"$ref": "#/definitions/sounds_events_def"},
+                        "warn": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.screamer": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.screamer": {"$ref": "#/definitions/sounds_events_def"},
+                        "hurt.screamer": {"$ref": "#/definitions/sounds_events_def"},
+                        "angry": {"$ref": "#/definitions/sounds_events_def"},
+                        "retreat": {"$ref": "#/definitions/sounds_events_def"},
+                        "irongolem.crack": {"$ref": "#/definitions/sounds_events_def"},
+                        "irongolem.repair": {"$ref": "#/definitions/sounds_events_def"},
+                        "throw": {"$ref": "#/definitions/sounds_events_def"},
+                        "explode": {"$ref": "#/definitions/sounds_events_def"},
+                        "thunder": {"$ref": "#/definitions/sounds_events_def"},
+                        "squish.big": {"$ref": "#/definitions/sounds_events_def"},
+                        "squish.small": {"$ref": "#/definitions/sounds_events_def"},
+                        "spawn": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.aggressive": {"$ref": "#/definitions/sounds_events_def"},
+                        "ambient.worried": {"$ref": "#/definitions/sounds_events_def"},
+                        "cant_breed": {"$ref": "#/definitions/sounds_events_def"},
+                        "presneeze": {"$ref": "#/definitions/sounds_events_def"},
+                        "sneeze": {"$ref": "#/definitions/sounds_events_def"},
+                        "fly": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.blaze": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.cave_spider": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.creeper": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.drowned": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.elder_guardian": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.ender_dragon": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.enderman": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.endermite": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.evocation_illager": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.ghast": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.husk": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.illusion_illager": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.magma_cube": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.panda": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.polar_bear": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.shulker": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.silverfish": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.skeleton": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.slime": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.spider": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.stray": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.vex": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.vindication_illager": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.warden": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.witch": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.wither": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.wither_skeleton": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.wolf": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.zombie": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.zombie_pigman": {"$ref": "#/definitions/sounds_events_def"},
+                        "imitate.zombie_villager": {"$ref": "#/definitions/sounds_events_def"},
+                        "swoop": {"$ref": "#/definitions/sounds_events_def"},
+                        "boost": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.to.zombie": {"$ref": "#/definitions/sounds_events_def"},
+                        "admire": {"$ref": "#/definitions/sounds_events_def"},
+                        "jealous": {"$ref": "#/definitions/sounds_events_def"},
+                        "attack.nodamage": {"$ref": "#/definitions/sounds_events_def"},
+                        "attack.strong": {"$ref": "#/definitions/sounds_events_def"},
+                        "elderguardian.curse": {"$ref": "#/definitions/sounds_events_def"},
+                        "mob.warning": {"$ref": "#/definitions/sounds_events_def"},
+                        "roar": {"$ref": "#/definitions/sounds_events_def"},
+                        "stun": {"$ref": "#/definitions/sounds_events_def"},
+                        "shulker.close": {"$ref": "#/definitions/sounds_events_def"},
+                        "shulker.open": {"$ref": "#/definitions/sounds_events_def"},
+                        "panic": {"$ref": "#/definitions/sounds_events_def"},
+                        "step_lava": {"$ref": "#/definitions/sounds_events_def"},
+                        "born": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.baby": {"$ref": "#/definitions/sounds_events_def"},
+                        "hurt.baby": {"$ref": "#/definitions/sounds_events_def"},
+                        "step.baby": {"$ref": "#/definitions/sounds_events_def"},
+                        "charge": {"$ref": "#/definitions/sounds_events_def"},
+                        "haggle": {"$ref": "#/definitions/sounds_events_def"},
+                        "haggle.no": {"$ref": "#/definitions/sounds_events_def"},
+                        "haggle.yes": {"$ref": "#/definitions/sounds_events_def"},
+                        "disappeared": {"$ref": "#/definitions/sounds_events_def"},
+                        "drink.milk": {"$ref": "#/definitions/sounds_events_def"},
+                        "reappeared": {"$ref": "#/definitions/sounds_events_def"},
+                        "agitated": {"$ref": "#/definitions/sounds_events_def"},
+                        "dig": {"$ref": "#/definitions/sounds_events_def"},
+                        "emerge": {"$ref": "#/definitions/sounds_events_def"},
+                        "heartbeat": {"$ref": "#/definitions/sounds_events_def"},
+                        "idle": {"$ref": "#/definitions/sounds_events_def"},
+                        "listening": {"$ref": "#/definitions/sounds_events_def"},
+                        "listening_angry": {"$ref": "#/definitions/sounds_events_def"},
+                        "nearby_close": {"$ref": "#/definitions/sounds_events_def"},
+                        "nearby_closer": {"$ref": "#/definitions/sounds_events_def"},
+                        "nearby_closest": {"$ref": "#/definitions/sounds_events_def"},
+                        "break.block": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.mid.volume": {"$ref": "#/definitions/sounds_events_def"},
+                        "death.min.volume": {"$ref": "#/definitions/sounds_events_def"},
+                        "sound": {"$ref": "#/definitions/sounds_events_def"},
+                        "growl": {"$ref": "#/definitions/sounds_events_def"},
+                        "pant": {"$ref": "#/definitions/sounds_events_def"},
+                        "shake": {"$ref": "#/definitions/sounds_events_def"}
+                    }
+                },
+                "sound": {"type": "string"},
+                "volume": {"type": "number"},
+                "pitch": {"oneOf": [{"type": "number"}, {"type": "array", "items": {"type": "number"}}]}
+            }
+        }
+    }
+}

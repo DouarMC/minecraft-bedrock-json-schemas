@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["texture_name", "resource_pack_name", "padding", "num_mip_levels", "texture_data"],
+    "properties": {
+        "texture_name": {"$ref": "#/definitions/texture_name-def"},
+        "resource_pack_name": {"$ref": "#/definitions/resource_pack_name-def"},
+        "padding": {"$ref": "#/definitions/padding-def"},
+        "num_mip_levels": {"$ref": "#/definitions/num_mip_levels-def"},
+        "texture_data": {"$ref": "#/definitions/texture_data-def"}
+    },
+    "definitions": {
+        "texture_name-def": {"default": "atlas.terrain", "type": "string", "description": "Le type d'appliquement de Textures."},
+        "resource_pack_name-def": {"type": "string", "description": "L'ID pour le pack de ressources."},
+        "padding-def": {"default": 8, "type": "number", "description": "Empêcher les textures de déborder visuellement les unes dans les autres."},
+        "num_mip_levels-def": {"default": 4, "type": "number", "description": "Qualité de la texture vue de loin ou sous un angle."},
+        "texture_data-def": {"type": "object", "description": "L'inscription de short-name de Textures.", "additionalProperties": {"type": "object", "properties": {
+            "textures": {"description": "La/les texture(s) à spécifier", "anyOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"oneOf": [
+                    {"type": "string"},
+                    {"type": "object", "anyOf": [
+                        {"properties": {
+                            "path": {"type": "string", "description": "Le chemin d'accès de la Texture."},
+                            "overlay_color": {"type": "string", "pattern": "^#([A-Fa-f0-9]{6})$", "description": "La couleur à ajouté sur la texture."}
+                        }},
+                        {"properties": {
+                            "variations": {"type": "array", "description": "Cette référence de texture pour comporter une texture choisi aléatoirement.", "items": {"type": "object", "properties": {
+                                "path": {"type": "string", "description": "Le chemin d'accès de la Texture."},
+                                "overlay_color": {"type": "string", "pattern": "^#([A-Fa-f0-9]{6})$", "description": "La couleur à ajouté sur la texture."},
+                                "weight": {"type": "number"}
+                            }}}
+                        }}
+                    ]}
+                ]}}
+            ]}
+        }}}
+    }
+}

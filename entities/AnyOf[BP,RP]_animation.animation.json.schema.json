@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "animations"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "animations": {"$ref": "#/definitions/animations-def"}
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "animations-def": {"type": "object", "description": "Contient les animations.",
+            "additionalProperties": {"type": "object", "properties": {
+                "loop": {"description": "Indique si cette animation doit boucler ou non. Réglez sur true pour boucler, false pour arrêter, ou 'hold_on_last_frame' pour rester sur la dernière frame une fois terminée.", "anyOf": [
+                    {"type": "boolean"},
+                    {"type": "string", "enum": ["hold_on_last_frame"]}
+                ]},
+                "start_delay": {"description": "Temps d'attente en secondes avant de jouer cette animation. Cette expression est évaluée une fois avant de commencer à jouer.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "loop_delay": {"description": "Temps d'attente en secondes avant de boucler cette animation. Évalué après chaque boucle et uniquement sur l'animation en boucle.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "anim_time_update": {"description": "Indique comment le temps passe lors de la lecture de l'animation. Par défaut, 'query.anim_time + query.delta_time' ce qui signifie avancer en secondes.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "blend_weight": {"description": "Poids de mélange pour cette animation.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "number"}
+                ]},
+                "override_previous_animation": {"type": "boolean", "description": "Réinitialise les os de cette animation à la pose par défaut avant d'appliquer cette animation."},
+                "timeline": {"type": "object", "description": "Contient les temps où certaines commandes s'executeront.",
+                    "additionalProperties": {"type": "array", "items": {"type": "string"}}
+                },
+                "animation_length": {"type": "number", "description": "Temps de l'animation."}
+            }}
+        }
+    }
+}

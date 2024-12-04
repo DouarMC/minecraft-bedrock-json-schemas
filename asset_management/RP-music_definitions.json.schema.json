@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": {"type": "object", "properties": {
+        "event_name": {"type": "string", "description": "L'ensemble de Musiques à jouer défini dans le fichier sound_definitions.json ."},
+        "min_delay": {"type": "number", "description": "Le temps minimum en tick avant que la Musique se joue ou rejoue."},
+        "max_delay": {"type": "number", "description": "Le temps maximum en tick avant que la Musique se joue ou rejoue."}
+    }}
+}

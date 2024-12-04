@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["content"],
+    "properties": {
+        "content": {"$ref": "#/definitions/content-def"}
+    },
+    "definitions": {
+        "content-def": {"type": "array", "description": "Contient le chemin d'accès de tous les fichiers présents dans ce Pack.", "items": {"type": "object", "properties": {
+            "path": {"type": "string", "description": "Le chemin d'accès d'un fichier."}
+        }}}
+    }
+}

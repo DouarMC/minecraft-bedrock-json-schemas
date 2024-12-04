@@ -1,0 +1,451 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["pools"],
+    "properties": {
+        "pools": {
+            "description": "Repertorie toutes les Pools.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "conditions": {"$ref": "#/definitions/conditions_def", "description": "Contient toutes les conditions à valider pour que cette Pool s'execute."},
+                    "rolls": {
+                        "description": "Le nombre de lancers aléatoires.",
+                        "oneOf": [
+                            {
+                                "type": "object", 
+                                "properties": {
+                                    "min": {"type": "number"},
+                                    "max": {"type": "number"}
+                                }
+                            },
+                            {"type": "number"}
+                        ]
+                    },
+                    "bonus_rolls": {"type": "number", "description": "Le nombre de lancer en bonus quand le joueur a l'effet de Chance."},
+                    "tiers": {
+                        "description": "La Pool devient hierachisé. Elle suit un ordre pour choisir une seule des entrées de Loot à partir d'un index choisi aléatoirement.",
+                        "type": "object",
+                        "properties": {
+                            "initial_range": {"type": "number", "description": "Définie la range pour choisir l'index initial."},
+                            "bonus_rolls": {"type": "number", "description": "Le nombre de lancer pour avoir une chance de passer à l'index suivant."},
+                            "bonus_chance": {"type": "number", "description": "Le pourcentage de chance que l'index incrémente lors d'un lancer."}
+                        }
+                    },
+                    "entries": {
+                        "description": "Contient toutes les entrées de Loot.",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "conditions": {"$ref": "#/definitions/conditions_def", "description": "Contient toutes les conditions qui doivent être a validé pour que cette entrée de Loot puissent être éxecuté."},
+                                "type": {"type": "string", "enum": ["item", "loot_table", "empty"], "description": "Définit le type de Loot."},
+                                "name": {"type": "string", "description": "Définit le type d'item."},
+                                "weight": {"type": "number", "description": "Définit le poids de chance de cette entrée."},
+                                "functions": {"$ref": "#/definitions/functions_def"}
+                            }
+                        }
+                    },
+                    "quality": {"type": "number"}
+                }
+            }
+        }
+    },
+    "definitions": {
+        "conditions_def": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "condition": {
+                        "type": "string", 
+                        "enum": [
+                            "has_mark_variant", "has_variant", "killed_by_player_or_pets", "random_chance", "killed_by_player", "random_chance_with_looting",
+                            "random_difficulty_chance", "random_regional_difficulty_chance", "match_tool", "killed_by_entity", "entity_properties",
+                            "entity_killed"
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "condition": {
+                        "anyOf": [
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["killed_by_player", "killed_by_player_or_pets"]}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["has_mark_variant", "has_variant"]},
+                                    "value": {"type": "integer"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["random_chance", "random_chance_with_looting"]},
+                                    "chance": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["random_chance_with_looting"]},
+                                    "looting_multiplier": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["random_difficulty_chance"]},
+                                    "default_chance": {"type": "number"},
+                                    "peaceful": {"type": "number"},
+                                    "easy": {"type": "number"},
+                                    "normal": {"type": "number"},
+                                    "hard": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["random_regional_difficulty_chance"]},
+                                    "max_chance": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["match_tool"]},
+                                    "count": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object", 
+                                                "properties": {
+                                                    "range_min": {"type": "integer"},
+                                                    "range_max": {"type": "integer"}
+                                                }
+                                            },
+                                            {
+                                                "type": "integer"
+                                            }
+                                        ]
+                                    },
+                                    "durability": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object", 
+                                                "properties": {
+                                                    "range_min": {"type": "integer"},
+                                                    "range_max": {"type": "integer"}
+                                                }
+                                            },
+                                            {
+                                                "type": "integer"
+                                            }
+                                        ]
+                                    },
+                                    "enchantments": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "enchantment": {"type": "string"},
+                                                "levels": {
+                                                    "oneOf": [
+                                                        {
+                                                            "type": "object", 
+                                                            "properties": {
+                                                                "range_min": {"type": "integer"},
+                                                                "range_max": {"type": "integer"}
+                                                            }
+                                                        },
+                                                        {
+                                                            "type": "integer"
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "item": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["killed_by_entity", "entity_killed"]},
+                                    "entity_type": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "condition": {"enum": ["entity_properties"]},
+                                    "entity": {"type": "string", "enum": ["this"]},
+                                    "properties": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "oneOf": [
+                                                {"type": "boolean"},
+                                                {"type": "number"},
+                                                {"type": "string"}
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "functions_def": {
+            "description": "Contient les différentes fonctions qui appliqueront des modifications à l'Item de l'entrée de Loot.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "function": {
+                        "type": "string",
+                        "enum": [
+                            "enchant_book_for_trading", "enchant_random_gear", "enchant_randomly", "enchant_with_levels", "specific_enchants", "looting_enchant",
+                            "random_aux_value", "random_block_state", "random_dye", "set_actor_id", "set_banner_details", "set_book_contents", "set_count",
+                            "set_damage", "set_data", "set_data_from_color_index", "set_lore", "set_name", "exploration_map", "fill_container", "furnace_smelt",
+                            "trader_material_type", "set_ominous_bottle_amplifier", "set_armor_trim", "set_potion"
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "function": {
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "function": {"enum": ["enchant_book_for_trading", "random_dye", "set_data_from_color_index", "furnace_smelt", "trader_material_type"]}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["enchant_book_for_trading"]},
+                                    "base_cost": {"type": "number"},
+                                    "base_random_cost": {"type": "number"},
+                                    "per_level_random_cost": {"type": "number"},
+                                    "per_level_cost": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["enchant_random_gear"]},
+                                    "chance": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["enchant_randomly", "enchant_with_levels"]},
+                                    "treasure": {"type": "boolean"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["enchant_with_levels"]},
+                                    "levels": {
+                                        "type": "object", 
+                                        "properties": {
+                                            "min": {"type": "number"},
+                                            "max": {"type": "number"}
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["specific_enchants"]},
+                                    "enchants": {
+                                        "type": "array",
+                                        "items": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {"type": "string"},
+                                                        "level": {"type": "number"}
+                                                    }
+                                                },
+                                                {"type": "string"}
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["looting_enchant", "set_count"]},
+                                    "count": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object", 
+                                                "properties": {
+                                                    "min": {"type": "number"},
+                                                    "max": {"type": "number"}
+                                                }
+                                            },
+                                            {"type": "number"}
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["random_aux_value", "random_block_state"]},
+                                    "values": {
+                                        "type": "object", 
+                                        "properties": {
+                                            "min": {"type": "number"},
+                                            "max": {"type": "number"}
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["random_block_state"]},
+                                    "block_state": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_actor_id"]},
+                                    "id": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_banner_details"]},
+                                    "type": {"type": "number", "const": 1}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_book_contents"]},
+                                    "author": {"type": "string"},
+                                    "title": {"type": "string"},
+                                    "pages": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_damage"]},
+                                    "damage": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object", 
+                                                "properties": {
+                                                    "min": {"type": "number"},
+                                                    "max": {"type": "number"}
+                                                }
+                                            },
+                                            {"type": "number"}
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_data"]},
+                                    "data": {"type": "number"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_lore"]},
+                                    "lore": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_name"]},
+                                    "name": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["exploration_map"]},
+                                    "destination": {
+                                        "type": "string", 
+                                        "enum": [
+                                            "buriedtreasure", "endcity", "fortress", "mansion", "mineshaft", "monument", "pillageroutpost",
+                                            "ruins", "shipwreck", "stronghold", "temple", "village", "trial_chambers"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["fill_container"]},
+                                    "loot_table": {"type": "string"},
+                                    "set_name": {"type": "string"}
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_ominous_bottle_amplifier"]},
+                                    "amplifier": {
+                                        "oneOf": [
+                                            {
+                                                "type": "object",
+                                                "properties": {
+                                                    "min": {"type": "integer"},
+                                                    "max": {"type": "integer"}
+                                                }
+                                            },
+                                            {"type": "integer"}
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_armor_trim"]},
+                                    "material": {
+                                        "anyOf": [
+                                            {"type": "string", "enum": ["amethyst", "copper", "diamond", "emerald", "gold", "iron", "lapis", "netherite", "quartz", "redstone"]},
+                                            {"type": "string"}
+                                        ]
+                                    },
+                                    "pattern": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string", 
+                                                "enum": [
+                                                    "sentry", "vex", "wild", "coast", "dune", "wayfinder", "raiser", "shaper", "host", "ward", "silence", "tide", "snout",
+                                                    "rib", "eye", "spire", "flow", "bolt"
+                                                ]
+                                            },
+                                            {"type": "string"}
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "function": {"enum": ["set_potion"]},
+                                    "id": {"type": "string", "enum": [
+                                        "water", "mundane", "long_mundane", "thick", "awkward", "nightvision", "long_nightvision", "invisibility", "long_invisibility", 
+                                        "leaping", "long_leaping", "strong_leaping", "fire_resistance", "long_fire_resistance", "swiftness", "long_swiftness", "strong_swiftness", 
+                                        "slowness", "long_slowness", "strong_slowness", "water_breathing", "long_water_breathing", "healing", "strong_healing", "harming", 
+                                        "strong_harming", "poison", "long_poison", "strong_poison", "regeneration", "long_regeneration", "strong_regeneration", "strength", 
+                                        "long_strength", "strong_strength", "weakness", "long_weakness", "wither", "turtle_master", "long_turtle_master", "strong_turtle_master", 
+                                        "slow_falling", "long_slow_falling", "wind_charged", "weaving", "oozing", "infested"
+                                    ]}
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

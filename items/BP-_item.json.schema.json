@@ -1,0 +1,310 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:item"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:item": {"$ref": "#/definitions/minecraft:item-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"},
+            "components": {"$ref": "#/definitions/components-def"}
+        }}
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:item-def": {"type": "object", "required": ["description", "components"], "description": "Contient toute la définition de l'Item."},
+        "description-def": {"type": "object", "required": ["identifier"], "description": "Contient les propeiétés de Descriptions du Bloc.", "properties": {
+            "identifier": {"type": "string", "description": "L'identifiant du Bloc."},
+            "menu_category": {"type": "object", "description": "Contient des informations sur la localisation du Bloc dans l'inventaire créatif ou commande.", "properties": {
+                "category": {"type": "string", "enum": ["construction", "nature", "equipment", "items", "none"], "description": "Dans quel categorie d'inventaire se trouvera le Bloc."},
+                "group": {"type": "string", "description": "Dans quel groupe d'Item se trouvera le Bloc.", "anyOf": [
+                    {"type": "string", "enum": [
+                        "itemGroup.name.anvil", "itemGroup.name.arrow", "itemGroup.name.axe", "itemGroup.name.banner", "itemGroup.name.banner_pattern", "itemGroup.name.bed",
+                        "itemGroup.name.boat", "itemGroup.name.boots", "itemGroup.name.buttons", "itemGroup.name.candles", "itemGroup.name.chalkboard", "itemGroup.name.chest",
+                        "itemGroup.name.chestboat", "itemGroup.name.chestplate", "itemGroup.name.concrete", "itemGroup.name.concretePowder", "itemGroup.name.cookedFood", "itemGroup.name.copper",
+                        "itemGroup.name.coral", "itemGroup.name.coral_decorations", "itemGroup.name.crop", "itemGroup.name.door", "itemGroup.name.dye", "itemGroup.name.enchantedBook",
+                        "itemGroup.name.fence", "itemGroup.name.fenceGate", "itemGroup.name.firework", "itemGroup.name.fireworkStars", "itemGroup.name.flower", "itemGroup.name.glass",
+                        "itemGroup.name.glassPane", "itemGroup.name.glazedTerracotta", "itemGroup.name.goatHorn", "itemGroup.name.grass", "itemGroup.name.hanging_sign", "itemGroup.name.helmet",
+                        "itemGroup.name.hoe", "itemGroup.name.horseArmor", "itemGroup.name.leaves", "itemGroup.name.leggings", "itemGroup.name.lingeringPotion", "itemGroup.name.log",
+                        "itemGroup.name.minecart", "itemGroup.name.miscFood", "itemGroup.name.mobEgg", "itemGroup.name.monsterStoneEgg", "itemGroup.name.mushroom", "itemGroup.name.netherWartBlock",
+                        "itemGroup.name.ore", "itemGroup.name.permission", "itemGroup.name.pickaxe", "itemGroup.name.planks", "itemGroup.name.potion", "itemGroup.name.potterySherds",
+                        "itemGroup.name.pressurePlate", "itemGroup.name.rail", "itemGroup.name.rawFood", "itemGroup.name.record", "itemGroup.name.sandstone", "itemGroup.name.sapling",
+                        "itemGroup.name.sculk", "itemGroup.name.seed", "itemGroup.name.shovel", "itemGroup.name.shulkerBox", "itemGroup.name.sign", "itemGroup.name.skull",
+                        "itemGroup.name.slab", "itemGroup.name.smithing_templates", "itemGroup.name.splashPotion", "itemGroup.name.stainedClay", "itemGroup.name.stairs", "itemGroup.name.stone",
+                        "itemGroup.name.stoneBrick", "itemGroup.name.sword", "itemGroup.name.trapdoor", "itemGroup.name.walls", "itemGroup.name.wood", "itemGroup.name.wool",
+                        "itemGroup.name.woolCarpet"
+                    ]},
+                    {"type": "string"}
+                ]},
+                "is_hidden_in_commands": {"type": "boolean", "description": "Si le bloc est caché dans les commandes ou non."}
+            }}
+        }},
+        "components-def": {"type": "object", "description": "La liste des components de l'Item.", "properties": {
+            "minecraft:allow_off_hand": {"description": "Définit si cet Item peut s'équipper dans la main gauche.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définit si cet Item peut s'équipper dans la main gauche."}
+                }}
+            ]},
+            "minecraft:block_placer": {"type": "object", "description": "Définit le bloc que cet Item placera quand il est posé.", "properties": {
+                "block": {"type": "string", "description": "Le type de Bloc qui sera placé."},
+                "replace_block_item": {"type": "boolean", "description": "Spécifie si cet Item remplace l'item crée par défaut pour le bloc."},
+                "use_on": {"type": "array", "description": "Filtre les blocs sur lequel cet Item peut être placé.", "items": {"oneOf": [
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }},
+                    {"type": "string"}
+                ]}}
+            }},
+            "minecraft:bundle_interaction": {"type": "object", "description": "Activr le schéma d'interaction et l'info-bulle spécifiques au bundle", "properties": {
+                "num_viewable_slots": {"type": "integer", "description": "Définit le nombre maximal de stack d'items qui seront affcihés dans le schéma d'interaction."}
+            }},
+            "minecraft:can_destroy_in_creative": {"description": "Définit si cet Item détruit les blocs quand le joueur est en créatif.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définit si cet Item détruit les blocs quand le joueur est en créatif."}
+                }}
+            ]},
+            "minecraft:cooldown": {"type": "object", "description": "Définit le cooldown de cet Item.", "properties": {
+                "category": {"type": "string", "description": "Définit la catégorie de cooldown de cet Item."},
+                "duration": {"type": "number", "description": "Le temps en secondes du cooldown."}
+            }},
+            "minecraft:compostable": {
+                "description": "Définit si cet Item peut être composté dans un composteur.",
+                "type": "object",
+                "required": ["composting_chance"],
+                "properties": {
+                    "composting_chance": {
+                        "description": "La probabilité que cet item génère une couche de compost lorsqu'il est utilisé dans un bloc de compost. Les valeurs valides sont comprises entre 1 et 100, inclus.",
+                        "type": "integer",
+                        "default": 100,
+                        "minimum": 1,
+                        "maximum": 100
+                    }
+                }
+            },
+            "minecraft:custom_components": {"type": "array", "description": "Les Customs Components de cet Item.", "items": {"type": "string"}},
+            "minecraft:dyeable": {"type": "object", "description": "Permet de teindre l'Item dans des chaudrons.", "properties": {
+                "default_color": {"type": "string", "description": "La couleur à utiliser par défaut."}
+            }},
+            "minecraft:damage": {"description": "Le nombre de dégâts supplémentaires qu'infligera cet Item", "oneOf": [
+                {"type": "number"},
+                {"type": "object", "properties": {
+                    "value": {"type": "number", "description": "Le nombre de dégâts supplémentaires."}
+                }}
+            ]},
+            "minecraft:damage_absorption": {"type": "object", "description": "Permet à l'Item d'absorber les dégâts destiné au porteur de cet item.", "properties": {
+                "absorbable_causes": {"type": "string", "description": "Le type de dégâts que cet Item doit absorber.", "enum": [
+                    "all", "anvil", "attack", "block_explosion", "contact", "drowning", "entity_explosion", "fall", "falling_block", "fatal", "fire", "fire_tick", "fly_into_wall", 
+                    "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
+                    "void", "wither"
+                ]}
+            }},
+            "minecraft:digger": {"type": "object", "description": "Apporte des changements de vitesses de rapidé de cassage de blocs.", "properties": {
+                "destroy_speeds": {"type": "array", "description": "La liste de blocs impactés par la vitesse de cassage de blocs", "items": {"type": "object", "properties": {
+                    "block": {"description": "Le Bloc ou tag de Bloc.", "oneOf": [
+                        {"type": "string"},
+                        {"type": "object", "properties": {
+                            "tags": {"type": "string", "description": "Tag de bloc."}
+                        }}
+                    ]},
+                    "speed": {"type": "number", "description": "Le multiplicateur de vitesse appliqué au cassage de blocs."}
+                }}},
+                "use_efficiency": {"type": "boolean", "description": "Définit si l'item subbira l'effet de l'enchantement efficacité."}
+            }},
+            "minecraft:display_name": {"type": "string", "description": "Le nom d'affichage de cet Item."},
+            "minecraft:durability": {"type": "object", "description": "Définit les propriétés de durabilité de l'Item.", "properties": {
+                "damage_chance": {"type": "object", "description": "Définit le pourcentage de chance que cet Item perd un point de durabilité.", "properties": {
+                    "min": {"type": "number", "description": "Le pourcentage le plus bas de chance de perte de durabilité."},
+                    "max": {"type": "number", "description": "Le pourcentage le plus élevé de chance de perte de durabilité."}
+                }},
+                "max_durability": {"type": "number", "description": "Le nombre maximal de point de durabilité de cet Item."}
+            }},
+            "minecraft:durability_sensor": {"type": "object", "description": "Permet à l'Item de produire des sons et particules quand les dégâts causent une perte de leur durabilité.", "properties": {
+                "durability_thresholds": {"type": "array", "description": "Liste de tous les déclencheurs.", "items": {"type": "object", "properties": {
+                    "durability": {"type": "integer", "description": "Le seuil de durabilité à attendre pour que les effets de sons et particules se jouent."},
+                    "particle_type": {"type": "string", "description": "La particule à jouer."},
+                    "sound_event": {"type": "string", "description": "Le son à jouer."}
+                }}}
+            }},
+            "minecraft:enchantable": {"type": "object", "description": "Définit les enchantements qui peuvent être appliqué à ce Item.", "properties": {
+                "slot": {"type": "string", "description": "Quels catégorie d'enchantements peut avoir cet Item.", "enum": [
+                    "armor_feet", "armor_torso", "armor_head", "armor_legs", "axe", "bow", "cosmetic_head", "crossbow", "elytra", "fishing_rod", 
+                    "flintsteel", "hoe", "pickaxe", "shears", "shield", "shovel", "sword", "all"
+                ]},
+                "value": {"type": "number", "description": "Défini la qualité et la quantité de chance d'enchantements pour cet Item."}
+            }},
+            "minecraft:entity_placer": {"type": "object", "description": "Définit l'entité que cet Item placera quand il est posé.", "properties": {
+                "dispense_on": {"type": "array", "description": "Filtre les blocs sur lequel cet Item peut être placé par un distributeur.", "items": {"oneOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "tags": {"type": "string"}
+                    }}
+                ]}},
+                "entity": {"type": "string", "description": "L'entité qui sera placée."},
+                "use_on": {"type": "array", "description": "Filtre les blocs sur lequel cet Item peut être placé.", "items": {"oneOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "tags": {"type": "string"}
+                    }}
+                ]}}
+            }},
+            "minecraft:food": {"type": "object", "description": "Rend cet Item consommable par les joueurs.", "properties": {
+                "can_always_eat": {"type": "boolean", "description": "Définit si le joueur peut mangé cet item même quand il n'a pas faim."},
+                "nutrition": {"type": "integer", "description": "Le nombre de points de barre de faim ajouté par cet Item quand il est consommé."},
+                "saturation_modifier": {"type": "number", "description": "Définit le modificateur de saturation donné par la consommation de cet item."},
+                "using_converts_to": {"type": "string", "description": "Définit en quel type d'item se tranformera cet Item quand il sera consommé."}
+            }},
+            "minecraft:fuel": {"type": "object", "description": "Rend cet item comme étant un combustible.", "properties": {
+                "duration": {"type": "number", "description": "Pendant combien de temps cet Item cuira les aliments."}
+            }},
+            "minecraft:glint": {"description": "Définit si cet Item a l'effet d'enchantemnt sur son icône.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définit si cet Item a l'effet d'enchantemnt sur son icône."}
+                }}
+            ]},
+            "minecraft:hand_equipped": {"description": "Définit si cet Item est rendu comme un outil dans la main.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définit si cet Item est rendu comme un outil dans la main."}
+                }}
+            ]},
+            "minecraft:hover_text_color": {"description": "Définit la couleur qui apparaitra sur le nom de cet Item.", "oneOf": [
+                {"type": "string"},
+                {"type": "object", "properties": {
+                    "value": {"type": "string", "description": "Définit la couleur qui apparaitra sur le nom de cet Item."}
+                }}
+            ]},
+            "minecraft:icon": {"type": "object", "description": "Définit la texture de l'icône de cet Item.", "properties": {
+                "textures": {"type": "object", "description": "Les différentes textures d'icône de cet Item.", "properties": {
+                    "default": {"type": "string", "description": "Texture utilisé pour l'icon de l'item par défaut."},
+                    "dyed": {"type": "string", "description": "Texture pour l'Item teint."},
+                    "icon_trim": {"type": "string", "description": "La couche de texture qui sera utilisé pour l'armor-trim."},
+                    "amethyst_palette": {"type": "string", "description": "La palette d'amethyst utilisé pour l'armor-trim"},
+                    "copper_palette": {"type": "string", "description": "La palette de cuivre utilisé pour l'armor-trim"},
+                    "diamond_palette": {"type": "string", "description": "La palette d'de diamant utilisé pour l'armor-trim"},
+                    "emerald_palette": {"type": "string", "description": "La palette d'emeraude utilisé pour l'armor-trim"},
+                    "gold_palette": {"type": "string", "description": "La palette d'or utilisé pour l'armor-trim"},
+                    "iron_palette": {"type": "string", "description": "La palette de fer utilisé pour l'armor-trim"},
+                    "lapis_palette": {"type": "string", "description": "La palette de lapis utilisé pour l'armor-trim"},
+                    "netherite_palette": {"type": "string", "description": "La palette de netherite utilisé pour l'armor-trim"},
+                    "quartz_palette": {"type": "string", "description": "La palette de quartz utilisé pour l'armor-trim"},
+                    "redstone_palette": {"type": "string", "description": "La palette de redstone. utilisé pour l'armor-trim"}
+                }}
+            }},
+            "minecraft:interact_button": {"description": "Définit le texte affiché pour l'utilisation de cet Item.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "string"}
+            ]},
+            "minecraft:liquid_clipped": {"type": "object", "description": "Définit si cet Item peut intéragir avec un bloc liquide.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définit si cet Item peut intéragir avec un bloc liquide."}
+                }}
+            ]},
+            "minecraft:max_stack_size": {"description": "Définit par combien ce type d'Item peut se stacker.", "oneOf": [
+                {"type": "number"},
+                {"type": "object", "properties": {
+                    "value": {"type": "number", "description": "Définit par combien ce type d'Item peut se stacker."}
+                }}
+            ]},
+            "minecraft:projectile": {"type": "object", "description": "Rend cet Item tirable par les distributeurs et les entités.", "properties": {
+                "minimum_critical_power": {"type": "number", "description": "Combien de temps les joueurs doivent charger un projectile pour qu'il frappe de manière critique."},
+                "projectile_entity": {"type": "string", "description": "Le type d'Entité Projectile à invoquer en tant que projectile."}
+            }},
+            "minecraft:rarity": {"type": "object", "description": "Définit la rareté de cet Item.", "properties": {
+                "value": {"type": "string", "description": "La rareté.", "enum": ["common", "uncommon", "rare", "epic"]}
+            }},
+            "minecraft:record": {"type": "object", "description": "Fait en sorte que cet Item ait les mêmes comportement que les diques.", "properties": {
+                "comparator_signal": {"type": "integer", "description": "Le signal de redstone émis quand ce disque est joué dans un juke-box."},
+                "duration": {"type": "number", "description": "Le temps en secondes de la durée de la musique de l'item."},
+                "sound_event": {"type": "string", "description": "Le son à jouer."}
+            }},
+            "minecraft:repairable": {"type": "object", "description": "Définit les items qui peuvent êtr utilisé pour réparer cet Item.", "properties": {
+                "repair_items": {"type": "array", "description": "La liste des items qui peuvent réparer l'Item.", "items": {"type": "object", "properties": {
+                    "items": {"type": "array", "description": "Les types d'items réparants.", "items": {"type": "string"}},
+                    "repair_amount": {"description": "De combien l'Item sera réparé.", "oneOf": [
+                        {"type": "string"},
+                        {"type": "number"}
+                    ]}
+                }}}
+            }},
+            "minecraft:shooter": {"type": "object", "description": "Transforme cet Item ccomme tireur.", "properties": {
+                "ammunition": {"type": "array", "description": "Définie les items qui serviront de munitions.", "items": {"type": "object", "properties": {
+                    "item": {"type": "string", "description": "Le type d'Item qui servira de munitions."},
+                    "use_offhand": {"type": "boolean", "description": "Définie si les munitions se trouvant dans la main gauche seront utilisés."},
+                    "search_inventory": {"type": "boolean", "description": "Définie si la recherche de munitions se fera dans l'inventaire."},
+                    "use_in_creative": {"type": "boolean", "description": "Définie si les munitions sont utilisés quand le joueur est en créatif."}
+                }}},
+                "max_draw_duration": {"type": "number", "description": "Définie combien de temps l'arme peut être dégainée avant de se relâcher automatiquement"},
+                "scale_power_by_draw_duration": {"type": "boolean", "description": "Augmente la puissance en fonction de la durée de consommation ?"},
+                "charge_on_draw": {"type": "boolean", "description": "Définit si l'item est compté comme chargé lorsqu'il est tiré."}
+            }},
+            "minecraft:should_despawn": {"description": "Définie si l'Item disparaitra quand il flotte depuis trop longtemps dans l'air.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définie si l'Item disparaitra quand il flotte depuis trop longtemps dans l'air."}
+                }}
+            ]},
+            "minecraft:stacked_by_data": {"description": "Définie si ce type d'Item se stack par data.", "oneOf": [
+                {"type": "boolean"},
+                {"type": "object", "properties": {
+                    "value": {"type": "boolean", "description": "Définie si ce type d'Item se stack par data."}
+                }}
+            ]},
+            "minecraft:storage_item": {"type": "object", "description": "Permet à l'item de pouvoir stocker d'autres items comme le bundle.", "properties": {
+                "max_slots": {"type": "integer", "description": "Le nombre de slots maximum."},
+                "max_weight_limit": {"type": "integer", "description": "Le nombre d'items maximales que peut porter cet item."},
+                "allow_nested_storage_items": {"type": "boolean", "description": "Définit si cet itempeut porter des items avec le component 'storage_item'."},
+                "weight_in_storage_item": {"type": "integer", "description": "Définit le poids supplémentaire que l'item ajoute lorsqu'il se trouve à l'interieur d'un autre item avec le component 'storage_item'"},
+                "banned_items": {"type": "array", "description": "Les items non autorisés à être contenu.", "items": {"type": "string"}},
+                "allowed_items": {"type": "array", "description": "Les items exclusivement autorisés à être contenu.", "items": {"type": "string"}}
+            }},
+            "minecraft:tags": {"type": "object", "description": "Définit les tags qu'aura l'Item.", "properties": {
+                "tags": {"type": "array", "items": {"type": "string"}}
+            }},
+            "minecraft:throwable": {"type": "object", "description": "Définit cet item comme étant lançable.", "properties": {
+                "do_swing_animation": {"type": "boolean", "description": "Définit si l'animation de swing est joué quand cet Item est lancé."},
+                "launch_power_scale": {"type": "number", "description": "L'échelle à laquelle la puissance du lancer augmente."},
+                "max_draw_duration": {"type": "number", "description": "La durée maximale pour dessiner un objet jetable. La valeur par défaut est définie sur 0,0."},
+                "max_launch_power": {"type": "number", "description": "La puissance maximale pour lancer l'objet jetable."},
+                "min_draw_duration": {"type": "number", "description": "La durée minimale pour dessiner un objet jetable."},
+                "scale_power_by_draw_duration": {"type": "boolean", "description": "Si la puissance du lancer augmente ou non avec la durée chargée."}
+            }},
+            "minecraft:use_animation": {"description": "Définit quel animation jouer quand cet Item est train de se faire utiliser.", "oneOf": [
+                {"type": "string"},
+                {"type": "object", "properties": {
+                    "value": {"type": "string", "description": "Définit quel animation jouer quand cet Item est train de se faire utiliser."}
+                }}
+            ]},
+            "minecraft:use_modifiers": {"type": "object", "description": "Modifie les effets d'utilisation, y compris le temps d'utilisation de l'objet et la vitesse du joueur lorsqu'il est utilisé en combinaison avec des composants tels que Shooter, Throwable ou Food.", "properties": {
+                "movement_modifier": {"type": "number", "description": "Valeur modificatrice pour changer la vitesse de déplacement du joueur lorsque l'objet est utilisé."},
+                "use_duration": {"type": "number", "description": "Combien de temps faut-il pour utiliser l'item, en secondes."}
+            }},
+            "minecraft:wearable": {
+                "type": "object",
+                "description": "Rend cet Item equippable dans certains slots d'inventaire.",
+                "properties": {
+                    "dispensable": {
+                        "description": "Définit si cet item peut être équipé par un distributeur.",
+                        "type": "boolean"
+                    },
+                    "protection": {
+                        "description": "Combien de point de protection donnera cet item.",
+                        "default": 0,
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "slot": {
+                        "description": "Dans quel slots cet item pourra y être placé.",
+                        "type": "string",
+                        "enum": ["slot.weapon.offhand", "slot.armor.head", "slot.armor.chest", "slot.armor.legs", "slot.armor.feet"]
+                    }
+                }
+            }
+        }}
+    }
+}

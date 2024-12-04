@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:camera_preset"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:camera_preset": {"$ref": "#/definitions/minecraft:camera_preset-def", "properties": {
+            "identifier": {"$ref": "#/definitions/identifier-def"},
+            "inherit_from": {"$ref": "#/definitions/inherit_from-def"},
+            "pos_x": {"$ref": "#/definitions/pos_x-def"},
+            "pos_y": {"$ref": "#/definitions/pos_y-def"},
+            "pos_z": {"$ref": "#/definitions/pos_z-def"},
+            "rot_x": {"$ref": "#/definitions/rot_x-def"},
+            "rot_y": {"$ref": "#/definitions/rot_y-def"},
+            "player_effects": {"$ref": "#/definitions/player_effects-def"},
+            "listener": {"$ref": "#/definitions/listener-def"},
+            "view_offset": {"$ref": "#/definitions/view_offset-def"},
+            "entity_offset": {"$ref": "#/definitions/view_offset-def"},
+            "radius": {"$ref": "#/definitions/radius-def"},
+            "rotation_speed": {"$ref": "#/definitions/rotation_speed-def"},
+            "snap_to_target": {"$ref": "#/definitions/snap_to_target-def"},
+            "align_target_and_camera_forward": {"$ref": "#/definitions/align_target_and_camera_forward-def"}
+        }}
+    },
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:camera_preset-def": {"type": "object", "required": ["identifier"], "description": "Contient toute la définition du Preset de Caméra."},
+        "identifier-def": {"type": "string", "description": "L'identifiant du Preset de Caméra."},
+        "inherit_from-def": {"description": "L'identifiant du Preset de Caméra auquel notre Preset héritera de ces propriétés.", "anyOf": [
+            {"type": "string", "enum": ["minecraft:free"]},
+            {"type": "string"}
+        ]},
+        "pos_x-def": {"type": "number", "description": "La position X par défaut de ce Preset de Caméra."},
+        "pos_y-def": {"type": "number", "description": "La position Y par défaut de ce Preset de Caméra."},
+        "pos_z-def": {"type": "number", "description": "La position Z par défaut de ce Preset de Caméra."},
+        "rot_x-def": {"type": "number", "description": "La rotation X par défaut de ce Preset de Caméra."},
+        "rot_y-def": {"type": "number", "description": "La rotation Y par défaut de ce Preset de Caméra."},
+        "player_effects-def": {"type": "boolean", "description": "Défini si ce Preset de Caméra contiendra les effets de potions du joueur comme Vision Nocturne ou Cécité."},
+        "listener-def": {"const": "player", "description": "Définit que la position du joueur sera utilisé pour l'écoute des sons."},
+        "view_offset-def": {"type": "array", "description": "Point d'ancrage qui est au centre de l'écran. Définit le décalage du joueur entre le centre de l'écran et lui.", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "entity_offset-def": {"type": "array", "description": "???", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+        "radius-def": {"type": "number", "description": "Distance entre la caméra 3rd et le joueur."},
+        "rotation_speed-def": {"type": "number", "description": "Contrôler la vitesse de rotation pour cibler une entité. Cette valeur sera un flottant qui représente les degrés de rotation par seconde."},
+        "snap_to_target-def": {"type": "boolean", "description": "Permettre l'accrochage à l'entité cible lors du premier tick."},
+        "align_target_and_camera_forward-def": {"type": "boolean", "description": "Aligner la direction de la caméra avec la direction de la cible."}
+    }
+}

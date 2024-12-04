@@ -1,0 +1,142 @@
+
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:spawn_rules"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:spawn_rules": {"$ref": "#/definitions/minecraft:spawn_rules-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"},
+            "conditions": {"$ref": "#/definitions/conditions-def"}
+        }}
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:spawn_rules-def": {"type": "object", "required": ["description", "conditions"], "description": "Contient toute la définition du SpawnRules."},
+        "description-def": {"type": "object", "required": ["identifier", "population_control"], "description": "Contient toutes les propriétés de descripions du SpawnRules.", "properties": {
+            "identifier": {"type": "string", "description": "Le type d'Entité auquel cette SpawnRules lui sera attribuée."},
+            "population_control": {"type": "string", "description": "Contrôle les quantités d'apparitions et de disparitions d'Entités.", "enum": ["animal", "underwater_animal", "monster", "ambient", "cat"]}
+        }},
+        "conditions-def": {"type": "array", "description": "Contient tous les conditions/components de cette SpawnRules.", "items": {"type": "object", "properties": {
+            "minecraft:biome_filter": {"description": "Filtre les biomes ou les entités pourront apparaitre.", "anyOf": [
+                {"type": "array", "items": {"$ref": "#/definitions/advanced_filter_object-ref"}},
+                {"$ref": "#/definitions/advanced_filter_object-ref"}
+            ]},
+            "minecraft:brightness_filter": {"type": "object", "description": "Determine le niveau de luminosité pour que l'entité puissent apparaitre.", "properties": {
+                "adjust_for_weather": {"type": "boolean", "description": "Définie si cette condition doit prendre en compte l'ajustement d'éclairage de la météo."},
+                "max": {"type": "number", "description": "Le niveau de lumière maximale."},
+                "min": {"type": "number", "description": "Le niveau de lumière minimale."}
+            }},
+            "minecraft:delay_filter": {"type": "object", "description": "Définit des délais spécifiques avant l'apparition d'entités.", "properties": {
+                "max": {"type": "number", "description": "Le delai maximale."},
+                "min": {"type": "number", "description": "Le delai minimale."},
+                "identifier": {"type": "string", "description": "Le type d'Entité qui apparaitra."},
+                "spawn_chance": {"type": "number", "description": "Le pourcentage de chance que l'entité apparaissent."}
+            }},
+            "minecraft:density_limit": {"type": "object", "description": "Définit le nombre maximale de ce type d'entité pouvant apparaitre dans un emplacement spécifié.", "properties": {
+                "surface": {"type": "integer", "description": "Le nombre maximale à la surface."},
+                "underground": {"type": "integer", "description": "Le nombre maximale sous terre."}
+            }},
+            "minecraft:difficulty_filter": {"type": "object", "description": "Définit les difficultés pour que ce type d'entités apparaissent.", "properties": {
+                "max": {"type": "string", "description": "Le niveau de difficulté maximale.", "enum": ["peaceful", "easy", "normal", "hard"]},
+                "min": {"type": "string", "description": "Le niveau de difficulté minimale.", "enum": ["peaceful", "easy", "normal", "hard"]}
+            }},
+            "minecraft:disallow_spawns_in_bubble": {"type": "object", "description": "Définit que les entités ne puissent pas apparaitre dans les bulles."},
+            "minecraft:entity_types": {"type": "object", "description": "PAS DE DOCUMENTATION"},
+            "minecraft:height_filter": {"type": "object", "description": "Définit dans quels hauteur du Monde (coordonnées Y) l'entité peut apparaitre.", "properties": {
+                "max": {"type": "number", "description": "La hauteur maximale."},
+                "min": {"type": "number", "description": "La hauteur minimale."}
+            }},
+            "minecraft:herd": {"description": "Définit la taille du troupeau d'animaux.", "oneOf": [
+                {"type": "array", "items": {"type": "object", "properties": {
+                    "event": {"type": "string", "description": "L'événement qui sera appliqué aux entité du troupeau."},
+                    "event_skip_count": {"type": "number", "description": "Le nombre d'Entités du troupeau qui doit apparaitre avant que l'evenement s'applique aux entités suivantes du troupeau."},
+                    "max_size": {"type": "number", "description": "Le nombre maximale d'entités dans un troupeau."},
+                    "min_size": {"type": "number", "description": "Le nombre minimale d'entités dans un troupeau."}
+                }}},
+                {"type": "object", "properties": {
+                    "event": {"type": "string", "description": "L'événement qui sera appliqué aux entité du troupeau."},
+                    "event_skip_count": {"type": "number", "description": "Le nombre d'Entités du troupeau qui doit apparaitre avant que l'evenement s'applique aux entités suivantes du troupeau."},
+                    "max_size": {"type": "number", "description": "Le nombre maximale d'entités dans un troupeau."},
+                    "min_size": {"type": "number", "description": "Le nombre minimale d'entités dans un troupeau."}
+                }}
+            ]},
+            "minecraft:mob_event_filter": {"type": "object", "description": "Autorise ce type d'entités à apparaitre dans certains evenements.", "properties": {
+                "event": {"type": "string", "description": "L'evenement.", "enum": ["minecraft:pillager_patrols_event", "minecraft:wandering_trader_event", "minecraft:ender_dragon_event"]}
+            }},
+            "minecraft:permute_type": {"type": "array", "description": "Ajoute des permutations de l'entité qui va apparaitre.", "items": {"type": "object", "properties": {
+                "weight": {"type": "number", "description": "Le pourcentage de chance que cette permutation soit choisi."},
+                "entity_type": {"type": "string", "description": "Le type d'entité pour la permutation."},
+                "guaranteed_count": {"type": "number", "description": "Spécifie le nombre d'entités avec cette permutation qui doit apparaitre avant de choisir aléatoirement les autres permutations."}
+            }}},
+            "minecraft:player_in_village": {"type": "object", "description": "PAS DE DOCUMENTATION"},
+            "minecraft:spawns_above_block_filter": {"description": "Filtre les blocs et la distance minimals en hauteur de ces blocs où peuvent apparaitre les entités.", "anyOf": [
+                {"type": "object", "properties": {
+                    "blocks": {"type": "array", "description": "Les blocs en questions", "oneOf": [
+                        {"type": "string"},
+                        {"type": "object", "properties": {
+                            "name": {"type": "string", "description": "Le nom du Bloc."},
+                            "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                            "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                        }}
+                    ]},
+                    "distance": {"type": "number", "description": "La distance en question."}
+                }},
+                {"type": "array", "items": {"type": "object", "properties": {
+                    "blocks": {"type": "array", "description": "Les blocs en questions", "oneOf": [
+                        {"type": "string"},
+                        {"type": "object", "properties": {
+                            "name": {"type": "string", "description": "Le nom du Bloc."},
+                            "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                            "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                        }}
+                    ]},
+                    "distance": {"type": "number", "description": "La distance en question."}
+                }}}
+            ]},
+            "minecraft:spawn_event": {"type": "object", "description": "L'event à appliquer à l'entité quand elle apparaitra.", "properties": {
+                "event": {"type": "string", "description": "L'event."}
+            }},
+            "minecraft:spawns_lava": {"type": "object", "description": "Définit si les entités peuvent apparaitre dans la lave."},
+            "minecraft:spawns_on_block_filter": {"description": "Filtre les blocs où peuvent apparaitre les entités.", "anyOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"type": "string"}},
+                {"type": "array", "description": "Définit sur quels blocs ce bloc peut se placer.", "items": {"type": "object", "properties": {
+                    "name": {"type": "string", "description": "Le nom du Bloc."},
+                    "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                    "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                }}}
+            ]},
+            "minecraft:spawns_on_block_prevented_filter": {"description": "Filtre les blocs où ne peuvent pas apparaitre les entités.", "anyOf": [
+                {"type": "string"},
+                {"type": "array", "items": {"type": "string"}},
+                {"type": "array", "description": "Définit sur quels blocs ce bloc peut se placer.", "items": {"type": "object", "properties": {
+                    "name": {"type": "string", "description": "Le nom du Bloc."},
+                    "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                    "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                }}}
+            ]},
+            "minecraft:spawns_on_surface": {"type": "object", "description": "Définit si les entités peuvent apparaitre à la surface."},
+            "minecraft:spawns_underground": {"type": "object", "description": "Définit si les entités peuvent apparaitre sous-terre."},
+            "minecraft:spawns_underwater": {"type": "object", "description": "Définit si les entités peuvent apparaitre sous l'eau."},
+            "minecraft:weight": {"type": "object", "description": "Définit le poid de priorité d'apparition.", "properties": {
+                "default": {"type": "number", "description": "Le poids par défaut."},
+                "rarity": {"type": "number", "description": "La rareté de l'entité par rapport à d'autres entités. Une rareté plus élevée signifie que l'entité est moins susceptible d'apparaître par rapport à d'autres entités ayant des poids de spawn similaires."}
+            }},
+            "minecraft:world_age_filter": {"type": "object", "description": "Définit le temps passé minimum sur le monde pour que cette entité puissent apparaitre.", "properties": {
+                "min": {"type": "number", "description": "Le temps passé."}
+            }}
+        }}},
+
+        "advanced_filter_object-ref": {"type": "object", "properties": {
+            "none_of": {"type": "array", "description": "Aucune des conditions ne doivent être rempli.", "items": {"$ref": "#/definitions/advanced_filter_object-ref"}},
+            "any_of": {"type": "array", "description": "Au moins une des conditions doivent être rempli.", "items": {"$ref": "#/definitions/advanced_filter_object-ref"}},
+            "all_of": {"type": "array", "description": "Toutes les conditions doivent être rempli.", "items": {"$ref": "#/definitions/advanced_filter_object-ref"}},
+
+            "test": {"type": "string", "description": "Le type de test pour le filtrage du Biome.", "enum": ["has_biome_tag", "is_biome"]},
+            "operator": {"type": "string", "description": "L'opérateur du Test.", "enum": ["!=", "<", "<=", "<>", "=", "==", ">", ">=", "equals", "not"]},
+            "value": {"type": "string", "description": "La valeur pour la comparaison."}
+        }}
+    }
+}

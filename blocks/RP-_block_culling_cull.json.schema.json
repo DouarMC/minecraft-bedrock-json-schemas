@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:block_culling_rules"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:block_culling_rules": {"$ref": "#/definitions/minecraft:block_culling_rules-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"},
+            "rules": {"$ref": "#/definitions/rules-def"}
+        }}
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:block_culling_rules-def": {"type": "object", "required": ["description", "rules"], "description": "Contient toute la définition de ces règles de Block Culling."},
+        "description-def": {"type": "object", "required": ["identifier"], "description": "Contient des informations de descriptions du Block Culling.", "properties": {
+            "identifier": {"type": "string", "description": "L'identifiant du Block Culling."}
+        }},
+        "rules-def": {"type": "array", "description": "La liste des règles de ce Block Culling", "items": {"type": "object", "properties": {
+            "geometry_part": {"type": "object", "description": "Spécifie l'os, le cube, et la face à cull.", "properties": {
+                "bone": {"type": "string", "description": "L'os (dossier de modèle) qui subira le culling."},
+                "cube": {"type": "number", "description": "L'index du cube de modèle de l'os à cull."},
+                "face": {"type": "string", "enum": ["up", "down", "north", "east", "south", "west"], "description": "La face du cube à cull."}
+            }},
+            "direction": {"type": "string", "enum": ["up", "down", "north", "east", "south", "west"], "description": "Spécifie la direction du bloc voisin pour vérifier la sélection. Cette direction pivote avec le component Transform d'un bloc."}
+        }}}
+    }
+}

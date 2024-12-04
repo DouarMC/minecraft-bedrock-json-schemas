@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:npc_dialogue"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:npc_dialogue": {"$ref": "#/definitions/minecraft:npc_dialogue-def", "properties": {
+            "scenes": {"$ref": "#/definitions/scenes-def"}
+        }}
+    },
+
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:npc_dialogue-def": {"type": "object", "required": ["scenes"], "description": "Contient toutes les scènes de Dialogues."},
+        "scenes-def": {"type": "array", "description": "Contient toutes les scènes de Dialogues.", "items": {"type": "object", "properties": {
+            "scene_tag": {"type": "string", "description": "L'ID de cette Scène."},
+            "npc_name": {"type": "string", "description": "Le nom du NPC."},
+            "text": {"type": "string", "description": "Le texte de cette Scène de Dialogue."},
+            "on_open_commands": {"type": "array", "description": "Les Commandes qui s'executeront quand cette Scène s'ouvra.", "items": {"type": "string"}},
+            "on_close_commands": {"type": "array", "description": "Les Commandes qui s'executeront quand cette Scène se fermera.", "items": {"type": "string"}},
+            "buttons": {"type": "array", "description": "Les différents boutons de la Scène.", "items": {"type": "object", "properties": {
+                "name": {"type": "string", "description": "Le texte affiché sur le Bouton."},
+                "commands": {"type": "array", "description": "Les Commandes à executer quand le joueur clique sur ce bouton.", "items": {"type": "string"}}
+            }}}
+        }}}
+    }
+}

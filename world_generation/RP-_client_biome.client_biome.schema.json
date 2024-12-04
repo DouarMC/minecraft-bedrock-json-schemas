@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:client_biome"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:client_biome": {"$ref": "#/definitions/minecraft:client_biome-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"},
+            "components": {"$ref": "#/definitions/components-def"}
+        }}
+    },
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:client_biome-def": {"type": "object", "required": ["description", "components"], "description": "Contient toute la définition du client du biome."},
+        "description-def": {"type": "object", "required": ["identifier"], "properties": {
+            "identifier": {"type": "string", "description": "L'identifiant du biome."}
+        }},
+        "components-def": {"type": "object", "description": "Les components.", "properties": {
+            "minecraft:ambient_sounds": {
+                "description": "Définit les sons ambiants du biome. Ces sons doivent être dans les 'individual_named_sounds' d'un fichier 'sounds.json'.",
+                "type": "object",
+                "properties": {
+                    "addition": {
+                        "description": "Son qui se joue occasionnellement à la position de l'auditeur.",
+                        "type": "string"
+                    },
+                    "loop": {
+                        "description": "Son qui se joue en boucle à la position de l'auditeur.",
+                        "type": "string"
+                    },
+                    "mood": {
+                        "description": "Son qui se joue rarement à la position de bloc d'air la plus proche lorsque le niveau de lumière est faible. Les biomes sans son d'ambiance de mood utiliseront le son 'ambient.cave'.",
+                        "type": "string"
+                    }
+                }
+            },
+            "minecraft:biome_music": {
+                "description": "Définit comment la musique est jouée dans le biome.",
+                "type": "object",
+                "properties": {
+                    "volume_multiplier": {
+                        "description": "Multiplicateur temporaire et progressif appliqué au volume de la musique lorsque dans ce biome. Doit être une valeur entre 0 et 1, inclusivement.",
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "minecraft:fog_appearance": {"type": "object", "description": "Définit le brouillard à utiliser.", "properties": {
+                "fog_identifier": {"type": "string", "description": "L'identifiant du brouillard à utiliser."}
+            }},
+            "minecraft:sky_color": {"type": "object", "description": "Définit la couleur du ciel.", "properties": {
+                "sky_color": {"type": "string", "description": "La couleur du ciel."}
+            }},
+            "minecraft:water_appearance": {"type": "object", "description": "Définit la couleur de la surface de l'eau.", "properties": {
+                "surface_color": {"type": "string", "description": "La couleur de la surface de l'eau."}
+            }}
+        }}
+    }
+}

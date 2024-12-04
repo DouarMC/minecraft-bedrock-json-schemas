@@ -1,0 +1,424 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version", "minecraft:biome"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version-def"},
+        "minecraft:biome": {"$ref": "#/definitions/minecraft:biome-def", "properties": {
+            "description": {"$ref": "#/definitions/description-def"},
+            "components": {"$ref": "#/definitions/components-def"}
+        }}
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "minecraft:biome-def": {"type": "object", "description": "Contient toute la définition du Biome."},
+        "description-def": {"type": "object", "description": "Contient toute la description du Biome.", "properties": {
+            "identifier": {"description": "L'identifiant du Biome.", "anyOf": [
+                {"type": "string", "enum": [
+                    "bamboo_jungle", "bamboo_jungle_hills", "basalt_deltas", "beach", "birch_forest" ,"birch_forest_hills", "birch_forest_hills_mutated", 
+                    "birch_forest_mutated","cherry_grove","cold_beach","cold_ocean","cold_taiga","cold_taiga_hills","cold_taiga_mutated","crimson_forest",
+                    "deep_cold_ocean","deep_dark","deep_frozen_ocean","deep_lukewarm_ocean","deep_ocean","deep_warm_ocean","desert","desert_hills","desert_mutated",
+                    "dripstone_caves","extreme_hills","extreme_hills_edge","extreme_hills_mutated","extreme_hills_plus_trees","extreme_hills_plus_trees_mutated","flower_forest",
+                    "forest","forest_hills","frozen_ocean","frozen_peaks","frozen_river","grove","hell","ice_mountains","ice_plains","ice_plains_spikes","jagged_peaks","jungle",
+                    "jungle_edge","jungle_edge_mutated","jungle_hills","jungle_mutated","legacy_frozen_ocean","lukewarm_ocean","lush_caves","mangrove_swamp","meadow","mega_taiga",
+                    "mega_taiga_hills","mesa","mesa_bryce","mesa_plateau","mesa_plateau_mutated","mesa_plateau_stone","mesa_plateau_stone_mutated","mushroom_island","mushroom_island_shore",
+                    "ocean","plains","redwood_taiga_hills_mutated","redwood_taiga_mutated","river","roofed_forest","roofed_forest_mutated","savanna","savanna_mutated","savanna_plateau",
+                    "savanna_plateau_mutated","snowy_slopes","soulsand_valley","stone_beach","stony_peaks","sunflower_plains","swampland","swampland_mutated","taiga","taiga_hills",
+                    "taiga_mutated","the_end","warm_ocean","warped_forest"
+                ]},
+                {"type": "string"}
+            ]}
+        }},
+        "components-def": {"type": "object", "description": "Tous les components du Biome.", "properties": {
+            "minecraft:climate": {"type": "object", "description": "Définit plusieurs aspects environnementaux", "properties": {
+                "temperature": {"type": "number", "description": "Définit la température du biome."},
+                "downfall": {"type": "number", "description": "Définit la quantité de précipitations."},
+                "red_spores": {"type": "number", "description": "Définit le taux de partcicule Red_Spores."},
+                "blue_spores": {"type": "number", "description": "Définit le taux de partcicule Blue_Spores."},
+                "ash": {"type": "number", "description": "Définit le taux de partcicule Ash."},
+                "white_ash": {"type": "number", "description": "Définit le taux de partcicule White_Ash."},
+                "snow_accumulation": {"type": "array", "description": "La quantité de neige accumulée dans le biome", "items": [
+                    {"type": "number"},
+                    {"type": "number"}
+                ]}
+            }},
+            "minecraft:overworld_height": {"type": "object", "description": "Définit les paramètres de bruit utilisés pour générer la hauteur du terrain dans l'Overworld.", "properties": {
+                "noise_params": {"type": "array", "description": "Définit les paramètres de bruit avec des valeurs numériques.", "items": [
+                    {"type": "number", "description": "Détermine la hauteur moyenne du biome. Il est intéressant de noter que ce paramètre n'utilise pas directement la hauteur du bloc (la coordonnée y) et est mis à l'échelle là où un ∆ de 1 dans la valeur représente un ∆ de 16 blocs dans la hauteur moyenne d'un biome. De plus, cette valeur est fixée à zéro à une hauteur y d'environ 67, plusieurs blocs au-dessus du niveau de la mer. Cela signifie que pour définir cette valeur en gardant à l'esprit une hauteur y moyenne particulière, utilisez la formule : f(y) = (y - 67) / 16"},
+                    {"type": "number", "description": "Détermine la variation de hauteur. "}
+                ]},
+                "noise_type": {"type": "string", "description": "Définit les paramètres de bruit avec des presets.", "enum": ["stone_beach", "deep_ocean", "default", "default_mutated", "lowlands", "river", "ocean", "taiga", "mountains", "highlands", "mushroom", "less_extreme", "extreme", "beach", "swamp"]}
+            }},
+            "minecraft:consolidated_features": {"type": "object", "description": "AUCUNE DOCUMENTAION."},
+            "minecraft:surface_parameters": {"type": "object", "description": "Est utilisé pour contrôler les blocs utilisés dans la génération par défaut du terrain de l'Overworld.", "properties": {
+                "top_material": {"description": "Le type de bloc utilisé pour la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "mid_material": {"description": "Le type de bloc utilisé dans une couche située en dessous de la surface du biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_material": {"description": "Le type de bloc utilisé comme fond pour les étendues d'eau dans ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "foundation_material": {"description": "Le type de bloc utilisé en profondeur sous la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_material": {"description": "Le type de bloc utilisé pour les étendues d'eau dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_depth": {"type": "integer", "description": "La profondeur à laquelle se situe le fond des étendues d'eau par rapport au niveau du monde."}
+            }},
+            "minecraft:surface_material_adjustments": {"type": "object", "description": "Spécifie des ajustements de détail fin des blocs utilisés dans la génération de terrain, en fonction d'une fonction de bruit.", "properties": {
+                "adjustments": {"type": "array", "description": "Contient tous les ajustements à appliquer en fonction des valeurs de bruit de la colonne. Chaque ajustement est appliqué dans l'ordre listé.", "items": {"type": "object", "properties": {
+                    "materials": {"type": "object", "description": "Définit les types de blocs à utiliser lorsque cet ajustement est actif pour ce biome.", "properties": {
+                        "top_material": {"description": "Le type de bloc utilisé pour la surface de ce biome.", "anyOf": [
+                            {"type": "string"},
+                            {"type": "object", "properties": {
+                                "name": {"type": "string", "description": "Le nom du Bloc."},
+                                "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                                "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                            }}
+                        ]},
+                        "mid_material": {"description": "Le type de bloc utilisé dans une couche située en dessous de la surface du biome", "anyOf": [
+                            {"type": "string"},
+                            {"type": "object", "properties": {
+                                "name": {"type": "string", "description": "Le nom du Bloc."},
+                                "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                                "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                            }}
+                        ]},
+                        "sea_floor_material": {"description": "Le type de bloc utilisé comme fond pour les étendues d'eau dans ce biome.", "anyOf": [
+                            {"type": "string"},
+                            {"type": "object", "properties": {
+                                "name": {"type": "string", "description": "Le nom du Bloc."},
+                                "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                                "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                            }}
+                        ]},
+                        "foundation_material": {"description": "Le type de bloc utilisé en profondeur sous la surface de ce biome.", "anyOf": [
+                            {"type": "string"},
+                            {"type": "object", "properties": {
+                                "name": {"type": "string", "description": "Le nom du Bloc."},
+                                "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                                "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                            }}
+                        ]},
+                        "sea_material": {"description": "Le type de bloc utilisé pour les étendues d'eau dans ce biome", "anyOf": [
+                            {"type": "string"},
+                            {"type": "object", "properties": {
+                                "name": {"type": "string", "description": "Le nom du Bloc."},
+                                "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                                "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                            }}
+                        ]}
+                    }},
+                    "noise_range": {"type": "array", "description": "Définit une plage de valeurs de bruit [min, max) pour lesquelles cet ajustement doit être appliqué.", "items": [
+                        {"type": "number"},
+                        {"type": "number"}
+                    ]},
+                    "height_range": {"type": "array", "description": "Définit une plage de valeurs de hauteur [min, max) pour lesquelles cet ajustement doit être appliqué.", "items": [
+                        {"type": "number"},
+                        {"type": "number"}
+                    ]},
+                    "noise_frequency_scale": {"type": "number", "description": "Échelle à multiplier par la position lors de l'accès à la valeur de bruit pour les ajustements de matériaux."}
+                }}}
+            }},
+            "minecraft:swamp_surface": {"type": "object", "description": "Similaire à 'overworld_surface'. Ajoute des détails spécifiques de surface de marais.", "properties": {
+                "top_material": {"description": "Le type de bloc utilisé pour la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "mid_material": {"description": "Le type de bloc utilisé dans une couche située en dessous de la surface du biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_material": {"description": "Le type de bloc utilisé comme fond pour les étendues d'eau dans ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "foundation_material": {"description": "Le type de bloc utilisé en profondeur sous la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_material": {"description": "Le type de bloc utilisé pour les étendues d'eau dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_depth": {"type": "integer", "description": "La profondeur à laquelle se situe le fond des étendues d'eau par rapport au niveau du monde."}
+            }},
+            "minecraft:frozen_ocean_surface": {"type": "object", "description": "Similaire à 'overworld_surface'. Ajoute des Icebergs.", "properties": {
+                "top_material": {"description": "Le type de bloc utilisé pour la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "mid_material": {"description": "Le type de bloc utilisé dans une couche située en dessous de la surface du biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_material": {"description": "Le type de bloc utilisé comme fond pour les étendues d'eau dans ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "foundation_material": {"description": "Le type de bloc utilisé en profondeur sous la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_material": {"description": "Le type de bloc utilisé pour les étendues d'eau dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_depth": {"type": "integer", "description": "La profondeur à laquelle se situe le fond des étendues d'eau par rapport au niveau du monde."}
+            }},
+            "minecraft:mesa_surface": {"type": "object", "description": "Similaire à 'overworld_surface'. Ajoute des strates colorées et des piliers optionnels.", "properties": {
+                "top_material": {"description": "Le type de bloc utilisé pour la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "mid_material": {"description": "Le type de bloc utilisé dans une couche située en dessous de la surface du biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_material": {"description": "Le type de bloc utilisé comme fond pour les étendues d'eau dans ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "foundation_material": {"description": "Le type de bloc utilisé en profondeur sous la surface de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_material": {"description": "Le type de bloc utilisé pour les étendues d'eau dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "sea_floor_depth": {"type": "integer", "description": "La profondeur à laquelle se situe le fond des étendues d'eau par rapport au niveau du monde."},
+                "clay_material": {"description": "Le type de bloc utilisé pour l'argile dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "hard_clay_material": {"description": "Le type de bloc utilisé pour l'argile durcie dans ce biome", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "bryce_pillars": {"type": "boolean", "description": "Indique si le biome a des piliers de terre cuite semblables à ceux que l'on trouve dans le biome de mesa Bryce"},
+                "has_forest": {"type": "boolean", "description": "Indique si le biome a des forets des mesa."}
+            }},
+            "minecraft:nether_surface": {"type": "object", "description": "Utiliser la génération de terrain Minecraft Nether par défaut."},
+            "minecraft:the_end_surface": {"type": "object", "description": "Utiliser la génération de terrain Minecraft End par défaut."},
+            "minecraft:capped_surface": {"type": "object", "description": "Utiliser pour générer la surface sur des blocs qui ont des blocs non solides au-dessus ou en dessous d'eux", "properties": {
+                "floor_materials": {"type": "array", "description": "Contient les matériaux utilisés pour le sol de la surface. Chaque élément de ce tableau est une référence à un bloc. Ces blocs seront utilisés pour créer la surface du sol dans le biome.", "items": {"anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]}},
+                "ceiling_materials": {"type": "array", "description": "Contient les matériaux utilisés pour le plafond de la surface. Chaque élément de ce tableau est une référence à un bloc. Ces blocs seront utilisés pour créer le plafond de la surface dans le biome.", "items": {"anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]}},
+                "sea_material": {"description": "Le type de bloc utilisé pour remplacer les blocs d'air en dessous du niveau de la mer.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "foundation_material": {"description": "Le type de bloc utilisé pour remplacer les blocs solides qui ne sont pas des blocs de surface.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]},
+                "beach_material": {"description": "Le type de bloc utilisé pour décorer la surface près du niveau de la mer, comme une plage.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "object", "properties": {
+                        "name": {"type": "string", "description": "Le nom du Bloc."},
+                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                    }}
+                ]}
+            }},
+            "minecraft:mountain_parameters": {"type": "object", "description": "Utilisé pour contrôler la génération du terrain de montagne dans l'Overworld en utilisant des paramètres de bruit.", "properties": {
+                "peaks_factor": {"type": "number", "description": "Paramètre de bruit qui contrôle la formation des pics de montagne. Il influence l'ampleur et la densité des sommets de montagne générés dans le biome."},
+                "steep_material_adjustment": {"type": "object", "description": "Définit le bloc de surface pour les pentes abruptes des montagnes.", "properties": {
+                    "material": {"description": "Type de bloc utilisé comme matériau pour les pentes abruptes des montagnes.", "anyOf": [
+                        {"type": "string"},
+                        {"type": "object", "properties": {
+                            "name": {"type": "string", "description": "Le nom du Bloc."},
+                            "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
+                            "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
+                        }}
+                    ]},
+                    "north_slopes": {"type": "boolean", "description": "Indiquent si le matériau défini doit être appliqué aux pentes orientées dans la direction en question."},
+                    "south_slopes": {"type": "boolean", "description": "Indiquent si le matériau défini doit être appliqué aux pentes orientées dans la direction en question."},
+                    "west_slopes": {"type": "boolean", "description": "Indiquent si le matériau défini doit être appliqué aux pentes orientées dans la direction en question."},
+                    "east_slopes": {"type": "boolean", "description": "Indiquent si le matériau défini doit être appliqué aux pentes orientées dans la direction en question."}
+                }},
+                "top_slide": {"type": "object", "description": "Contrôle l'atténuation de la densité qui se produit en haut du monde pour empêcher le terrain de devenir trop haut.", "properties": {
+                    "enabled": {"type": "boolean", "description": "Indique si le processus d'atténuation de la densité en haut du monde est activé. S'il est désactivé, aucun autre paramètre de cette propriété n'est pris en compte."}
+                }}
+            }},
+            "minecraft:overworld_generation_rules": {"type": "object", "description": "Contrôle comment ce biome est instancié (et éventuellement modifié) lors de la génération du monde de l'Overworld.", "properties": {
+                "hills_transformation": {"description": "Référence à un autre biome ou une transformation qui est appliquée aux collines de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "array", "items": {"anyOf": [
+                        {"type": "string"},
+                        {"type": "array", "items": [
+                            {"type": "string", "description": "Référence à un autre biome."},
+                            {"type": "integer", "description": "Représente le poids de chance avec lequel cette transformation ou ce biome doit être sélectionné par rapport aux autres biomes dans la même catégorie."}
+                        ]}
+                    ]}}
+                ]},
+                "mutate_transformation": {"description": "Référence à un autre biome ou une transformation qui est appliquée aux mutations de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "array", "items": {"anyOf": [
+                        {"type": "string"},
+                        {"type": "array", "items": [
+                            {"type": "string", "description": "Référence à un autre biome."},
+                            {"type": "integer", "description": "Représente le poids de chance avec lequel cette transformation ou ce biome doit être sélectionné par rapport aux autres biomes dans la même catégorie."}
+                        ]}
+                    ]}}
+                ]},
+                "generate_for_climates": {"type": "array", "description": "Contrôle les catégories climatiques de la génération du monde pour lesquelles ce biome peut apparaître.", "items": {
+                    "type": "array", "items": [
+                        {"type": "string", "description": "Nom de la catégorie de climat.", "enum": ["medium", "warm", "lukewarm", "cold", "frozen"]},
+                        {"type": "integer", "description": "Poids de chance avec lequel ce biome doit être sélectionné par rapport aux autres biomes dans la même catégorie."}
+                    ]
+                }},
+                "river_transformation": {"description": "Référence à un autre biome ou une transformation qui est appliquée aux rivières de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "array", "items": {"anyOf": [
+                        {"type": "string"},
+                        {"type": "array", "items": [
+                            {"type": "string", "description": "Référence à un autre biome."},
+                            {"type": "integer", "description": "Représente le poids de chance avec lequel cette transformation ou ce biome doit être sélectionné par rapport aux autres biomes dans la même catégorie."}
+                        ]}
+                    ]}}
+                ]},
+                "shore_transformation": {"description": "Référence à un autre biome ou une transformation qui est appliquée aux rives de ce biome.", "anyOf": [
+                    {"type": "string"},
+                    {"type": "array", "items": {"anyOf": [
+                        {"type": "string"},
+                        {"type": "array", "items": [
+                            {"type": "string", "description": "Référence à un autre biome."},
+                            {"type": "integer", "description": "Représente le poids de chance avec lequel cette transformation ou ce biome doit être sélectionné par rapport aux autres biomes dans la même catégorie."}
+                        ]}
+                    ]}}
+                ]}
+            }},
+            "minecraft:multinoise_generation_rules": {"type": "object", "description": "Contrôle la manière dont un biome est instancié (et potentiellement modifié) lors de la génération du monde dans le Nether de Minecraft", "properties": {
+                "target_temperature": {"type": "number", "description": "La température cible avec laquelle ce biome devrait être sélectionné, par rapport aux autres biomes."},
+                "target_humidity": {"type": "number", "description": "L'humidité cible avec laquelle ce biome devrait être sélectionné, par rapport aux autres biomes."},
+                "target_altitude": {"type": "number", "description": "L'altitude cible avec laquelle ce biome devrait être sélectionné, par rapport aux autres biomes."},
+                "target_weirdness": {"type": "number", "description": "L'étrangeté cible avec laquelle ce biome devrait être sélectionné, par rapport aux autres biomes."},
+                "weight": {"type": "number", "description": "Le poids avec lequel ce biome devrait être sélectionné, par rapport aux autres biomes."}
+            }},
+            "minecraft:legacy_world_generation_rules": {"type": "object", "description": "Contrôler la génération du monde dans des mondes limités à la version héritée de Minecraft."},
+            "minecraft:tags": {"type": "object", "description": "Attribue des Tags à ce biome.", "properties": {
+                "tags": {"type": "array", "description": "Les Tags à attribuer.", "items": {"type": "string"}}
+            }}
+        }}
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "beginner_loading_messages": {"$ref": "#/definitions/beginner_loading_messages-def"},
+        "mid_game_loading_messages": {"$ref": "#/definitions/mid_game_loading_messages-def"},
+        "late_game_loading_messages": {"$ref": "#/definitions/late_game_loading_messages-def"},
+        "editor_loading_messages": {"$ref": "#/definitions/editor_loading_messages-def"},
+        "realms_loading_messages": {"$ref": "#/definitions/realms_loading_messages-def"}
+    },
+    "definitions": {
+        "beginner_loading_messages-def": {"type": "array", "description": "Contient les Textes de messages de chargement pour les débutants.", "items": {"type": "string"}},
+        "mid_game_loading_messages-def": {"type": "array", "description": "Contient les Textes de messages de chargement pour les joueurs un peu expérimentés..", "items": {"type": "string"}},
+        "late_game_loading_messages-def": {"type": "array", "description": "Contient les Textes de messages de chargement pour les débutants expérimentés.", "items": {"type": "string"}},
+        "editor_loading_messages-def": {"type": "array", "description": "Contient les Textes de messages de chargement dans le mode Editeur.", "items": {"type": "string"}},
+        "realms_loading_messages-def": {"type": "array", "description": "Contient les Textes de messages de chargement pour les Realms.", "items": {"type": "string"}}
+    }
+}

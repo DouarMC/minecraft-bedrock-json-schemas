@@ -1,0 +1,533 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du format à utiliser."},
+        "minecraft:recipe_furnace": {
+            "description": "Type de Recette de Cuisson.",
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string", "enum": ["furnace", "blast_furnace", "smoker", "campfire", "soul_campfire"]
+                    }
+                },
+                "input": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "oneOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                }
+                            }
+                        },
+                        {"type": "string"},
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string",
+                                    "enum": [
+                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
+                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
+                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
+                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
+                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
+                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
+                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
+                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
+                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
+                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
+                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
+                                      ]
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {"type": "string"}
+                            }
+                        }
+                    ]
+                },
+                "output": {
+                    "type": "object",
+                    "properties": {
+                        "item": {"type": "string"},
+                        "count": {"type": "integer"},
+                        "data": {
+                            "oneOf": [
+                                {"type": "number"},
+                                {"type": "string"}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "minecraft:recipe_brewing_container": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string", "enum": ["brewing_stand"]
+                    }
+                },
+                "reagent": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "oneOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                }
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                },
+                "input": {"type": "string", "enum": ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"]},
+                "output": {
+                    "anyOf": [
+                        {"type": "string", "enum": ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"]},
+                        {"type": "string"}
+                    ]
+                }
+            }
+        },
+        "minecraft:recipe_brewing_mix": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string", "enum": ["brewing_stand"]
+                    }
+                },
+                "reagent": {
+                    "anyOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "oneOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                }
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                },
+                "input": {
+                    "anyOf": [
+                        {"type": "string"},
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {
+                                    "type": "string",
+                                    "enum": [
+                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
+                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
+                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
+                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
+                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
+                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
+                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
+                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
+                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
+                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
+                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
+                                      ]
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {"type": "string"}
+                            }
+                        }
+                    ]
+                },
+                "output": {"type": "string"}
+            }
+        },
+        "minecraft:recipe_shaped": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"type": "string", "enum": ["crafting_table"]},
+                            {"type": "string"}
+                        ]
+                    }
+                },
+                "unlock": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item": {"type": "string"},
+                            "data": {
+                                "oneOf": [
+                                    {"type": "number"},
+                                    {"type": "string"}
+                                ]
+                            },
+                            "context": {"type": "string", "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]}
+                        }
+                    }
+                },
+                "group": {"type": "string"},
+                "priority": {"type": "number"},
+                "pattern": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "assume_symmetry": {"type": "boolean"},
+                "key": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "item": {"type": "string"},
+                            "data": {
+                                "anyOf": [
+                                    {"type": "number"},
+                                    {"type": "string"}
+                                ]
+                            },
+                            "tag": {
+                                "anyOf": [
+                                    {"type": "string"},
+                                    {"enum": [
+                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
+                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
+                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
+                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
+                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
+                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
+                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
+                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
+                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
+                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
+                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
+                                      ]}
+                                ]
+                            }
+                        }
+                    }
+                },
+                "result": {
+                    "oneOf": [
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "item": {"type": "string"},
+                                    "data": {
+                                        "anyOf": [
+                                            {"type": "number"},
+                                            {"type": "string"}
+                                        ]
+                                    },
+                                    "count": {"type": "number"}
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "anyOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                },
+                                "count": {"type": "number"}
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "minecraft:recipe_shapeless": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "anyOf": [
+                            {"type": "string", "enum": ["crafting_table", "stonecutter"]},
+                            {"type": "string"}
+                        ]
+                    }
+                },
+                "unlock": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item": {"type": "string"},
+                            "data": {
+                                "oneOf": [
+                                    {"type": "number"},
+                                    {"type": "string"}
+                                ]
+                            },
+                            "context": {"type": "string", "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]}
+                        }
+                    }
+                },
+                "group": {"type": "string"},
+                "priority": {"type": "number"},
+                "ingredients": {
+                    "oneOf": [
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "item": {"type": "string"},
+                                    "data": {
+                                        "anyOf": [
+                                            {"type": "number"},
+                                            {"type": "string"}
+                                        ]
+                                    },
+                                    "tag": {
+                                        "anyOf": [
+                                            {"type": "string"},
+                                            {"enum": [
+                                                "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
+                                                "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
+                                                "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
+                                                "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
+                                                "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                                                "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
+                                                "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
+                                                "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
+                                                "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
+                                                "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                                                "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
+                                                "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
+                                                "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
+                                              ]}
+                                        ]
+                                    },
+                                    "count": {"type": "number"}
+                                }
+                            }
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "anyOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                },
+                                "tag": {
+                                    "anyOf": [
+                                        {"type": "string"},
+                                        {"enum": [
+                                            "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
+                                            "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
+                                            "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
+                                            "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
+                                            "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                                            "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
+                                            "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
+                                            "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
+                                            "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
+                                            "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                                            "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
+                                            "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
+                                            "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
+                                          ]}
+                                    ]
+                                },
+                                "count": {"type": "number"}
+                            }
+                        }
+                    ]
+                },
+                "result": {
+                    "type": "object",
+                    "properties": {
+                        "item": {"type": "string"},
+                        "data": {
+                            "anyOf": [
+                                {"type": "number"},
+                                {"type": "string"}
+                            ]
+                        },
+                        "count": {"type": "number"}
+                    }
+                }
+            }
+        },
+        "minecraft:recipe_smithing_transform": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string", "enum": ["smithing_table"]
+                    }
+                },
+                "template": {"type": "string"},
+                "base": {"type": "string"},
+                "addition": {"type": "string", "enum": ["minecraft:netherite_ingot"]},
+                "result": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {"type": "string"},
+                                "data": {
+                                    "oneOf": [
+                                        {"type": "number"},
+                                        {"type": "string"}
+                                    ]
+                                }
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                }
+            }
+        },
+        "minecraft:recipe_smithing_trim": {
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propriétés de description de la recette.",
+                    "type": "object",
+                    "properties": {
+                        "identifier":{"type": "string", "description": "ID de la recette."}
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string", "enum": ["smithing_table"]
+                    }
+                },
+                "template": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {"type": "string"}
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                },
+                "base": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {"type": "string"}
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                },
+                "addition": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "tag": {"type": "string"}
+                            }
+                        },
+                        {"type": "string"}
+                    ]
+                }
+            }
+        }
+    }
+}
