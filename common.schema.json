@@ -3,10 +3,70 @@
     "type": "object",
     "definitions": {
         "format_version": {
-            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "$comment": "La version du Format à utiliser (ex: 1.21.50).",
             "examples": ["1.21.50"],
             "type": "string",
             "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+
+        "color_rgb": {
+            "$comment": "Définit une couleur RGB.",
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+            }
+        },
+        "color_hex": {
+            "$comment": "Définit une couleur hexadécimale.",
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "color_format": {
+            "$comment": "Définit une couleur RGB ou hexadécimale.",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/color_rgb"
+                },
+                {
+                    "$ref": "#/definitions/color_hex"
+                }
+            ]
+        },
+        "color_rgba": {
+            "$comment": "Définit une couleur RGBA.",
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+            }
+        },
+        "color_hex_alpha": {
+            "$comment": "Définit une couleur hexadécimale avec canal alpha.",
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{8}$"
+        },
+        "color_format_alpha": {
+            "$comment": "Définit une couleur RGBA ou hexadécimale avec canal alpha.",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/color_rgba"
+                },
+                {
+                    "$ref": "#/definitions/color_hex_alpha"
+                }
+            ]
+        },
+        "string_with_namespace": {
+            "$comment": "Définit une chaîne de caractères avec un espace de noms.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$"
         }
     }
 }

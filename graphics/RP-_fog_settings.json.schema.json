@@ -1,0 +1,431 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer des effets de brouillard volumétrique et de rayons lumineux (light shafts)",
+    "required": ["format_version", "minecraft:fog_settings"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour les effets de brouillard (ex: 1.21.50)",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "minecraft:fog_settings": {
+            "description": "Contient la définition des effets de brouillard volumétrique.",
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Description de l'effet de brouillard volumétrique.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant de l'effet de brouillard volumétrique.",
+                            "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                        }
+                    }
+                },
+                "distance": {
+                    "description": "Définit les paramètres de brouillard de distance pour différents emplacements de caméra.",
+                    "type": "object",
+                    "properties": {
+                        "air": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra se trouve dans les airs.",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                }
+                            }
+                        },
+                        "weather": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra est sous la pluie (pluie, neige...).",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                }
+                            }
+                        },
+                        "water": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra est sous l'eau.",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                },
+                                "transition_fog": {
+                                    "description": "Définit les données de brouillard supplémentaires qui se transiteront lentement vers le brouillard de distance du biome actuel.",
+                                    "type": "object",
+                                    "properties": {
+                                        "init_fog": {
+                                            "description": "Brouillard initial qui se transitionnera lentement vers le brouillard de distance de l'eau du biome lorsque le joueur entre dans l'eau.",
+                                            "type": "object",
+                                            "properties": {
+                                                "fog_color": {
+                                                    "description": "La couleur que le brouillard prendra.",
+                                                    "$ref": "../common.schema.json#/definitions/color"
+                                                },
+                                                "fog_start": {
+                                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                                    "type": "number"
+                                                },
+                                                "fog_end": {
+                                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                                    "type": "number",
+                                                    "minimum": 0
+                                                },
+                                                "render_distance_type": {
+                                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                                    "type": "string",
+                                                    "enum": ["fixed", "render"]
+                                                }
+                                            }
+                                        },
+                                        "min_percent": {
+                                            "description": "Le progrès minimal de la transition du brouillard. Cela détermine à quel point le brouillard a commencé à se former, avec 0 signifiant aucun brouillard et 1 signifiant un brouillard complètement formé.",
+                                            "type": "number",
+                                            "maximum": 0,
+                                            "minimum": 1
+                                        },
+                                        "mid_seconds": {
+                                            "description": "Le temps nécessaire pour atteindre un certain progrès de la transition du brouillard, défini par mid_percent. Cela représente la durée avant que la transition atteigne une certaine étape.",
+                                            "type": "number",
+                                            "minimum": 0
+                                        },
+                                        "mid_percent": {
+                                            "description": "Le progrès de la transition du brouillard après mid_seconds secondes. Cela définit combien de la transition du brouillard a été accompli après le temps spécifié.",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_seconds": {
+                                            "description": "La durée totale nécessaire pour compléter la transition du brouillard. Cela indique combien de temps il faut pour que la transition du brouillard soit entièrement terminée.",
+                                            "type": "number",
+                                            "minimum": 0
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "lava": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra est sous la lave.",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                }
+                            }
+                        },
+                        "lava_resistance": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra est sous la lave et que le joueur a une résistance à la lave.",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                }
+                            }
+                        },
+                        "powder_snow": {
+                            "description": "Définit les paramètres de brouillard lorsque la caméra est sous la neige en poudre.",
+                            "type": "object",
+                            "properties": {
+                                "fog_color": {
+                                    "description": "La couleur que le brouillard prendra.",
+                                    "$ref": "../common.schema.json#/definitions/color"
+                                },
+                                "fog_start": {
+                                    "description": "La distance à partir du joueur où le brouillard commencera à apparaître. La valeur de fog_start doit être inférieure ou égale à celle de fog_end.",
+                                    "type": "number"
+                                },
+                                "fog_end": {
+                                    "description": "La distance à partir du joueur où le brouillard sera complètement opaque. La valeur de fog_end doit être supérieure ou égale à celle de fog_start.",
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "render_distance_type": {
+                                    "description": "Définit comment la valeur de distance est utilisée.",
+                                    "type": "string",
+                                    "enum": ["fixed", "render"]
+                                }
+                            }
+                        }
+                    }
+                },
+                "volumetric": {
+                    "description": "Définit les paramètres de brouillard volumétrique.",
+                    "type": "object",
+                    "properties": {
+                        "density": {
+                            "description": "Définit les paramètres de densité pour différents emplacements de caméra.",
+                            "type": "object",
+                            "properties": {
+                                "air": {
+                                    "description": "Valeurs de densité du brouillard lorsque la lumière traverse les blocs d'air.",
+                                    "type": "object",
+                                    "properties": {
+                                        "max_density": {
+                                            "description": "La quantité maximale d'opacité que le brouillard au sol atteindra (0.0 = complètement transparent et 1.0 = complètement opaque).",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol atteindra sa densité maximale.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "zero_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol sera complètement transparent et commencera à apparaître. Cette valeur doit être au moins 1 unité plus grande que max_density_height.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "uniform": {
+                                            "description": "Lorsque cette option est activée (valeur true), la densité sera uniforme à toutes les hauteurs, c'est-à-dire qu'elle ne changera pas avec la hauteur.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "weather": {
+                                    "description": "Valeurs de densité du brouillard lorsque la lumière traverse les blocs de pluie (pluie, neige...).",
+                                    "type": "object",
+                                    "properties": {
+                                        "max_density": {
+                                            "description": "La quantité maximale d'opacité que le brouillard au sol atteindra (0.0 = complètement transparent et 1.0 = complètement opaque).",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol atteindra sa densité maximale.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "zero_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol sera complètement transparent et commencera à apparaître. Cette valeur doit être au moins 1 unité plus grande que max_density_height.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "uniform": {
+                                            "description": "Lorsque cette option est activée (valeur true), la densité sera uniforme à toutes les hauteurs, c'est-à-dire qu'elle ne changera pas avec la hauteur.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "water": {
+                                    "description": "Valeurs de densité du brouillard lorsque la lumière traverse les blocs d'eau.",
+                                    "type": "object",
+                                    "properties": {
+                                        "max_density": {
+                                            "description": "La quantité maximale d'opacité que le brouillard au sol atteindra (0.0 = complètement transparent et 1.0 = complètement opaque).",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol atteindra sa densité maximale.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "zero_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol sera complètement transparent et commencera à apparaître. Cette valeur doit être au moins 1 unité plus grande que max_density_height.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "uniform": {
+                                            "description": "Lorsque cette option est activée (valeur true), la densité sera uniforme à toutes les hauteurs, c'est-à-dire qu'elle ne changera pas avec la hauteur.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "lava": {
+                                    "description": "Valeurs de densité du brouillard lorsque la lumière traverse les blocs de lave.",
+                                    "type": "object",
+                                    "properties": {
+                                        "max_density": {
+                                            "description": "La quantité maximale d'opacité que le brouillard au sol atteindra (0.0 = complètement transparent et 1.0 = complètement opaque).",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol atteindra sa densité maximale.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "zero_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol sera complètement transparent et commencera à apparaître. Cette valeur doit être au moins 1 unité plus grande que max_density_height.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "uniform": {
+                                            "description": "Lorsque cette option est activée (valeur true), la densité sera uniforme à toutes les hauteurs, c'est-à-dire qu'elle ne changera pas avec la hauteur.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "lava_resistance": {
+                                    "description": "Valeurs de densité du brouillard lorsque la lumière traverse les blocs de lave et que le joueur a une résistance à la lave.",
+                                    "type": "object",
+                                    "properties": {
+                                        "max_density": {
+                                            "description": "La quantité maximale d'opacité que le brouillard au sol atteindra (0.0 = complètement transparent et 1.0 = complètement opaque).",
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "max_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol atteindra sa densité maximale.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "zero_density_height": {
+                                            "description": "La hauteur en blocs à laquelle le brouillard au sol sera complètement transparent et commencera à apparaître. Cette valeur doit être au moins 1 unité plus grande que max_density_height.",
+                                            "type": "number",
+                                            "minimum": -64,
+                                            "maximum": 320
+                                        },
+                                        "uniform": {
+                                            "description": "Lorsque cette option est activée (valeur true), la densité sera uniforme à toutes les hauteurs, c'est-à-dire qu'elle ne changera pas avec la hauteur.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "media_coefficients": {
+                            "description": "Paramètres des coefficients pour le brouillard volumétrique dans différents blocs.",
+                            "type": "object",
+                            "properties": {
+                                "air": {
+                                    "description": "Valeurs des coefficients du brouillard lorsque la lumière traverse l'air.",
+                                    "type": "object",
+                                    "properties": {
+                                        "scattering": {
+                                            "description": "Proportion de lumière qui est diffusée (répartie) par bloc. Cela définit combien de lumière est dispersée lorsqu'elle passe à travers un bloc d'air.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        },
+                                        "absorption": {
+                                            "description": "Proportion de lumière qui est absorbée (perdue) par bloc. Cela indique la quantité de lumière qui est absorbée par un bloc d'air, ce qui réduit l'intensité lumineuse.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        }
+                                    }
+                                },
+                                "water": {
+                                    "description": "Valeurs des coefficients du brouillard lorsque la lumière traverse l'eau.",
+                                    "type": "object",
+                                    "properties": {
+                                        "scattering": {
+                                            "description": "Proportion de lumière qui est diffusée (répartie) par bloc. Cela définit combien de lumière est dispersée lorsqu'elle passe à travers un bloc d'eau.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        },
+                                        "absorption": {
+                                            "description": "Proportion de lumière qui est absorbée (perdue) par bloc. Cela indique la quantité de lumière qui est absorbée par un bloc d'eau, ce qui réduit l'intensité lumineuse.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        }
+                                    }
+                                },
+                                "cloud": {
+                                    "description": "Valeurs des coefficients du brouillard lorsque la lumière traverse les nuages.",
+                                    "type": "object",
+                                    "properties": {
+                                        "scattering": {
+                                            "description": "Proportion de lumière qui est diffusée (répartie) par bloc. Cela définit combien de lumière est dispersée lorsqu'elle passe à travers un bloc de nuages.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        },
+                                        "absorption": {
+                                            "description": "Proportion de lumière qui est absorbée (perdue) par bloc. Cela indique la quantité de lumière qui est absorbée par un bloc de nuages, ce qui réduit l'intensité lumineuse.",
+                                            "$ref": "../common.schema.json#/definitions/color_format"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
