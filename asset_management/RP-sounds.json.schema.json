@@ -1,47 +1,748 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à appliquer des sons référencés à des événements des entités, des blocs, d'environnement et autres.",
     "type": "object",
     "properties": {
         "block_sounds": {
+            "description": "Définit les sons des blocs.",
             "type": "object",
             "additionalProperties": {
                 "type": "object",
                 "properties": {
                     "events": {
+                        "description": "Définit les sons des événements des blocs.",
                         "type": "object",
                         "properties": {
-                            "break": {"$ref": "#/definitions/sounds_events_def"},
-                            "default": {"type": "string", "const": ""},
-                            "hit": {"$ref": "#/definitions/sounds_events_def"},
-                            "item.use.on": {"$ref": "#/definitions/sounds_events_def"},
-                            "place": {"$ref": "#/definitions/sounds_events_def"},
-                            "power.off": {"$ref": "#/definitions/sounds_events_def"},
-                            "power.on": {"$ref": "#/definitions/sounds_events_def"},
-                            "button.click.off": {"$ref": "#/definitions/sounds_events_def"},
-                            "button.click.on": {"$ref": "#/definitions/sounds_events_def"},
-                            "door.close": {"$ref": "#/definitions/sounds_events_def"},
-                            "door.open": {"$ref": "#/definitions/sounds_events_def"},
-                            "fence_gate.close": {"$ref": "#/definitions/sounds_events_def"},
-                            "fence_gate.open": {"$ref": "#/definitions/sounds_events_def"},
-                            "pressure_plate.click.off": {"$ref": "#/definitions/sounds_events_def"},
-                            "pressure_plate.click_on": {"$ref": "#/definitions/sounds_events_def"},
-                            "trapdoor.close": {"$ref": "#/definitions/sounds_events_def"},
-                            "trapdoor.open": {"$ref": "#/definitions/sounds_events_def"},
-                            "insert": {"$ref": "#/definitions/sounds_events_def"},
-                            "insert_enchanted": {"$ref": "#/definitions/sounds_events_def"},
-                            "pickup": {"$ref": "#/definitions/sounds_events_def"},
-                            "pickup_enchanted": {"$ref": "#/definitions/sounds_events_def"},
-                            "break_pot": {"$ref": "#/definitions/sounds_events_def"},
-                            "fall": {"$ref": "#/definitions/sounds_events_def"},
-                            "shatter_pot": {"$ref": "#/definitions/sounds_events_def"},
-                            "step": {"$ref": "#/definitions/sounds_events_def"},
-                            "brush": {"$ref": "#/definitions/sounds_events_def"},
-                            "brush_completed": {"$ref": "#/definitions/sounds_events_def"}
+                            "default": {
+                                "description": "Définit les sons par défaut des événements des blocs.",
+                                "type": "string",
+                                "const": ""
+                            },
+                            "break": {
+                                "description": "Définit les sons de casse des blocs.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "hit": {
+                                "description": "Définit les sons de collision des blocs.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "item.use.on": {
+                                "description": "Définit les sons de ce bloc quand un item est utilisé dessus.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "place": {
+                                "description": "Définit les sons de placement des blocs.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "power.off": {
+                                "description": "Définit les sons de désactivation des blocs.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "power.on": {
+                                "description": "Définit les sons d'activation des blocs.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "button.click.off": {
+                                "description": "Définit les sons de clic de bouton lorsqu'il est désactivé.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "button.click.on": {
+                                "description": "Définit les sons de clic de bouton lorsqu'il est activé.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "door.close": {
+                                "description": "Définit les sons de fermeture de porte.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "door.open": {
+                                "description": "Définit les sons d'ouverture de porte.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "fence_gate.close": {
+                                "description": "Définit les sons de fermeture de barrière.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "fence_gate.open": {
+                                "description": "Définit les sons d'ouverture de barrière.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "pressure_plate.click.off": {
+                                "description": "Définit les sons de clic de plaque de pression lorsqu'elle est désactivée.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "pressure_plate.click_on": {
+                                "description": "Définit les sons de clic de plaque de pression lorsqu'elle est activée.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "trapdoor.close": {
+                                "description": "Définit les sons de fermeture de trappe.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "trapdoor.open": {
+                                "description": "Définit les sons d'ouverture de trappe.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "insert": {
+                                "description": "Définit les sons d'insertion de bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "insert_enchanted": {
+                                "description": "Définit les sons d'insertion de bloc enchanté.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "pickup": {
+                                "description": "Définit les sons de ramassage de bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "pickup_enchanted": {
+                                "description": "Définit les sons de ramassage de bloc enchanté.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "break_pot": {
+                                "description": "Définit les sons de casse de pot.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "fall": {
+                                "description": "Définit les sons de chute de bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "shatter_pot": {
+                                "description": "Définit les sons de bris de pot.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "step": {
+                                "description": "Définit les sons de pas sur le bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "brush": {
+                                "description": "Définit les sons de brossage du bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "brush_completed": {
+                                "description": "Définit les sons de fin de brossage du bloc.",
+                                "type": "object",
+                                "properties": {
+                                    "sound": {
+                                        "description": "L'identifiant du son.",
+                                        "type": "string"
+                                    },
+                                    "volume": {
+                                        "description": "Le volume du son.",
+                                        "type": "number"
+                                    },
+                                    "pitch": {
+                                        "description": "La hauteur du son.",
+                                        "oneOf": [
+                                            {
+                                                "type": "number"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "minItems": 2,
+                                                "maxItems": 2
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
                         }
                     },
-                    "pitch": {"type": "number"},
-                    "volume": {"type": "number"},
-                    "sound": {"type": "string"}
+                    "pitch": {
+                        "description": "La hauteur du son.",
+                        "oneOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "array",
+                                "minItems": 2,
+                                "maxItems": 2
+                            }
+                        ]
+                    },
+                    "volume": {
+                        "description": "Le volume du son.",
+                        "type": "number"
+                    },
+                    "sound": {
+                        "description": "L'identifiant du son.",
+                        "type": "string"
+                    }
                 }
             }
         },

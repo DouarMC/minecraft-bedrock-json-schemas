@@ -1,13 +1,21 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à repertorier tous les fichiers présents dans un Pack pour des meilleures performances.",
     "type": "object",
     "required": ["content"],
     "properties": {
-        "content": {"$ref": "#/definitions/content-def"}
-    },
-    "definitions": {
-        "content-def": {"type": "array", "description": "Contient le chemin d'accès de tous les fichiers présents dans ce Pack.", "items": {"type": "object", "properties": {
-            "path": {"type": "string", "description": "Le chemin d'accès d'un fichier."}
-        }}}
+        "content": {
+            "description": "Liste contenant le chemin d'accès de tous les fichiers présents dans ce Pack.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "description": "Le chemin d'accès d'un fichier.",
+                        "type": "string"
+                    }
+                }
+            }
+        }
     }
 }
