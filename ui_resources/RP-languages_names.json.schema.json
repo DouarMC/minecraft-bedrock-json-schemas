@@ -1,6 +1,18 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "type": "array",
     "description": "La liste de toutes les langues à ajouter ou modifier avec ce Pack.",
-    "items": {"type": "array", "items": {"type": "string"}}
+    "type": "array",
+    "minItems": 2,
+    "maxItems": 2,
+    "items": [
+        {
+            "description": "Le code de la langue.",
+            "type": "string",
+            "pattern": "^[a-z]{2}_[A-Z]{2}$"
+        },
+        {
+            "description": "Le nom de la langue.",
+            "type": "string"
+        }
+    ]
 }

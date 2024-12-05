@@ -1,11 +1,42 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier contient les Textes de Splashs qui s'affichent sur le logo Minecraft au menu principal.",
     "type": "object",
     "required": ["splashes"],
     "properties": {
-        "splashes": {"$ref": "#/definitions/splashes-def"}
-    },
-    "definitions": {
-        "splashes-def": {"type": "array", "description": "Contient les Textes de Splashs.", "items": {"type": "string"}}
+        "splashes": {
+            "description": "Contient les Textes de Splashs.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "conditional": {
+            "description": "Contient les Textes de Splashs conditionnels.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["requires", "splashes"],
+                "properties": {
+                    "requires": {
+                        "description": "Condition pour afficher le Splash.",
+                        "type": "object",
+                        "properties": {
+                            "trialMode": {
+                                "description": "Affiche le Splash uniquement en mode démo.",
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "splashes": {
+                        "description": "Contient les Textes de Splashs conditionnels.",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
     }
 }
