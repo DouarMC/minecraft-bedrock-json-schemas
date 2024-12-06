@@ -1,32 +1,67 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier permet de définir les propriétés d'une Dimension.",
     "type": "object",
     "required": ["format_version", "minecraft:dimension"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "minecraft:dimension": {"$ref": "#/definitions/minecraft:dimension-def", "properties": {
-            "description": {"$ref": "#/definitions/description-def"},
-            "components": {"$ref": "#/definitions/components-def"}
-        }}
-    },
-
-    "definitions": {
-        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
-        "minecraft:dimension-def": {"type": "object", "required": ["description", "components"], "description": "Contient la définition de la Dimension."},
-        "description-def": {"type": "object", "required": ["identifier"], "description": "Contient toutes les propriétés de descripions de la Dimension.", "properties": {
-            "identifier": {"description": "L'identifiant de la Dimension", "anyOf": [
-                {"type": "string", "enum": ["minecraft:overworld", "minecraft:nether", "minecraft:the_end"]},
-                {"type": "string"}
-            ]}
-        }},
-        "components-def": {"type": "object", "description": "Contient les Components de la Dimension.", "properties": {
-            "minecraft:dimension_bounds": {"type": "object", "description": "Définis les limites d'hauteur de la Dimension.", "properties": {
-                "min": {"type": "number", "description": "La limite minimale, doit être un multiple de 16, et compris entre -512 et 512"},
-                "max": {"type": "number", "description": "La limite maximale, doit être un multiple de 16, et compris entre -512 et 512"}
-            }},
-            "minecraft:generation": {"type": "object", "description": "Définit le type de génération de cette Dimension.", "properties": {
-                "generator_type": {"type": "string", "const": "void", "description": "Contient le type de génération de cette Dimension."}
-            }}
-        }}
+        "format_version": {
+            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "minecraft:dimension": {
+            "description": "Contient la définition de la Dimension.",
+            "type": "object",
+            "required": ["description", "components"],
+            "properties": {
+                "description": {
+                    "description": "Contient toutes les propriétés de descripions de la Dimension.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant de la Dimension",
+                            "type": "string",
+                            "enum": ["minecraft:overworld", "minecraft:nether", "minecraft:the_end"]
+                        }
+                    }
+                },
+                "components": {
+                    "description": "Contient les composants de la Dimension.",
+                    "type": "object",
+                    "properties": {
+                        "minecraft:dimension_bounds": {
+                            "description": "Définis les limites d'hauteur de la Dimension.",
+                            "type": "object",
+                            "properties": {
+                                "min": {
+                                    "description": "La limite minimale, doit être un multiple de 16, et compris entre -512 et 512",
+                                    "type": "number",
+                                    "multipleOf": 16,
+                                    "minimum": -512,
+                                    "maximum": 512
+                                },
+                                "max": {
+                                    "description": "La limite maximale, doit être un multiple de 16, et compris entre -512 et 512",
+                                    "type": "number",
+                                    "multipleOf": 16,
+                                    "minimum": -512,
+                                    "maximum": 512
+                                }
+                            }
+                        },
+                        "minecraft:generation": {
+                            "description": "Définit le type de génération de cette Dimension.",
+                            "type": "object",
+                            "properties": {
+                                "generator_type": {
+                                    "description": "Contient le type de génération de cette Dimension.",
+                                    "const": "void"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
