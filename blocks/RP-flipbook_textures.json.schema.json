@@ -1,17 +1,47 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer une animation de texture des blocs.",
     "type": "array",
     "items": {
         "type": "object",
         "properties": {
-            "flipbook_texture": {"type": "string", "description": "Le chemin d'accès vers la Texture Animée."},
-            "atlas_tile": {"type": "string", "description": "Le short-name définit dans le fichier terrain_texture.json"},
-            "atlas_index": {"type": "integer", "description": "L'index du tableau de textures à l'intérieur de la définition de ce short-name."},
-            "atlas_tile_variant": {"type": "integer", "description": "La variante du tableau de textures du bloc à l'intérieur de la variation du bloc du short-name."},
-            "ticks_per_frame": {"type": "integer", "description": "À quelle vitesse les images doivent être modifiées."},
-            "frames": {"type": "array", "items": {"type": "integer"}, "description": "Liste avec l'index d'image à utiliser sur chaque image, ou le nombre total d'images à répéter les unes après les autres."},
-            "replicate": {"default": 1, "type": "integer", "description": "Définit la taille des pixels."},
-            "blend_frames": {"default": true, "type": "boolean", "description": "Définit si la transition des images doit être fluide ou non."}
+            "flipbook_texture": {
+                "description": "Le chemin d'accès vers la Texture Animée.",
+                "type": "string"
+            },
+            "atlas_tile": {
+                "description": "Le short-name définit dans le fichier terrain_texture.json",
+                "type": "string"
+            },
+            "atlas_index": {
+                "description": "L'index du tableau de textures à l'intérieur de la définition de ce short-name.",
+                "type": "integer"
+            },
+            "atlas_tile_variant": {
+                "description": "La variante du tableau de textures du bloc à l'intérieur de la variation du bloc du short-name.",
+                "type": "integer"
+            },
+            "ticks_per_frame": {
+                "description": "À quelle vitesse les images doivent être modifiées.",
+                "type": "integer"
+            },
+            "frames": {
+                "description": "Liste avec l'index d'image à utiliser sur chaque image, ou le nombre total d'images à répéter les un après les autres.",
+                "type": "array",
+                "items": {
+                    "type": "integer"
+                }
+            },
+            "replicate": {
+                "description": "Définit la taille des pixels.",
+                "type": "integer",
+                "default": 1
+            },
+            "blend_frames": {
+                "description": "Définit si la transition des images doit être fluide ou non.",
+                "type": "boolean",
+                "default": true
+            }
         }
     }
 }

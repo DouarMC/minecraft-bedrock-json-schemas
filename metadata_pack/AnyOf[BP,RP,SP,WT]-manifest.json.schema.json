@@ -1,51 +1,194 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier contient toutes les informations basiques d’un pack qui permet auxquels Minecraft a besoin d’identifier.",
     "type": "object",
     "required": ["format_version", "header", "modules"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "header": {"$ref": "#/definitions/header-def"},
-        "modules": {"$ref": "#/definitions/modules-def"},
-        "dependencies": {"$ref": "#/definitions/dependencies-def"},
-        "capabilities": {"$ref": "#/definitions/capabilities-def"}
-    },
-    "definitions": {
-        "format_version-def": {"type": "integer", "description": "Version du format à utiliser. 1 pour les packs de skins, 2 pour les behavior, resource, et world template.", "enum": [1, 2]},
-        "header-def": {"type": "object", "description": "Contient des informtations sur le Pack qui sont pour la plupart accessible en public.", "properties": {
-            "allow_random_seed": {"type": "boolean", "description": "Définit si le world_template générera un monde avec une seed aléatoire, et permet au joueur de changer la seed avant de crée un nouveau monde. (Uniquement World_Template)"},
-            "base_game_version": {"type": "array", "description": "La version du jeu de base requise pour le World_Template. Utilisé pour déterminer quelle version des packs de ressources et de comportements du jeu de base appliquer lorsque votre contenu est utilisé. (Uniquement World_Template)", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]},
-            "description": {"type": "string", "description": "Description du pack affiché en dessous du nom du pack."},
-            "lock_template_options": {"type": "boolean", "description": "Définit si le joueur ne peut pas modifier les options de création de monde d'un world_template."},
-            "min_engine_version": {"type": "array", "description": "Définit la version minimale du jeu pour que ce pack soit compatible.", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]},
-            "name": {"type": "string", "description": "Nom du pack."},
-            "pack_scope": {"type": "string", "description": "Définit à quelle portée ce Pack de ressources peut être activé.", "enum": ["world", "global", "any"]},
-            "uuid": {"type": "string", "description": "L'UUID du pack."},
-            "version": {"type": "array", "description": "La version du pack.", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]},
-            "pack_name": {"type": "string", "description": "(Git) Nom du pack."},
-            "pack_type": {"type": "string", "description": "(Git) Type de Pack.", "enum": ["behavior", "resource"]},
-            "associated_pack": {"description": "L'UUID du pack associé à celui-ci s'il en a. 'None' sinon.", "anyOf": [
-                {"type": "string"},
-                {"type": "string", "enum": ["None"]}
-            ]}
-        }},
-        "modules-def": {"type": "array", "description": "Informations sur le type de contenu importé.", "items": {"type": "object", "properties": {
-            "description": {"type": "string", "description": "Description"},
-            "type": {"type":"string", "description": "Type du Module.", "enum": ["resources", "data", "world_template", "script", "skin_pack"]},
-            "uuid": {"type": "string", "description": "L'UUID du module qui doit être différent de l'en-tête."},
-            "version": {"type": "array", "description": "La version du module.", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]},
-            "language": {"type": "string", "description": "Le langage de programmation utilisé poue le script.", "enum": ["javascript"]},
-            "entry": {"type": "string", "description": "Chemin d'accès au fichier qui s'executera pour le script."}
-        }}},
-        "dependencies-def": {"type": "array", "description": "Contient les dépendences pour que ce pack fonctionne correctement.", "items": {"type": "object", "properties": {
-            "uuid": {"type": "string", "description": "UUID du pack auquel ce Pack est dépendant à celui-ci."},
-            "module_name": {"type": "string", "description": "Nom du module de Script que ce Pack nécessite.", "enum": [
-                "@minecraft/server", "@minecraft/server-ui", "@minecraft/server-gametest", "@minecraft/server-net", "@minecraft/server-admin", "@minecraft/common", "@minecraft/debug-utilities", "@minecraft/server-editor"
-            ]},
-            "version": {"description": "Version de l'autre pack nécessaire ou version du module de script nécéssaire.", "anyOf": [
-                {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]},
-                {"type": "string"}
-            ]}
-        }}},
-        "capabilities-def": {"type": "array", "description": "Fonctionnalités facultatives pouvant être activées dans Minecraft.", "items": {"type": "string", "enum": ["chemistry", "editorExtension", "raytraced", "pbr"]}}
+        "format_version": {
+            "description": "Version du format à utiliser. 1 pour les packs de skins, 2 pour les behavior, resource, et world template.",
+            "type": "integer",
+            "enum": [1, 2]
+        },
+        "header": {
+            "description": "Contient des informtations sur le Pack qui sont pour la plupart accessible en public.",
+            "type": "object",
+            "properties": {
+                "allow_random_seed": {
+                    "description": "Définit si le world_template générera un monde avec une seed aléatoire, et permet au joueur de changer la seed avant de crée un nouveau monde. (Uniquement World_Template)",
+                    "type": "boolean"
+                },
+                "base_game_version": {
+                    "description": "La version du jeu de base requise pour le World_Template. Utilisé pour déterminer quelle version des packs de ressources et de comportements du jeu de base appliquer lorsque votre contenu est utilisé. (Uniquement World_Template)",
+                    "type": "array",
+                    "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}]
+                },
+                "description": {
+                    "description": "Description du pack affiché en dessous du nom du pack.",
+                    "type": "string"
+                },
+                "lock_template_options": {
+                    "description": "Définit si le joueur ne peut pas modifier les options de création de monde d'un world_template.",
+                    "type": "boolean"
+                },
+                "min_engine_version": {
+                    "description": "Définit la version minimale du jeu pour que ce pack soit compatible.",
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                },
+                "name": {
+                    "description": "Nom du pack.",
+                    "type": "string"
+                },
+                "pack_scope": {
+                    "description": "Définit à quelle portée ce Pack de ressources peut être activé.",
+                    "type": "string",
+                    "enum": ["world", "global", "any"]
+                },
+                "uuid": {
+                    "description": "L'UUID du pack.",
+                    "$ref": "../common.schema.json#/definitions/uuid"
+                },
+                "version": {
+                    "description": "La version du pack.",
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                }
+            }
+        },
+        "modules": {
+            "description": "Informations sur le type de contenu importé.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "description": "Description du module.",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "Type du Module.",
+                        "type": "string",
+                        "enum": ["resources", "data", "world_template", "script", "skin_pack"]
+                    },
+                    "uuid": {
+                        "description": "L'UUID du module qui doit être différent de l'en-tête.",
+                        "$ref": "../common.schema.json#/definitions/uuid"
+                    },
+                    "version": {
+                        "description": "La version du module.",
+                        "type": "array",
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "if": {
+                    "properties": {
+                        "type": {
+                            "const": "script"
+                        }
+                    }
+                },
+                "then": {
+                    "properties": {
+                        "language": {
+                            "description": "Le langage de programmation utilisé pour le script.",
+                            "const": "javascript"
+                        },
+                        "entry": {
+                            "description": "Chemin d'accès au fichier qui s'executera pour le script.",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "dependencies": {
+            "description": "Contient les dépendences pour que ce pack fonctionne correctement.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "uuid": {
+                        "description": "UUID du pack auquel ce Pack est dépendant à celui-ci.",
+                        "$ref": "../common.schema.json#/definitions/uuid"
+                    },
+                    "module_name": {
+                        "description": "Nom du module de Script que ce Pack nécessite.",
+                        "type": "string",
+                        "enum": [
+                            "@minecraft/server",
+                            "@minecraft/server-ui",
+                            "@minecraft/server-gametest",
+                            "@minecraft/server-net",
+                            "@minecraft/server-admin",
+                            "@minecraft/common",
+                            "@minecraft/debug-utilities",
+                            "@minecraft/server-editor"
+                        ]
+                    },
+                    "version": {
+                        "description": "Version de l'autre pack nécessaire ou version du module de script nécéssaire ou version du module de script à utiliser.",
+                        "oneOf": [
+                            {
+                                "type": "array",
+                                "minItems": 3,
+                                "maxItems": 3,
+                                "items": {
+                                    "type": "integer",
+                                    "minimum": 0
+                                }
+                            },
+                            {
+                                "type": "string",
+                                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-beta)?$"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "capabilities": {
+            "description": "Fonctionnalités facultatives pouvant être activées dans Minecraft.",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["chemistry", "editorExtension", "raytraced", "pbr"]
+            }
+        },
+        "subpacks": {
+            "description": "Liste des sous-packs inclus dans ce pack.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "folder_name": {
+                        "description": "Nom du dossier à utiliser pour ce sous-pack.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Nom qui sera affiché lors de la sélection des sous-packs.",
+                        "type": "string"
+                    },
+                    "memory_tier": {
+                        "description": "Quantité de RAM que l'appareil doit avoir pour activer ce sous-pack. 1 mémoire tier = 0.25 Go.",
+                        "type": "integer"
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,89 +1,48 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer une recette.",
     "type": "object",
     "required": ["format_version"],
     "properties": {
-        "format_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du format à utiliser."},
+        "format_version": {
+            "description": "La version du format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
         "minecraft:recipe_furnace": {
-            "description": "Type de Recette de Cuisson.",
+            "description": "Définit une recette de Cuisson.",
             "type": "object",
-            "required": ["description"],
             "properties": {
                 "description": {
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
+                    "required": ["identifier"],
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
+                        }
                     }
                 },
                 "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string", "enum": ["furnace", "blast_furnace", "smoker", "campfire", "soul_campfire"]
+                        "type": "string",
+                        "enum": ["furnace", "blast_furnace", "smoker", "campfire", "soul_campfire"]
                     }
                 },
                 "input": {
-                    "anyOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "oneOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                }
-                            }
-                        },
-                        {"type": "string"},
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {
-                                    "type": "string",
-                                    "enum": [
-                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
-                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
-                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
-                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
-                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
-                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
-                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
-                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
-                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
-                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
-                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
-                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
-                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
-                                      ]
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {"type": "string"}
-                            }
-                        }
-                    ]
+                    "description": "L'item servant d'ingrédient pour cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
                 },
                 "output": {
-                    "type": "object",
-                    "properties": {
-                        "item": {"type": "string"},
-                        "count": {"type": "integer"},
-                        "data": {
-                            "oneOf": [
-                                {"type": "number"},
-                                {"type": "string"}
-                            ]
-                        }
-                    }
+                    "description": "L'item produit par cette recette.",
+                    "type": "string"
                 }
             }
         },
         "minecraft:recipe_brewing_container": {
+            "description": "Définit une recette de brewing uniquement sur les potions.",
             "type": "object",
             "required": ["description"],
             "properties": {
@@ -91,42 +50,45 @@
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
+                        }
                     }
                 },
                 "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string", "enum": ["brewing_stand"]
+                        "const": "brewing_stand"
                     }
                 },
                 "reagent": {
-                    "anyOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "oneOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                }
-                            }
-                        },
-                        {"type": "string"}
+                    "description": "L'item servant d'ingrédient pour cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
+                },
+                "input": {
+                    "description": "L'item à mettre dans le brewing stand.",
+                    "type": "string",
+                    "enum": [
+                        "minecraft:potion",
+                        "minecraft:splash_potion",
+                        "minecraft:lingering_potion"
                     ]
                 },
-                "input": {"type": "string", "enum": ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"]},
                 "output": {
-                    "anyOf": [
-                        {"type": "string", "enum": ["minecraft:potion", "minecraft:splash_potion", "minecraft:lingering_potion"]},
-                        {"type": "string"}
+                    "description": "L'item produit par cette recette.",
+                    "type": "string",
+                    "examples": [
+                        "minecraft:potion",
+                        "minecraft:splash_potion",
+                        "minecraft:lingering_potion"
                     ]
                 }
             }
         },
         "minecraft:recipe_brewing_mix": {
+            "description": "Définit une recette de brewing.",
             "type": "object",
             "required": ["description"],
             "properties": {
@@ -134,70 +96,35 @@
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
+                        }
                     }
                 },
                 "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string", "enum": ["brewing_stand"]
+                        "const": "brewing_stand"
                     }
                 },
                 "reagent": {
-                    "anyOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "oneOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                }
-                            }
-                        },
-                        {"type": "string"}
-                    ]
+                    "description": "L'item servant d'ingrédient pour cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
                 },
                 "input": {
-                    "anyOf": [
-                        {"type": "string"},
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {
-                                    "type": "string",
-                                    "enum": [
-                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
-                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
-                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
-                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
-                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
-                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
-                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
-                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
-                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
-                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
-                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
-                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
-                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
-                                      ]
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {"type": "string"}
-                            }
-                        }
-                    ]
+                    "description": "L'item servant d'entrée pour cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
                 },
-                "output": {"type": "string"}
+                "output": {
+                    "description": "L'item produit par cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
+                }
             }
         },
         "minecraft:recipe_shaped": {
+            "description": "Définit une recette de craftage en forme.",
             "type": "object",
             "required": ["description"],
             "properties": {
@@ -205,327 +132,346 @@
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
-                    }
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {"type": "string", "enum": ["crafting_table"]},
-                            {"type": "string"}
-                        ]
-                    }
-                },
-                "unlock": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "item": {"type": "string"},
-                            "data": {
-                                "oneOf": [
-                                    {"type": "number"},
-                                    {"type": "string"}
-                                ]
-                            },
-                            "context": {"type": "string", "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
                         }
                     }
                 },
-                "group": {"type": "string"},
-                "priority": {"type": "number"},
-                "pattern": {
+                "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "string",
+                        "examples": ["crafting_table"]
                     }
                 },
-                "assume_symmetry": {"type": "boolean"},
+                "unlock": {
+                    "description": "Les conditions pour que cette recette soit considérée comme débloquée.",
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {
+                                    "description": "L'item à posséder pour débloquer cette recette.",
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "description": "La data de l'item.",
+                                    "type": "integer"
+                                },
+                                "context": {
+                                    "description": "Le contexte dans lequel cette recette est débloquée.",
+                                    "type": "string",
+                                    "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]
+                                }
+                            }
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "item": {
+                                        "description": "L'item à posséder pour débloquer cette recette.",
+                                        "type": "string"
+                                    },
+                                    "data": {
+                                        "description": "La data de l'item.",
+                                        "type": "integer"
+                                    },
+                                    "context": {
+                                        "description": "Le contexte dans lequel cette recette est débloquée.",
+                                        "type": "string",
+                                        "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                "group": {
+                    "description": "Le groupe de recettes auquel cette recette appartient.",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Permet de définir un ordre de préférence entre plusieurs recettes pouvant s'appliquer dans une même situation, en privilégiant celle avec la valeur de priorité la plus basse.",
+                    "type": "number"
+                },
+                "pattern": {
+                    "description": "Le pattern de cette recette de craft.",
+                    "type": "array",
+                    "maxItems": 3,
+                    "items": {
+                        "type": "string",
+                        "maxLength": 3
+                    }
+                },
+                "assume_symmetry": {
+                    "description": "Si vrai, la recette est symétrique.",
+                    "type": "boolean"
+                },
                 "key": {
+                    "description": "Les items utilisés dans le pattern qu'on associe à une clé.",
                     "type": "object",
                     "additionalProperties": {
                         "type": "object",
                         "properties": {
-                            "item": {"type": "string"},
+                            "item": {
+                                "description": "L'item associé à cette clé.",
+                                "type": "string"
+                            },
                             "data": {
-                                "anyOf": [
-                                    {"type": "number"},
-                                    {"type": "string"}
-                                ]
+                                "description": "La data de l'item.",
+                                "type": "integer"
                             },
                             "tag": {
-                                "anyOf": [
-                                    {"type": "string"},
-                                    {"enum": [
-                                        "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
-                                        "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
-                                        "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
-                                        "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
-                                        "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
-                                        "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
-                                        "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
-                                        "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
-                                        "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
-                                        "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
-                                        "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
-                                        "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
-                                        "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
-                                      ]}
+                                "description": "Les items qui possèdent ce tag peuvent être utilisés pour cette recette.",
+                                "type": "string",
+                                "examples": [
+                                    "minecraft:is_armor",
+                                    "minecraft:arrow",
+                                    "minecraft:banner",
+                                    "minecraft:boats",
+                                    "minecraft:bookshelf_books",
+                                    "minecraft:chainmail_tier",
+                                    "minecraft:chest_boat",
+                                    "minecraft:coals",
+                                    "minecraft:is_cooked",
+                                    "minecraft:crimson_stems",
+                                    "minecraft:diamond_tier",
+                                    "minecraft:digger",
+                                    "minecraft:door",
+                                    "minecraft:is_fish",
+                                    "minecraft:is_food",
+                                    "minecraft:golden_tier",
+                                    "minecraft:hanging_actor",
+                                    "minecraft:hanging_sign",
+                                    "minecraft:is_axe",
+                                    "minecraft:is_hoe",
+                                    "minecraft:horse_armor",
+                                    "minecraft:iron_tier",
+                                    "minecraft:leather_tier",
+                                    "minecraft:lectern_books",
+                                    "minecraft:logs",
+                                    "minecraft:logs_that_burn",
+                                    "minecraft:mangrove_logs",
+                                    "minecraft:is_meat",
+                                    "minecraft:is_minecart",
+                                    "minecraft:music_disc",
+                                    "minecraft:netherite_tier",
+                                    "minecraft:is_pickaxe",
+                                    "minecraft:piglin_loved",
+                                    "minecraft:piglin_repellents",
+                                    "minecraft:planks",
+                                    "minecraft:sand",
+                                    "minecraft:is_shovel",
+                                    "minecraft:sign",
+                                    "minecraft:soul_fire_base_blocks",
+                                    "minecraft:spawn_egg",
+                                    "minecraft:stone_bricks",
+                                    "minecraft:stone_crafting_materials",
+                                    "minecraft:stone_tier",
+                                    "minecraft:stone_tool_materials",
+                                    "minecraft:is_sword",
+                                    "minecraft:is_tool",
+                                    "minecraft:vibration_damper",
+                                    "minecraft:warped_stems",
+                                    "minecraft:wooden_slabs",
+                                    "minecraft:wooden_tier",
+                                    "minecraft:wool"
                                 ]
                             }
                         }
                     }
                 },
                 "result": {
+                    "description": "L'item produit par cette recette.",
                     "oneOf": [
                         {
                             "type": "array",
                             "items": {
-                                "type": "object",
-                                "properties": {
-                                    "item": {"type": "string"},
-                                    "data": {
-                                        "anyOf": [
-                                            {"type": "number"},
-                                            {"type": "string"}
-                                        ]
-                                    },
-                                    "count": {"type": "number"}
-                                }
+                                "$ref": "../common.schema.json#/definitions/item_descriptor"
                             }
                         },
                         {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "anyOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                },
-                                "count": {"type": "number"}
-                            }
+                            "$ref": "../common.schema.json#/definitions/item_descriptor"
                         }
                     ]
                 }
             }
         },
         "minecraft:recipe_shapeless": {
+            "description": "Définit une recette de craftage sans forme.",
             "type": "object",
             "required": ["description"],
             "properties": {
                 "description": {
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
+                    "required": ["identifier"],
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
-                    }
-                },
-                "tags": {
-                    "type": "array",
-                    "items": {
-                        "anyOf": [
-                            {"type": "string", "enum": ["crafting_table", "stonecutter"]},
-                            {"type": "string"}
-                        ]
-                    }
-                },
-                "unlock": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "item": {"type": "string"},
-                            "data": {
-                                "oneOf": [
-                                    {"type": "number"},
-                                    {"type": "string"}
-                                ]
-                            },
-                            "context": {"type": "string", "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
                         }
                     }
                 },
-                "group": {"type": "string"},
-                "priority": {"type": "number"},
-                "ingredients": {
+                "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "examples": ["crafting_table", "stonecutter"]
+                    }
+                },
+                "unlock": {
+                    "description": "Les conditions pour que cette recette soit considérée comme débloquée.",
                     "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "item": {
+                                    "description": "L'item à posséder pour débloquer cette recette.",
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "description": "La data de l'item.",
+                                    "type": "integer"
+                                },
+                                "context": {
+                                    "description": "Le contexte dans lequel cette recette est débloquée.",
+                                    "type": "string",
+                                    "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]
+                                }
+                            }
+                        },
                         {
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
-                                    "item": {"type": "string"},
+                                    "item": {
+                                        "description": "L'item à posséder pour débloquer cette recette.",
+                                        "type": "string"
+                                    },
                                     "data": {
-                                        "anyOf": [
-                                            {"type": "number"},
-                                            {"type": "string"}
-                                        ]
+                                        "description": "La data de l'item.",
+                                        "type": "integer"
                                     },
-                                    "tag": {
-                                        "anyOf": [
-                                            {"type": "string"},
-                                            {"enum": [
-                                                "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
-                                                "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
-                                                "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
-                                                "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
-                                                "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
-                                                "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
-                                                "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
-                                                "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
-                                                "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
-                                                "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
-                                                "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
-                                                "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
-                                                "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
-                                              ]}
-                                        ]
-                                    },
-                                    "count": {"type": "number"}
+                                    "context": {
+                                        "description": "Le contexte dans lequel cette recette est débloquée.",
+                                        "type": "string",
+                                        "enum": ["PlayerInWater", "PlayerHasManyItems", "AlwaysUnlocked", "None"]
+                                    }
                                 }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "anyOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                },
-                                "tag": {
-                                    "anyOf": [
-                                        {"type": "string"},
-                                        {"enum": [
-                                            "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books",
-                                            "minecraft:chainmail_tier", "minecraft:chest_boat", "minecraft:coals", "minecraft:is_cooked",
-                                            "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door",
-                                            "minecraft:is_fish", "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor",
-                                            "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
-                                            "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs",
-                                            "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat", "minecraft:is_minecart",
-                                            "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved",
-                                            "minecraft:piglin_repellents", "minecraft:planks", "minecraft:sand", "minecraft:is_shovel",
-                                            "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
-                                            "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials",
-                                            "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper", "minecraft:warped_stems",
-                                            "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
-                                          ]}
-                                    ]
-                                },
-                                "count": {"type": "number"}
                             }
                         }
                     ]
                 },
-                "result": {
-                    "type": "object",
-                    "properties": {
-                        "item": {"type": "string"},
-                        "data": {
-                            "anyOf": [
-                                {"type": "number"},
-                                {"type": "string"}
-                            ]
+                "group": {
+                    "description": "Le groupe de recettes auquel cette recette appartient.",
+                    "type": "string"
+                },
+                "priority": {
+                    "description": "Permet de définir un ordre de préférence entre plusieurs recettes pouvant s'appliquer dans une même situation, en privilégiant celle avec la valeur de priorité la plus basse.",
+                    "type": "integer"
+                },
+                "ingredients": {
+                    "description": "Les items utilisés pour cette recette.",
+                    "oneOf": [
+                        {
+                            "type": "array",
+                            "items": {
+                                "$ref": "../common.schema.json#/definitions/item_descriptor"
+                            }
                         },
-                        "count": {"type": "number"}
-                    }
+                        {
+                            "$ref": "../common.schema.json#/definitions/item_descriptor"
+                        }
+                    ]
+                },
+                "result": {
+                    "description": "L'item produit par cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
                 }
             }
         },
         "minecraft:recipe_smithing_transform": {
+            "description": "Définit une recette de transformation d'item en utilisant une table de forge.",
             "type": "object",
             "required": ["description"],
             "properties": {
                 "description": {
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
+                    "required": ["identifier"],
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
+                        }
                     }
                 },
                 "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string", "enum": ["smithing_table"]
+                        "const": "smithing_table"
                     }
                 },
-                "template": {"type": "string"},
-                "base": {"type": "string"},
-                "addition": {"type": "string", "enum": ["minecraft:netherite_ingot"]},
+                "template": {
+                    "description": "L'item modèle requis pour cette recette de transformation. L'item doit avoir le tag 'minecraft:transform_templates'.",
+                    "type": "string"
+                },
+                "base": {
+                    "description": "L'item à tranformer. Ces propriétés seront copiées à l'item 'result'. L'item doit être une armure ou une arme. L'item doit avoir le tag 'minecraft:transformable_items'.",
+                    "type": "string"
+                },
+                "addition": {
+                    "description": "Le matériau requis pour la transformation. Seul l'item 'minecraft:netherite_ingot' est accepté.",
+                    "const": "minecraft:netherite_ingot"
+                },
                 "result": {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "item": {"type": "string"},
-                                "data": {
-                                    "oneOf": [
-                                        {"type": "number"},
-                                        {"type": "string"}
-                                    ]
-                                }
-                            }
-                        },
-                        {"type": "string"}
-                    ]
+                    "description": "L'item produit par cette recette.",
+                    "$ref": "../common.schema.json#/definitions/item_descriptor"
                 }
             }
         },
         "minecraft:recipe_smithing_trim": {
+            "description": "Définit une recette de personnalisation d'item en utilisant une table de forge.",
             "type": "object",
             "required": ["description"],
             "properties": {
                 "description": {
                     "description": "Contient les propriétés de description de la recette.",
                     "type": "object",
+                    "required": ["identifier"],
                     "properties": {
-                        "identifier":{"type": "string", "description": "ID de la recette."}
+                        "identifier": {
+                            "description": "L'identifiant de la recette.",
+                            "type": "string"
+                        }
                     }
                 },
                 "tags": {
+                    "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette.",
                     "type": "array",
                     "items": {
-                        "type": "string", "enum": ["smithing_table"]
+                        "const": "smithing_table"
                     }
                 },
                 "template": {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {"type": "string"}
-                            }
-                        },
-                        {"type": "string"}
-                    ]
+                    "description": "L'item modèle requis pour cette recette de personnalisation. L'item doit avoir le tag 'minecraft:trim_templates'.",
+                    "type": "string"
                 },
                 "base": {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {"type": "string"}
-                            }
-                        },
-                        {"type": "string"}
-                    ]
+                    "description": "L'item à personnaliser. Ces propriétés seront gardés. L'item doit être une armure. L'item doit avoir le tag 'minecraft:trimmable_armors'.",
+                    "type": "string"
                 },
                 "addition": {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "tag": {"type": "string"}
-                            }
-                        },
-                        {"type": "string"}
-                    ]
+                    "description": "Le matériau requis pour la personnalisation. L'item doit avoir le tag 'minecraft:trim_materials'.",
+                    "type": "string"
                 }
             }
         }

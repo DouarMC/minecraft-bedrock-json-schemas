@@ -6,7 +6,7 @@
             "$comment": "La version du Format à utiliser (ex: 1.21.50).",
             "examples": ["1.21.50"],
             "type": "string",
-            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+            "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
         },
 
         "color_rgb": {
@@ -67,6 +67,93 @@
             "$comment": "Définit une chaîne de caractères avec un espace de noms.",
             "type": "string",
             "pattern": "^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$"
+        },
+        "uuid": {
+            "$comment": "Définit un UUID.",
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+        },
+        "item_descriptor": {
+            "$comment": "Définit un descripteur d'item.",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "item": {
+                            "description": "L'identifiant de l'item.",
+                            "type": "string"
+                        },
+                        "tag": {
+                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte.",
+                            "type": "string",
+                            "examples": [
+                                "minecraft:is_armor",
+                                "minecraft:arrow",
+                                "minecraft:banner",
+                                "minecraft:boats",
+                                "minecraft:bookshelf_books",
+                                "minecraft:chainmail_tier",
+                                "minecraft:chest_boat",
+                                "minecraft:coals",
+                                "minecraft:is_cooked",
+                                "minecraft:crimson_stems",
+                                "minecraft:diamond_tier",
+                                "minecraft:digger",
+                                "minecraft:door",
+                                "minecraft:is_fish",
+                                "minecraft:is_food",
+                                "minecraft:golden_tier",
+                                "minecraft:hanging_actor",
+                                "minecraft:hanging_sign",
+                                "minecraft:is_axe",
+                                "minecraft:is_hoe",
+                                "minecraft:horse_armor",
+                                "minecraft:iron_tier",
+                                "minecraft:leather_tier",
+                                "minecraft:lectern_books",
+                                "minecraft:logs",
+                                "minecraft:logs_that_burn",
+                                "minecraft:mangrove_logs",
+                                "minecraft:is_meat",
+                                "minecraft:is_minecart",
+                                "minecraft:music_disc",
+                                "minecraft:netherite_tier",
+                                "minecraft:is_pickaxe",
+                                "minecraft:piglin_loved",
+                                "minecraft:piglin_repellents",
+                                "minecraft:planks",
+                                "minecraft:sand",
+                                "minecraft:is_shovel",
+                                "minecraft:sign",
+                                "minecraft:soul_fire_base_blocks",
+                                "minecraft:spawn_egg",
+                                "minecraft:stone_bricks",
+                                "minecraft:stone_crafting_materials",
+                                "minecraft:stone_tier",
+                                "minecraft:stone_tool_materials",
+                                "minecraft:is_sword",
+                                "minecraft:is_tool",
+                                "minecraft:vibration_damper",
+                                "minecraft:warped_stems",
+                                "minecraft:wooden_slabs",
+                                "minecraft:wooden_tier",
+                                "minecraft:wool"
+                            ]
+                        },
+                        "data": {
+                            "description": "La donnée de l'item.",
+                            "type": "integer"
+                        },
+                        "count": {
+                            "description": "Le nombre d'items.",
+                            "type": "integer"
+                        }
+                    }
+                }
+            ]
         }
     }
 }
