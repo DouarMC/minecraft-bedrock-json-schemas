@@ -1,306 +1,741 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer un bloc personnalisé.",
     "type": "object",
     "required": ["format_version", "minecraft:block"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "minecraft:block": {"$ref": "#/definitions/minecraft:block-def", "properties": {
-            "description": {"$ref": "#/definitions/description-def"},
-            "components": {"$ref": "#/definitions/components-def"},
-            "permutations": {"$ref": "#/definitions/permutations-def"}
-        }}
-    },
-
-
-    "definitions": {
-        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
-        "minecraft:block-def": {"type": "object", "required": ["description", "components"], "description": "Contient toute la définition du Bloc."},
-        "description-def": {"type": "object", "required": ["identifier"], "description": "Contient les propeiétés de Descriptions du Bloc.", "properties": {
-            "identifier": {"type": "string", "description": "L'identifiant du Bloc."},
-            "menu_category": {"type": "object", "description": "Contient des informations sur la localisation du Bloc dans l'inventaire créatif ou commande.", "properties": {
-                "category": {"type": "string", "enum": ["construction", "nature", "equipment", "items", "none"], "description": "Dans quel categorie d'inventaire se trouvera le Bloc."},
-                "group": {"type": "string", "description": "Dans quel groupe d'Item se trouvera le Bloc.", "enum": [
-                    "itemGroup.name.anvil", "itemGroup.name.arrow", "itemGroup.name.axe", "itemGroup.name.banner", "itemGroup.name.banner_pattern", "itemGroup.name.bed",
-                    "itemGroup.name.boat", "itemGroup.name.boots", "itemGroup.name.buttons", "itemGroup.name.candles", "itemGroup.name.chalkboard", "itemGroup.name.chest",
-                    "itemGroup.name.chestboat", "itemGroup.name.chestplate", "itemGroup.name.concrete", "itemGroup.name.concretePowder", "itemGroup.name.cookedFood", "itemGroup.name.copper",
-                    "itemGroup.name.coral", "itemGroup.name.coral_decorations", "itemGroup.name.crop", "itemGroup.name.door", "itemGroup.name.dye", "itemGroup.name.enchantedBook",
-                    "itemGroup.name.fence", "itemGroup.name.fenceGate", "itemGroup.name.firework", "itemGroup.name.fireworkStars", "itemGroup.name.flower", "itemGroup.name.glass",
-                    "itemGroup.name.glassPane", "itemGroup.name.glazedTerracotta", "itemGroup.name.goatHorn", "itemGroup.name.grass", "itemGroup.name.hanging_sign", "itemGroup.name.helmet",
-                    "itemGroup.name.hoe", "itemGroup.name.horseArmor", "itemGroup.name.leaves", "itemGroup.name.leggings", "itemGroup.name.lingeringPotion", "itemGroup.name.log",
-                    "itemGroup.name.minecart", "itemGroup.name.miscFood", "itemGroup.name.mobEgg", "itemGroup.name.monsterStoneEgg", "itemGroup.name.mushroom", "itemGroup.name.netherWartBlock",
-                    "itemGroup.name.ore", "itemGroup.name.permission", "itemGroup.name.pickaxe", "itemGroup.name.planks", "itemGroup.name.potion", "itemGroup.name.potterySherds",
-                    "itemGroup.name.pressurePlate", "itemGroup.name.rail", "itemGroup.name.rawFood", "itemGroup.name.record", "itemGroup.name.sandstone", "itemGroup.name.sapling",
-                    "itemGroup.name.sculk", "itemGroup.name.seed", "itemGroup.name.shovel", "itemGroup.name.shulkerBox", "itemGroup.name.sign", "itemGroup.name.skull",
-                    "itemGroup.name.slab", "itemGroup.name.smithing_templates", "itemGroup.name.splashPotion", "itemGroup.name.stainedClay", "itemGroup.name.stairs", "itemGroup.name.stone",
-                    "itemGroup.name.stoneBrick", "itemGroup.name.sword", "itemGroup.name.trapdoor", "itemGroup.name.walls", "itemGroup.name.wood", "itemGroup.name.wool",
-                    "itemGroup.name.woolCarpet"
-                ]},
-                "is_hidden_in_commands": {"type": "boolean", "description": "Si le bloc est caché dans les commandes ou non."}
-            }},
-            "traits": {"type": "object", "description": "Définit les états du blocs built-in de Minecraft.", "properties": {
-                "minecraft:placement_direction": {"type": "object", "description": "Trait qui peut ajouter des états contenant des informations sur la rotation du joueur lorsque le bloc est placé.", "properties": {
-                    "enabled_states": {"type": "array", "items": {"type": "string", "enum": ["minecraft:cardinal_direction", "minecraft:facing_direction"]}, "description": "La liste des états built-in à activé."},
-                    "y_rotation_offset": {"type": "number", "enum": [0.0, 90.0, 180.0, 270.0], "description": "Ajoute un décalage de rotation."}
-                }},
-                "minecraft:placement_position": {"type": "object", "description": "Trait qui peut ajouter des états contenant des informations sur l'endroit où le joueur a placé le bloc.", "properties": {
-                    "enabled_states": {"type": "array", "items": {"type": "string", "enum": ["minecraft:block_face", "minecraft:vertical_half"]}, "description": "La liste des états built-in à activé."}
-                }}
-            }},
-            "states": {"type": "object", "description": "Les états de blocs à définir", "additionalProperties": { "oneOf": [
-                {"type": "array", "items": {"oneOf": [{"type": "boolean"}, {"type": "number"}, {"type": "string"}]}}, 
-                {"type": "object", "properties": {"values": {"type": "object", "properties": {"min": {"type": "integer"}, "max": {"type": "integer"}}}}}
-            ]}}
-        }},
-
-        "components-def": {"type": "object", "description": "La liste des components de ce Bloc.", "properties": {
-            "minecraft:breathability": {"type": "string", "enum": ["solid", "air"], "description": "Définit si le bloc est respirant."},
-            "minecraft:collision_box": {"default": true, "description": "Définit les colisions du Bloc.", "oneOf": [
-                {"type": "boolean"},
-                {"type": "object", "properties": {
-                    "origin": {"default": [-8.0, 0.0, -8.0], "type": "array", "items": [{"type": "number", "minimum": -8, "maximum": 8}, {"type": "number", "minimum": 0, "maximum": 16}, {"type": "number", "minimum": -8, "maximum": 8}], "description": "Position minimale des limites de la boîte de collision."},
-                    "size": {"default": [16.0, 16.0, 16.0], "type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "Taille de chaque côté de la boîte de collision."}
-                }}
-            ]},
-            "minecraft:crafting_table": {"type": "object", "description": "Rend ce Bloc comme étant une table de Craft.", "properties": {
-                "crafting_tags": {"type": "array", "items": {"anyOf": [{"type": "string", "enum": ["crafting_table"]}, {"type": "string"}], "maxItems": 64, "description": "Les recettes de craft que ce Bloc pourra crafter."}},
-                "table_name": {"type": "string", "description": "Le nom de la table de craft."}
-            }},
-            "minecraft:custom_components": {"type": "array", "items": {"type": "string"}, "description": "Les ID de Customs Components du Bloc."},
-            "minecraft:destructible_by_explosion": {"default": true, "description": "Définit les propriétés destructibles par explosion pour ce Bloc.", "oneOf": [
-                {"type": "boolean"},
-                {"type": "object", "properties": {
-                    "explosion_resistance": {"default": 0, "type": "number", "description": "Définit la résistance à l'explosion du Bloc."}
-                }}
-            ]},
-            "minecraft:destructible_by_mining": {"default": true, "description": "Définit les propriétés destructibles par minage pour ce Bloc", "oneOf": [
-                {"type": "boolean"},
-                {"type": "object", "properties": {
-                    "seconds_to_destroy": {"default": 0, "type": "number", "description": "Définit le temps en secondes pour ce bloc pour être détruit."},
-                    "item_specific_speeds": {"type": "array", "description": "Définit les vitesses de destruction de bloc spécifiques aux Items, chaque objet contient un descripteur d'item.", "items": {"type": "object", "properties": {
-                        "destroy_speed": {"type": "number", "description": "Vitesse de destruction appliqué lors de l'utilisation de l'item défini."},
-                        "item": {"description": "ItemDescriptor qui filtre l'item.", "anyOf": [
-                            {"type": "string"},
-                            {"type": "object", "properties": {
-                                "tags": {"type": "string"},
-                                "data": {"type": "integer"}
-                            }}
-                        ]}
-                    }}}
-                }}
-            ]},
-            "minecraft:display_name": {"type": "string", "description": "Le nom d'affichage de Bloc."},
-            "minecraft:entity_fall_on": {"type": "object", "description": "Définit la distance de chute minimale d'une entité qui tombe sur ce bloc pour déclencher un événement de custom component.", "properties": {
-                "min_fall_distance": {"type": "number", "description": "La distance minimale."}
-            }},
-            "minecraft:flammable": {"description": "Définit les propeiétés inflammables pour ce Bloc.", "oneOf": [
-                {"type": "boolean"},
-                {"type": "object", "properties": {
-                    "catch_chance_modifier": {"default": 5, "type": "integer", "description": "Un modificateur affectant la chance que ce bloc prenne feu lorsqu'il est à côté d'un feu."},
-                    "destroy_chance_modifier": {"default": 20, "type": "integer", "description": "Un modificateur affectant la chance que ce bloc soit détruit par les flammes lorsqu'il est en feu."}
-                }}
-            ]},
-            "minecraft:friction": {"default": 0.4, "type": "number", "description": "Définit la friction du Bloc."},
-            "minecraft:geometry": {"description": "Définit le modèle de ce Bloc", "anyOf": [
-                {"type": "string", "enum": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]},
-                {"type": "string"},
-                {"type": "object", "properties": {
-                    "identifier": {"description": "L'identifiant du modèle à utiliser pour ce Bloc", "anyOf": [
-                        {"type": "string", "enum": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]},
-                        {"type": "string"}
-                    ]},
-                    "bone_visibility": {"type": "object", "description": "Définit la visibilé des os du modèle", "additionalProperties": {"oneOf": [
-                        {"type": "boolean"},
-                        {"type": "string"}
-                    ]}},
-                    "culling": {"type": "string", "description": "L'identifiant des règles de Block Culling à utiliser pour ce Bloc."}
-                }}
-            ]},
-            "minecraft:item_visual": {
-                "description": "L'identifiant de description de la géométrie et du matériau utilisé pour le rendu de l'item de ce bloc.",
-                "type": "object",
-                "required": ["geometry", "material_instances"],
-                "properties": {
-                    "geometry": {
-                        "description": "L'identifiant de la géométrie utilisée pour le rendu de l'item de ce bloc.",
-                        "anyOf": [
-                            {
-                                "type": "string", 
-                                "enum": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
-                            },
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object",
-                                "properties": {
-                                "identifier": {
-                                    "description": "L'identifiant du modèle à utiliser pour ce Bloc",
-                                    "anyOf": [
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "minecraft:block": {
+            "description": "Contient toute la définition du Bloc.",
+            "type": "object",
+            "required": ["description", "components"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propeiétés de Descriptions du Bloc.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant du Bloc.",
+                            "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                        },
+                        "menu_category": {
+                            "description": "Définit les informations sur la localisation du Bloc dans l'inventaire créatif ou commande.",
+                            "$ref": "../common.schema.json#/definitions/menu_category"
+                        },
+                        "traits": {
+                            "description": "Définit les états du blocs built-in de Minecraft.",
+                            "type": "object",
+                            "properties": {
+                                "minecraft:placement_direction": {
+                                    "description": "Trait qui peut ajouter des états contenant des informations sur la rotation du joueur lorsque le bloc est placé.",
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled_states": {
+                                            "description": "La liste des états built-in à activé.",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "enum": ["minecraft:cardinal_direction", "minecraft:facing_direction"]
+                                            }
+                                        },
+                                        "y_rotation_offset": {
+                                            "description": "Ajoute un décalage de rotation.",
+                                            "type": "number",
+                                            "enum": [0.0, 90.0, 180.0, 270.0]
+                                        }
+                                    }
+                                },
+                                "minecraft:placement_position": {
+                                    "description": "Trait qui peut ajouter des états contenant des informations sur l'endroit où le joueur a placé le bloc.",
+                                    "type": "object",
+                                    "properties": {
+                                        "enabled_states": {
+                                            "description": "La liste des états built-in à activé.",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "enum": ["minecraft:block_face", "minecraft:vertical_half"]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "states": {
+                            "description": "Les états de blocs à définir",
+                            "type": "object",
+                            "additionalProperties": {
+                                "oneOf": [
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "oneOf": [
+                                                {
+                                                    "type": "boolean"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                },
+                                                {
+                                                    "type": "string"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "values": {
+                                                "description": "Les valeurs min et max pour cet état.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "min": {
+                                                        "description": "La valeur minimale.",
+                                                        "type": "integer"
+                                                    },
+                                                    "max": {
+                                                        "description": "La valeur maximale.",
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "components": {
+                    "description": "Contients les composants du Bloc.",
+                    "type": "object",
+                    "properties": {
+                        "minecraft:breathability": {
+                            "description": "Définit si le bloc est respirant.",
+                            "type": "string",
+                            "enum": ["solid", "air"]
+                        },
+                        "minecraft:collision_box": {
+                            "description": "Définit les colisions du Bloc.",
+                            "default": true,
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "origin": {
+                                            "description": "Position minimale des limites de la boîte de collision.",
+                                            "default": [-8.0, 0.0, -8.0],
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "number",
+                                                    "minimum": -8,
+                                                    "maximum": 8
+                                                },
+                                                {
+                                                    "type": "number",
+                                                    "minimum": 0,
+                                                    "maximum": 16
+                                                },
+                                                {
+                                                    "type": "number",
+                                                    "minimum": -8,
+                                                    "maximum": 8
+                                                }
+                                            ]
+                                        },
+                                        "size": {
+                                            "description": "Taille de chaque côté de la boîte de collision.",
+                                            "default": [16.0, 16.0, 16.0],
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "number"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:crafting_table": {
+                            "description": "Rend ce Bloc comme étant une table de Craft.",
+                            "type": "object",
+                            "properties": {
+                                "crafting_tags": {
+                                    "description": "Les recettes de craft qui ont au moins un des tags spécifiés ici peuvent être utilisées sur cette table de craft.",
+                                    "type": "array",
+                                    "maxItems": 64,
+                                    "items": {
+                                        "type": "string",
+                                        "maxLength": 64,
+                                        "examples": ["crafting_table"]
+                                    }
+                                },
+                                "table_name": {
+                                    "description": "Le nom de la table de craft.",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "minecraft:custom_components": {
+                            "description": "La listes des composants personnalisés du Bloc.",
+                            "type": "array",
+                            "items": {
+                                "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                            }
+                        },
+                        "minecraft:destructible_by_explosion": {
+                            "description": "Définit les propriétés destructibles par explosion pour ce Bloc.",
+                            "default": true,
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "explosion_resistance": {
+                                            "description": "Définit la résistance à l'explosion de ce Bloc.",
+                                            "default": 0,
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:destructible_by_mining": {
+                            "description": "Définit les propriétés destructibles par minage pour ce Bloc.",
+                            "default": true,
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "item_specific_speeds": {
+                                            "description": "Définit les vitesses de destruction de bloc spécifiques aux Items, chaque objet contient un descripteur d'item.",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "destroy_speed": {
+                                                        "type": "number",
+                                                        "description": "Vitesse de destruction appliqué lors de l'utilisation de l'item défini."
+                                                    },
+                                                    "item": {
+                                                        "description": "ItemDescriptor qui filtre l'item.",
+                                                        "$ref": "../common.schema.json#/definitions/item_descriptor"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "seconds_to_destroy": {
+                                            "description": "Le temps en secondes pour détruire ce Bloc.",
+                                            "default": 0,
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:display_name": {
+                            "description": "Le nom d'affichage de Bloc.",
+                            "type": "string"
+                        },
+                        "minecraft:entity_fall_on": {
+                            "description": "Définit la distance de chute minimale d'une entité qui tombe sur ce bloc pour déclencher un événement de custom component.",
+                            "type": "object",
+                            "properties": {
+                                "min_fall_distance": {
+                                    "description": "La distance minimale.",
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "minecraft:flammable": {
+                            "description": "Définit les propeiétés inflammables pour ce Bloc.",
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "catch_chance_modifier": {
+                                            "description": "Un modificateur affectant la chance que ce bloc prenne feu lorsqu'il est à côté d'un feu.",
+                                            "default": 5,
+                                            "type": "integer"
+                                        },
+                                        "destroy_chance_modifier": {
+                                            "description": "Un modificateur affectant la chance que ce bloc soit détruit par les flammes lorsqu'il est en feu.",
+                                            "default": 20,
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:friction": {
+                            "description": "Définit la friction du Bloc.",
+                            "default": 0.4,
+                            "type": "number",
+                            "minimum": 0.0,
+                            "maximum": 0.9
+                        },
+                        "minecraft:geometry": {
+                            "description": "Définit le modèle de ce Bloc",
+                            "oneOf": [
+                                {
+                                    "type": "string",
+                                    "examples": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "identifier": {
+                                            "description": "L'identifiant du modèle à utiliser pour ce Bloc",
+                                            "type": "string",
+                                            "examples": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
+                                        },
+                                        "bone_visibility": {
+                                            "description": "Définit la visibilé des os du modèle.",
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "oneOf": [
+                                                    {
+                                                        "type": "boolean"
+                                                    },
+                                                    {
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "culling": {
+                                            "description": "L'identifiant des règles de Block Culling à utiliser pour ce Bloc.",
+                                            "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:item_visual": {
+                            "description": "L'identifiant de description de la géométrie et du matériau utilisé pour le rendu de l'item de ce bloc.",
+                            "type": "object",
+                            "required": ["geometry", "material_instances"],
+                            "properties": {
+                                "geometry": {
+                                    "description": "L'identifiant de la géométrie utilisée pour le rendu de l'item de ce bloc.",
+                                    "oneOf": [
                                         {
                                             "type": "string",
-                                            "enum": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
+                                            "examples": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
                                         },
                                         {
-                                            "type": "string"
+                                            "type": "object",
+                                            "properties": {
+                                                "identifier": {
+                                                    "description": "L'identifiant du modèle à utiliser pour ce Bloc",
+                                                    "type": "string",
+                                                    "examples": ["minecraft:geometry.full_block", "minecraft:geometry.cross"]
+                                                },
+                                                "bone_visibility": {
+                                                    "description": "Définit la visibilé des os du modèle",
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "oneOf": [
+                                                            {
+                                                                "type": "boolean"
+                                                            },
+                                                            {
+                                                                "type": "string"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "culling": {
+                                                    "description": "L'identifiant des règles de Block Culling à utiliser pour ce Bloc.",
+                                                    "type": "string"
+                                                }
+                                            }
                                         }
                                     ]
                                 },
-                                "bone_visibility": {
-                                    "description": "Définit la visibilé des os du modèle",
-                                    "type": "object", 
-                                    "additionalProperties": 
-                                    {
-                                        "oneOf": [
-                                            {
+                                "material_instances": {
+                                    "description": "Les Instances de Materielles pour ce Bloc",
+                                    "type": "object",
+                                    "properties": {
+                                        "*": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "up": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "down": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "south": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "east": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "west": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        },
+                                        "north": {
+                                            "$ref": "#/definitions/material_instances_face"
+                                        }
+                                    },
+                                    "additionalProperties": {
+                                        "$ref": "#/definitions/material_instances_face"
+                                    }
+                                }
+                            }
+                        },
+                        "minecraft:light_dampening": {
+                            "description": "La quantité de lumière qui sera atténuée lorsqu'elle traversera ce Bloc.",
+                            "default": 15,
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 15
+                        },
+                        "minecraft:light_emission": {
+                            "description": "La quantité de lumière qui sera émise par ce Bloc.",
+                            "default": 0,
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 15
+                        },
+                        "minecraft:liquid_detection": {
+                            "description": "Les définitions du comportement d'un bloc lors de la détection de liquide.",
+                            "type": "object",
+                            "required": ["detection_rules"],
+                            "properties": {
+                                "detection_rules": {
+                                    "description": "Les règles de détection de liquide pour ce bloc.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "can_contain_liquid": {
+                                                "description": "Définit si ce bloc peut contenir le liquide. Par exemple, si le type de liquide est `water`, cela signifie que le bloc peut être waterlogged.",
+                                                "default": false,
                                                 "type": "boolean"
                                             },
-                                            {
-                                                "type": "string"
+                                            "liquid_type": {
+                                                "description": "Le type de liquide pour lequel cette règle de détection est destinée.",
+                                                "default": "water",
+                                                "type": "string",
+                                                "enum": ["water"]
+                                            },
+                                            "on_liquid_touches": {
+                                                "description": "Définit comment le bloc réagit à l'eau en mouvement.",
+                                                "default": "blocking",
+                                                "type": "string",
+                                                "enum": ["blocking", "broken", "popped", "no_reaction"]
+                                            },
+                                            "stops_liquid_flowing_from_direction": {
+                                                "description": "Définit que lorsque le Bloc contient un liquide, il contrôle les directions dans lesquelles le liquide ne peut pas s'écouler du Bloc. Contrôle également les directions dans lesquelles un Bloc peut arrêter le liquide de s'écouler dans celui-ci si `no_reaction` est défini pour le champ `on_liquid_touches`.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "enum": ["north", "south", "east", "west", "up", "down"]
+                                                }
                                             }
-                                        ]
+                                        }
                                     }
-                                },
-                                "culling": {
-                                    "description": "L'identifiant des règles de Block Culling à utiliser pour ce Bloc.",
-                                    "type": "string"
                                 }
-                            }}
-                        ],
-                        "material_instances": {
+                            }
+                        },
+                        "minecraft:loot": {
+                            "description": "Le chemin d'accès de la Loot Table pour ce Bloc.",
+                            "type": "string"
+                        },
+                        "minecraft:map_color": {
+                            "description": "Définit la couleur de ce bloc quand il est affiché sur une carte",
+                            "$ref": "../common.schema.json#/definitions/color_format"
+                        },
+                        "minecraft:material_instances": {
                             "description": "Les Instances de Materielles pour ce Bloc",
                             "type": "object",
                             "properties": {
                                 "*": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 },
                                 "up": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 },
                                 "down": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 },
                                 "south": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 },
                                 "east": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 },
                                 "west": {
-                                    "$ref": "#/definitions/material_instances_face-def-def"
+                                    "$ref": "#/definitions/material_instances_face"
                                 }
                             },
                             "additionalProperties": {
-                                "$ref": "#/definitions/material_instances_face-def-def"
+                                "$ref": "#/definitions/material_instances_face"
                             }
-                        }
-                    }
-                }
-            },
-            "minecraft:light_dampening": {"default": 15, "type": "integer", "description": "La quantité de lumière qui sera atténuée lorsqu'elle traversera ce Bloc."},
-            "minecraft:light_emission": {"default": 0, "type": "integer", "description": "La quantité de lumière qui sera émise par ce Bloc."},
-            "minecraft:liquid_detection": {
-                "description": "Les définitions du comportement d'un bloc lors de la détection de liquide.",
-                "type": "object",
-                "required": ["detection_rules"],
-                "properties": {
-                    "detection_rules": {
-                        "description": "Les règles de détection de liquide pour ce bloc.",
-                        "type": "array",
-                        "items": {
+                        },
+                        "minecraft:placement_filter": {
+                            "description": "Le filtrage de placement de ce Bloc.",
                             "type": "object",
                             "properties": {
-                                "can_contain_liquid": {
-                                    "description": "Définit si ce bloc peut contenir le liquide. Par exemple, si le type de liquide est `water`, cela signifie que le bloc peut être waterlogged.",
-                                    "default": false,
-                                    "type": "boolean"
-                                },
-                                "liquid_type": {
-                                    "description": "Le type de liquide pour lequel cette règle de détection est destinée.",
-                                    "default": "water",
-                                    "type": "string",
-                                    "enum": ["water"]
-                                },
-                                "on_liquid_touches": {
-                                    "description": "Définit comment le bloc réagit à l'eau en mouvement.",
-                                    "default": "blocking",
-                                    "type": "string",
-                                    "enum": ["blocking", "broken", "popped", "no_reaction"]
-                                },
-                                "stops_liquid_flowing_from_direction": {
-                                    "description": "Définit que lorsque le Bloc contient un liquide, il contrôle les directions dans lesquelles le liquide ne peut pas s'écouler du Bloc. Contrôle également les directions dans lesquelles un Bloc peut arrêter le liquide de s'écouler dans celui-ci si `no_reaction` est défini pour le champ `on_liquid_touches`.",
+                                "conditions": {
+                                    "description": "Les conditions de placement de ce Bloc.",
                                     "type": "array",
                                     "items": {
-                                        "type": "string",
-                                        "enum": ["north", "south", "east", "west", "up", "down"]
+                                        "type": "object",
+                                        "properties": {
+                                            "allowed_faces": {
+                                                "description": "Sur quelles face ce Bloc peut être placé.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "enum": ["up", "down", "north", "south", "east", "west", "side", "all"]
+                                                }
+                                            },
+                                            "block_filter": {
+                                                "description": "Définit sur quels blocs ce bloc peut se placer.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {
+                                                            "description": "Le nom du Bloc.",
+                                                            "type": "string"
+                                                        },
+                                                        "states": {
+                                                            "description": "La paire état de Bloc et sa valeur.",
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "tags": {
+                                                            "description": "Le tag de Bloc exprimé en Molang.",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
+                                }
+                            }
+                        },
+                        "minecraft:redstone_conductivity": {
+                            "description": "Spécifie les propiétés que possède ce Bloc avec la redstone.",
+                            "type": "object",
+                            "properties": {
+                                "allows_wire_to_step_down": {
+                                    "description": "Définit si un fil de restone peut descendre en escalier sur ce bloc.",
+                                    "default": true,
+                                    "type": "boolean"
+                                },
+                                "redstone_conductor": {
+                                    "description": "Définit si le bloc peut être alimenté par de la redstone.",
+                                    "default": false,
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "minecraft:selection_box": {
+                            "description": "Définit la zone de séléection du Bloc.",
+                            "oneOf": [
+                                {
+                                    "type": "boolean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "origin": {
+                                            "description": "Position minimale des limites de la zone de séléection du Bloc.",
+                                            "default": [-8.0, 0.0, -8.0],
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "number",
+                                                    "minimum": -8,
+                                                    "maximum": 8
+                                                },
+                                                {
+                                                    "type": "number",
+                                                    "minimum": 0,
+                                                    "maximum": 16
+                                                },
+                                                {
+                                                    "type": "number",
+                                                    "minimum": -8,
+                                                    "maximum": 8
+                                                }
+                                            ]
+                                        },
+                                        "size": {
+                                            "description": "Taille de chaque côté de la zone de séléection de ce bloc.",
+                                            "default": [16.0, 16.0, 16.0],
+                                            "type": "array",
+                                            "items": [
+                                                {
+                                                    "type": "number"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "minecraft:transformation": {
+                            "description": "Les transformations à appliquer à ce Bloc.",
+                            "type": "object",
+                            "properties": {
+                                "translation": {
+                                    "description": "La translation du Bloc.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "maxItems": 3,
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "rotation": {
+                                    "description": "La rotation du Bloc.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "maxItems": 3,
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "scale": {
+                                    "description": "L'échelle du Bloc.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "maxItems": 3,
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "scale_pivot": {
+                                    "description": "Décalage par rapport au point pivot autour duquel appliquer l'échelle.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "maxItems": 3,
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "rotation_pivot": {
+                                    "description": "Décalage par rapport au point pivot autour duquel appliquer la rotation.",
+                                    "type": "array",
+                                    "minItems": 3,
+                                    "maxItems": 3,
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "minecraft:tick": {
+                            "description": "Définit les paramètres pour le déclenchement de l'événement 'onTick' des custom components de ce Bloc.",
+                            "type": "object",
+                            "properties": {
+                                "looping": {
+                                    "description": "Si l'évenement se joue une fois ou en boucle.",
+                                    "type": "boolean"
+                                },
+                                "interval_range": {
+                                    "description": "La plage de valeurs en ticks pour le déclenchement d'évenement, la valeur sera choisi au hasard.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    },
+                                    "minItems": 2,
+                                    "maxItems": 2
                                 }
                             }
                         }
                     }
+                },
+                "permutations": {
+                    "description": "Les permutations de ce Bloc.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "condition": {
+                                "description": "La condition en Molang pour que ce bloc ait cette permutation",
+                                "type": "string"
+                            },
+                            "components": {
+                                "description": "Les components à donner au Bloc avec cette permutation.",
+                                "$ref": "#/properties/minecraft:block/properties/components"
+                            }
+                        }
+                    }
                 }
-            },
-            "minecraft:loot": {"type": "string", "description": "Le chemin d'accès de la Loot Table pour ce Bloc."},
-            "minecraft:map_color": {"description": "Définit la couleur de ce bloc quand il est affiché sur une carte", "oneOf": [
-                {"type": "string", "pattern": "^#([A-Fa-f0-9]{6})$"},
-                {"type": "array", "items": [{"type": "integer", "minimum": 0, "maximum": 255}, {"type": "integer", "minimum": 0, "maximum": 255}, {"type": "integer", "minimum": 0, "maximum": 255}]}
-            ]},
-            "minecraft:material_instances": {"type": "object", "description": "Les Instances de Materielles pour ce Bloc", "properties": {
-                "*": {"$ref": "#/definitions/material_instances_face-def-def"},
-                "up": {"$ref": "#/definitions/material_instances_face-def-def"},
-                "down": {"$ref": "#/definitions/material_instances_face-def-def"},
-                "south": {"$ref": "#/definitions/material_instances_face-def-def"},
-                "east": {"$ref": "#/definitions/material_instances_face-def-def"},
-                "west": {"$ref": "#/definitions/material_instances_face-def-def"}
-               },
-                "additionalProperties": {"$ref": "#/definitions/material_instances_face-def-def"}
-            },
-            "minecraft:placement_filter": {"type": "object", "description": "Le filtrage de placement de ce Bloc.", "properties": {
-                "conditions": {"type": "array", "description": "Les conditions de placement de ce Bloc.", "items": {"type": "object", "properties": {
-                    "allowed_faces": {"type": "array", "items": {"type": "string", "enum": ["up", "down", "north", "south", "east", "west", "side", "all"]}, "description": "Sur quelles face ce Bloc peut être placé."},
-                    "block_filter": {"type": "array", "description": "Définit sur quels blocs ce bloc peut se placer.", "items": {"type": "object", "properties": {
-                        "name": {"type": "string", "description": "Le nom du Bloc."},
-                        "states": {"type": "array", "items": {"type": "object"}, "description": "La paire état de Bloc et sa valeur."},
-                        "tags": {"type": "string", "description": "Le tag de Bloc exprimé en Molang."}
-                    }}}
-                }}}
-            }},
-            "minecraft:redstone_conductivity": {"type": "object", "description": "Spécifie les propiétés que possède ce Bloc avec la redstone.", "properties": {
-                "allows_wire_to_step_down": {"type": "boolean", "description": "Définit si un fil de restone peut descendre en escalier sur ce bloc."},
-                "redstone_conductor": {"type": "boolean", "description": "Définit si le bloc peut être alimenté par de la redstone."}
-            }},
-            "minecraft:selection_box": {"description": "Définit la zone de séléection du Bloc.", "oneOf": [
-                {"type": "boolean"},
-                {"type": "object", "properties": {
-                    "origin": {"default": [-8.0, 0.0, -8.0], "type": "array", "items": [{"type": "number", "minimum": -8, "maximum": 8}, {"type": "number", "minimum": 0, "maximum": 16}, {"type": "number", "minimum": -8, "maximum": 8}], "description": "Position minimale des limites de la zone de séléection du Bloc."},
-                    "size": {"default": [16.0, 16.0, 16.0], "type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "Taille de chaque côté de la zone de séléection de ce bloc."}
-                }}
-            ]},
-            "minecraft:transformation": {"type": "object", "description": "Les transformations à appliquer à ce Bloc.", "properties": {
-                "translation": {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "La translation du Bloc."},
-                "rotation": {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "La rotation du Bloc."},
-                "scale": {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "L'échelle du Bloc."},
-                "scale_pivot": {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "Décalage par rapport au point pivot autour duquel appliquer l'échelle."},
-                "rotation_pivot": {"type": "array", "items": [{"type": "number"}, {"type": "number"}, {"type": "number"}], "description": "Décalage par rapport au point pivot autour duquel appliquer la rotation."}
-            }},
-            "minecraft:tick": {"type": "object", "description": "Définit les paramètres pour le déclenchement de l'événement 'onTick' des custom components de ce Bloc.", "properties": {
-                "looping": {"type": "boolean", "description": "Si l'évenement se joue une fois ou en boucle."},
-                "interval_range": {"type": "array", "description": "La plage de valeurs en ticks pour le déclenchement d'évenement, la valeur sera choisi au hasard.", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}
-            }}
-        }},
-        "permutations-def": {"type": "array", "description": "Les permutations de ce Bloc.", "items": {"type": "object", "properties": {
-            "condition": {"type": "string", "description": "La condition en Molang pour que ce bloc ait cette permutation"},
-            "components": {"$ref": "#/definitions/components-def", "description": "Les components à donner eu Bloc avec cette permutation."}
-        }}},
-
-        "material_instances_face-def-def": {
+            }
+        }
+    },
+    "definitions": {
+        "material_instances_face": {
+            "$comment": "C'est un objet qui contient les propriétés de matériau pour une face spécifique.",
             "oneOf": [
-                {"type": "string"},
-                {"type": "object", "properties": {
-                    "ambient_occlusion": {"default": true, "type": "boolean", "description": "Définit si des ombres seront créées autour et sous le Bloc."},
-                    "face_dimming": {"default": true, "type": "boolean", "description": "Définit si ce matériau est atténué en fonction de la direction dans laquelle il fait face."},
-                    "render_method": {"default": "opaque", "type": "string", "enum": ["opaque", "double_sided", "blend", "alpha_test", "alpha_test_single_sided"], "description": "La méthode de rendement à utiliser."},
-                    "texture": {"type": "string", "description": "La référence de texture à appliquer pour ce Bloc."}
-                }}
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "ambient_occlusion": {
+                            "description": "Définit si des ombres seront créées autour et sous le Bloc.",
+                            "default": true,
+                            "type": "boolean"
+                        },
+                        "face_dimming": {
+                            "description": "Définit si ce matériau est atténué en fonction de la direction dans laquelle il fait face.",
+                            "default": true,
+                            "type": "boolean"
+                        },
+                        "render_method": {
+                            "description": "La méthode de rendement à utiliser.",
+                            "default": "opaque",
+                            "type": "string",
+                            "enum": ["opaque", "double_sided", "blend", "alpha_test", "alpha_test_single_sided"]
+                        },
+                        "texture": {
+                            "description": "La référence de texture à appliquer pour ce Bloc.",
+                            "type": "string"
+                        }
+                    }
+                }
             ]
         }
     }
