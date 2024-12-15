@@ -1,11 +1,14 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à gérer les fonctions de commandes.",
     "type": "object",
     "required": ["value"],
     "properties": {
-        "values": {"$ref": "#/definitions/values-def"}
-    },
-    "definitions": {
-        "values-def": {"type": "array", "description": "Les chemins d'accès aux fonctions à executer en boucle.", "items": {"type": "string"}}
+        "values": {
+            "description": "Les chemins d'accès aux fonctions à executer en boucle.",
+            "items": {
+                "type": "string"
+            }
+        }
     }
 }
