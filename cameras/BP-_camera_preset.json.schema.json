@@ -1,47 +1,94 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer un preset de Caméra.",
     "type": "object",
     "required": ["format_version", "minecraft:camera_preset"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "minecraft:camera_preset": {"$ref": "#/definitions/minecraft:camera_preset-def", "properties": {
-            "identifier": {"$ref": "#/definitions/identifier-def"},
-            "inherit_from": {"$ref": "#/definitions/inherit_from-def"},
-            "pos_x": {"$ref": "#/definitions/pos_x-def"},
-            "pos_y": {"$ref": "#/definitions/pos_y-def"},
-            "pos_z": {"$ref": "#/definitions/pos_z-def"},
-            "rot_x": {"$ref": "#/definitions/rot_x-def"},
-            "rot_y": {"$ref": "#/definitions/rot_y-def"},
-            "player_effects": {"$ref": "#/definitions/player_effects-def"},
-            "listener": {"$ref": "#/definitions/listener-def"},
-            "view_offset": {"$ref": "#/definitions/view_offset-def"},
-            "entity_offset": {"$ref": "#/definitions/view_offset-def"},
-            "radius": {"$ref": "#/definitions/radius-def"},
-            "rotation_speed": {"$ref": "#/definitions/rotation_speed-def"},
-            "snap_to_target": {"$ref": "#/definitions/snap_to_target-def"},
-            "align_target_and_camera_forward": {"$ref": "#/definitions/align_target_and_camera_forward-def"}
-        }}
-    },
-    "definitions": {
-        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
-        "minecraft:camera_preset-def": {"type": "object", "required": ["identifier"], "description": "Contient toute la définition du Preset de Caméra."},
-        "identifier-def": {"type": "string", "description": "L'identifiant du Preset de Caméra."},
-        "inherit_from-def": {"description": "L'identifiant du Preset de Caméra auquel notre Preset héritera de ces propriétés.", "anyOf": [
-            {"type": "string", "enum": ["minecraft:free"]},
-            {"type": "string"}
-        ]},
-        "pos_x-def": {"type": "number", "description": "La position X par défaut de ce Preset de Caméra."},
-        "pos_y-def": {"type": "number", "description": "La position Y par défaut de ce Preset de Caméra."},
-        "pos_z-def": {"type": "number", "description": "La position Z par défaut de ce Preset de Caméra."},
-        "rot_x-def": {"type": "number", "description": "La rotation X par défaut de ce Preset de Caméra."},
-        "rot_y-def": {"type": "number", "description": "La rotation Y par défaut de ce Preset de Caméra."},
-        "player_effects-def": {"type": "boolean", "description": "Défini si ce Preset de Caméra contiendra les effets de potions du joueur comme Vision Nocturne ou Cécité."},
-        "listener-def": {"const": "player", "description": "Définit que la position du joueur sera utilisé pour l'écoute des sons."},
-        "view_offset-def": {"type": "array", "description": "Point d'ancrage qui est au centre de l'écran. Définit le décalage du joueur entre le centre de l'écran et lui.", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
-        "entity_offset-def": {"type": "array", "description": "???", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
-        "radius-def": {"type": "number", "description": "Distance entre la caméra 3rd et le joueur."},
-        "rotation_speed-def": {"type": "number", "description": "Contrôler la vitesse de rotation pour cibler une entité. Cette valeur sera un flottant qui représente les degrés de rotation par seconde."},
-        "snap_to_target-def": {"type": "boolean", "description": "Permettre l'accrochage à l'entité cible lors du premier tick."},
-        "align_target_and_camera_forward-def": {"type": "boolean", "description": "Aligner la direction de la caméra avec la direction de la cible."}
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "minecraft:camera_preset": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "description": "L'identifiant du Preset de Caméra.",
+                    "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                },
+                "inherit_from": {
+                    "description": "L'identifiant du Preset de Caméra auquel notre Preset héritera de ces propriétés.",
+                    "type": "string",
+                    "examples": [
+                        "minecraft:fixed_boom",
+                        "minecraft:follow_orbit",
+                        "minecraft:free",
+                        "minecraft:third_person",
+                        "minecraft:third_person_front"
+                    ]
+                },
+                "pos_x": {
+                    "description": "La position X par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "pos_y": {
+                    "description": "La position Y par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "pos_z": {
+                    "description": "La position Z par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "rot_x": {
+                    "description": "La rotation X par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "rot_y": {
+                    "description": "La rotation Y par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "player_effects": {
+                    "description": "Défini si ce Preset de Caméra contiendra les effets de potions du joueur comme Vision Nocturne ou Cécité.",
+                    "type": "boolean"
+                },
+                "listener": {
+                    "description": "Définit que la position du joueur sera utilisé pour l'écoute des sons.",
+                    "const": "player"
+                },
+                "view_offset": {
+                    "description": "Point d'ancrage qui est au centre de l'écran. Définit le décalage du joueur entre le centre de l'écran et lui.",
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "entity_offset": {
+                    "description": "",
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "radius": {
+                    "description": "Distance entre la caméra 3rd et le joueur.",
+                    "type": "number"
+                },
+                "rotation_speed": {
+                    "description": "Contrôler la vitesse de rotation pour cibler une entité. Cette valeur sera un flottant qui représente les degrés de rotation par seconde.",
+                    "type": "number"
+                },
+                "snap_to_target": {
+                    "description": "Permettre l'accrochage à l'entité cible lors du premier tick.",
+                    "type": "boolean"
+                },
+                "align_target_and_camera_forward": {
+                    "description": "Aligner la direction de la caméra avec la direction de la cible.",
+                    "type": "boolean"
+                }
+            }
+        }
     }
 }
