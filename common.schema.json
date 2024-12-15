@@ -189,6 +189,56 @@
                     "type": "boolean"
                 }
             }
+        },
+        "block_descriptor": {
+            "$comment": "Définit un descripteur de bloc.",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "description": "Le nom du bloc.",
+                            "type": "string"
+                        },
+                        "states": {
+                            "description": "Les états du bloc.",
+                            "type": "object",
+                            "additionalProperties": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "boolean"
+                                    }
+                                ]
+                            }
+                        },
+                        "tags": {
+                            "description": "Les tags du bloc exprimé en Molang",
+                            "type": "string"
+                        }
+                    }
+                }
+            ]
+        },
+        "entity_damage_cause": {
+            "$comment": "Listes des causes de dégâts possibles.",
+            "type": "string",
+            "enum": [
+                "all", "anvil", "attack", "block_explosion", "contact", "drowning", "entity_explosion", "fall", "falling_block", "fatal", "fire", "fire_tick", "fly_into_wall", 
+                "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
+                "void", "wither"
+            ]
         }
     }
 }
