@@ -1,87 +1,247 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à définir les ressources d'une Entité.",
     "type": "object",
     "required": ["format_version", "minecraft:client_entity"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "minecraft:client_entity": {"$ref": "#/definitions/minecraft:client_entity-def", "properties": {
-            "description": {"$ref": "#/definitions/description-def"}
-        }}
-    },
-
-
-    "definitions": {
-        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
-        "minecraft:client_entity-def": {"type": "object", "required": ["description"], "description": "Contient toute la définition des ressources de l'Entité."},
-        "description-def": {"type": "object", "required": ["identifier", "textures", "geometry"], "description": "Contient les propeiétés de Descriptions de l'Entité.", "properties": {
-            "identifier": {"type": "string", "description": "L'identifiant de l'Entité."},
-            "min_engine_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Définit la version du jeu minimum pour que ce fichier soit analysé. Plusieurs fichiers de définition peuvent utiliser le même identifiant d'Entité, auquel cas une seule de ces définitions sera chargée. La définition avec une min_engine_version identique ou la plus proche et non supérieure, par rapport à la version du moteur du pack de ressources supérieur, sera analysée, toutes les autres définitions avec le même identifiant ne seront pas analysées."},
-            "materials": {"type": "object", "description": "Les Materiels à référencer pour cet Entité.", "properties": {
-                "default": {"type": "string"}
-             },
-                "additionalProperties": {"type": "string"}
-            },
-            "textures": {"type": "object", "description": "Les Textures à référencer pour cet Entité.", "properties": {
-                "default": {"type": "string"}
-             },
-                "additionalProperties": {"type": "string"}
-            },
-            "geometry": {"type": "object", "description": "Les Modèles à référencer pour cet Entité.", "properties": {
-                "default": {"type": "string"}
-             },
-                "additionalProperties": {"type": "string"}
-            },
-            "animations": {"type": "object", "description": "Les animations et controlleurs d'animations à référencer.", "additionalProperties": {
-                "type": "string"
-            }},
-            "render_controllers": {"type": "array", "description": "La liste des controlleurs de rendu.", "anyOf": [
-                {"items": {"type": "string"}},
-                {"additionalProperties": {"type": "string"}}
-            ]},
-            "scripts": {"type": "object", "description": "Définie certains script que l'entité execute à certains moments.", "properties": {
-                "scale": {"description": "Définit la taille du modèle de l'entité.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "number"}
-                ]},
-                "scaleX": {"description": "Définit la taille X du modèle de l'entité.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "number"}
-                ]},
-                "scaleY": {"description": "Définit la taille Y du modèle de l'entité.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "number"}
-                ]},
-                "scalez": {"description": "Définit la taille Z du modèle de l'entité.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "number"}
-                ]},
-                "initialize": {"type": "array", "items": {"type": "string"}, "description": "Ce script s'exécute lors de la première initialisation de l'entité, c'est-à-dire lorsqu'elle apparaît et à chaque fois qu'elle est chargée."},
-                "pre_animation": {"type": "array", "items": {"type": "string"}, "description": "Ce script s'exécute chaque image avant la lecture des animations. Ceci est utile pour calculer les variables qui seront utilisées dans les animations et qui doivent être calculées avant l'exécution de l'animation."},
-                "animate": {"type": "array", "description": "Ce script s'exécute chaque image après pre_animation. C'est ici que vous exécutez des animations et des contrôleurs d'animation. Chaque image, chaque animation ou contrôleur d'animation de cette clé sera exécuté.", "items": {"oneOf": [
-                    {"type": "string"},
-                    {"type": "object", "additionalProperties": {"type": "string"}}
-                ]}},
-                "should_update_bones_and_effects_offscreen": {"type": "boolean", "description": "Définie si les sons et particules d'animations continuent d'être joué hors écran."}
-            }},
-            "particle_effects": {"type": "object", "description": "Les effets de particules sont des fichiers contenant des informations sur le mouvement de nombreuses petites flèches pour créer des effets comme de la fumée ou du feu.", "additionalProperties": {
-                "type": "string"
-            }},
-            "sound_effects": {"type": "object", "description": "Les effets de sons à référencer pour l'Entité.", "additionalProperties": {
-                "type": "string"
-            }},
-            "enable_attachables": {"type": "boolean", "description": "Définie si l'entité peut équiper des Attachables."},
-            "held_item_ignores_lighting": {"type": "boolean", "description": "Définie si l'Item tenu par cet Entité doit être entièrement éclairé, ou alors être éclairé en fonction de l'éclairage ambiant."},
-            "hide_armor": {"type": "boolean", "description": "Définit si l'armure de l'Entité doit être caché ou non."},
-            "spawn_egg": {"type": "object", "description": "Définit la texture de l'icône de l'oeuf d'apparition de cet Entité.", "anyOf": [
-                {"properties": {
-                    "base_color": {"type": "string", "pattern": "^#([A-Fa-f0-9]{6})$", "description": "La couleur d'arrière plan de la texture de l'Oeuf d'apparition."},
-                    "overlay_color": {"type": "string", "pattern": "^#([A-Fa-f0-9]{6})$", "description": "La couleur de sur-couche de la texture de l'Oeuf d'apparition."}
-                }},
-                {"properties": {
-                    "texture": {"type": "string", "description": "La Texture pour l'icône de texture d'Oeuf d'apparition."},
-                    "texture_index": {"type": "number", "description": "L'index de la texture de la référence à utiliser."}
-                }}
-            ]}
-        }}
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "minecraft:client_entity": {
+            "description": "Contient toute la définition des ressources de l'Entité.",
+            "type": "object",
+            "required": ["description"],
+            "properties": {
+                "description": {
+                    "description": "Contient les propeiétés de Descriptions de l'Entité.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant de l'Entité.",
+                            "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                        },
+                        "min_engine_version": {
+                            "description": "Définit la version du jeu minimum pour que ce fichier soit analysé. Plusieurs fichiers de définition peuvent utiliser le même identifiant d'Entité, auquel cas une seule de ces définitions sera chargée. La définition avec une min_engine_version identique ou la plus proche et non supérieure, par rapport à la version du moteur du pack de ressources supérieur, sera analysée, toutes les autres définitions avec le même identifiant ne seront pas analysées.",
+                            "type": "string",
+                            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+                        },
+                        "materials": {
+                            "description": "Les Materiels à référencer pour cet Entité.",
+                            "type": "object",
+                            "properties": {
+                                "default": {
+                                    "description": "Le Materiel par défaut à utiliser.",
+                                    "type": "string"
+                                }
+                            },
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "textures": {
+                            "description": "Les Textures à référencer pour cet Entité.",
+                            "type": "object",
+                            "properties": {
+                                "default": {
+                                    "description": "La Texture par défaut à utiliser.",
+                                    "type": "string"
+                                }
+                            },
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "geometry": {
+                            "description": "Les Modèles à référencer pour cet Entité.",
+                            "type": "object",
+                            "properties": {
+                                "default": {
+                                    "description": "Le Modèle par défaut à utiliser.",
+                                    "type": "string",
+                                    "pattern": "^geometry\\..*"
+                                }
+                            },
+                            "additionalProperties": {
+                                "type": "string",
+                                "pattern": "^geometry\\..*"
+                            }
+                        },
+                        "animations": {
+                            "description": "Les animations et controlleurs d'animations à référencer.",
+                            "type": "object",
+                            "propertyNames": {
+                                "type": "string",
+                                "pattern": "^(controller\\.animation\\.|animation\\.).*"
+                            },
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "render_controllers": {
+                            "description": "La liste des render controllers",
+                            "type": "array",
+                            "items": {
+                                "oneOf": [
+                                    {
+                                        "type": "string",
+                                        "pattern": "^render_controller\\..*"
+                                    },
+                                    {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "string",
+                                            "pattern": "^render_controller\\..*"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "scripts": {
+                            "description": "Définie certains script que l'entité execute à certains moments.",
+                            "type": "object",
+                            "properties": {
+                                "scale": {
+                                    "description": "Définit la taille du modèle de l'entité.",
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                },
+                                "scaleX": {
+                                    "description": "Définit la taille X du modèle de l'entité.",
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                },
+                                "scaleY": {
+                                    "description": "Définit la taille Y du modèle de l'entité.",
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                },
+                                "scaleZ": {
+                                    "description": "Définit la taille Z du modèle de l'entité.",
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                },
+                                "initialize": {
+                                    "description": "Ce script s'exécute lors de la première initialisation de l'entité, c'est-à-dire lorsqu'elle apparaît et à chaque fois qu'elle est chargée.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "pre_animation": {
+                                    "description": "Ce script s'exécute chaque image avant la lecture des animations. Ceci est utile pour calculer les variables qui seront utilisées dans les animations et qui doivent être calculées avant l'exécution de l'animation.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "animate": {
+                                    "description": "Ce script s'exécute chaque image après pre_animation. C'est ici que vous exécutez des animations et des contrôleurs d'animation. Chaque image, chaque animation ou contrôleur d'animation de cette clé sera exécuté.",
+                                    "type": "array",
+                                    "items": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "should_update_bones_and_effects_offscreen": {
+                                    "description": "Définie si les sons et particules d'animations continuent d'être joué hors écran.",
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "particle_effects": {
+                            "description": "Les effets de particules sont des fichiers contenant des informations sur le mouvement de nombreuses petites flèches pour créer des effets comme de la fumée ou du feu.",
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "sound_effects": {
+                            "description": "Les effets de sons à référencer pour l'Entité.",
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        },
+                        "enable_attachables": {
+                            "description": "Définie si l'entité peut équiper des Attachables.",
+                            "type": "boolean"
+                        },
+                        "held_item_ignores_lighting": {
+                            "description": "Définie si l'Item tenu par cet Entité doit être entièrement éclairé, ou alors être éclairé en fonction de l'éclairage ambiant.",
+                            "type": "boolean"
+                        },
+                        "hide_armor": {
+                            "description": "Définit si l'armure de l'Entité doit être caché ou non.",
+                            "type": "boolean"
+                        },
+                        "spawn_egg": {
+                            "description": "Définit la texture de l'icône de l'oeuf d'apparition de cet Entité.",
+                            "type": "object",
+                            "oneOf": [
+                                {
+                                    "properties": {
+                                        "base_color": {
+                                            "description": "La couleur d'arrière plan de la texture de l'Oeuf d'apparition.",
+                                            "$ref": "../common.schema.json#/definitions/color_hex"
+                                        },
+                                        "overlay_color": {
+                                            "description": "La couleur de sur-couche de la texture de l'Oeuf d'apparition.",
+                                            "$ref": "../common.schema.json#/definitions/color_hex"
+                                        }
+                                    }
+                                },
+                                {
+                                    "properties": {
+                                        "texture": {
+                                            "description": "La Texture pour l'icône de texture d'Oeuf d'apparition.",
+                                            "type": "string"
+                                        },
+                                        "texture_index": {
+                                            "description": "L'index de la texture de la référence à utiliser.",
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
     }
 }
