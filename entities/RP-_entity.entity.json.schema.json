@@ -86,13 +86,13 @@
                                 "oneOf": [
                                     {
                                         "type": "string",
-                                        "pattern": "^render_controller\\..*"
+                                        "pattern": "^controller\\.render\\..*"
                                     },
                                     {
                                         "type": "object",
                                         "additionalProperties": {
                                             "type": "string",
-                                            "pattern": "^render_controller\\..*"
+                                            "pattern": "^controller\\.render\\..*"
                                         }
                                     }
                                 ]
