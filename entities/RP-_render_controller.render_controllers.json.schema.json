@@ -1,135 +1,358 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Définit les Render Controllers pour les entités (ou items).",
     "type": "object",
     "required": ["format_version", "render_controllers"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version-def"},
-        "render_controllers": {"$ref": "#/definitions/render_controllers-def"}
-    },
-
-    "definitions": {
-        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
-        "render_controllers-def": {"type": "object", "description": "Contient la définition de chaque Render Controller.", 
-            "additionalProperties": {"type": "object", "properties": {
-                "arrays": {"type": "object", "description": "Les listes de tous les modèles, textures et matérielles pour les variations.", "properties": {
-                    "geometries": {"type": "object",
-                        "additionalProperties": {"type": "array", "items": {"type": "string"}}
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "render_controllers": {
+            "description": "Contient la définition de chaque Render Controller.",
+            "type": "object",
+            "propertyNames": {
+                "type": "string",
+                "pattern": "^controller\\.render\\."
+            },
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "arrays": {
+                        "description": "Les listes de tous les modèles, textures et matérielles pour les variations.",
+                        "type": "object",
+                        "properties": {
+                            "geometries": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                }
+                            },
+                            "materials": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                }
+                            },
+                            "textures": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                }
+                            }
+                        }
                     },
-                    "materials": {"type": "object",
-                        "additionalProperties": {"type": "array", "items": {"type": "string"}}
+                    "geometry": {
+                        "description": "Le modèle d'Entité.",
+                        "type": "string",
+                        "examples": ["Geometry.default"]
                     },
-                    "textures": {"type": "object",
-                        "additionalProperties": {"type": "array", "items": {"type": "string"}}
+                    "materials": {
+                        "description": "Les Materielles de l'Entité.",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string",
+                                "examples": ["Material.default"]
+                            }
+                        }
+                    },
+                    "textures": {
+                        "description": "Les textures de l'Entité.",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "examples": ["Texture.default"]
+                        }
+                    },
+                    "part_visibility": {
+                        "description": "Définis les parties visibles du modèle à l'aide de requête Molang.",
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "oneOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "color": {
+                        "description": "Définit la couleur principale du Modèle.",
+                        "type": "object",
+                        "properties": {
+                            "r": {
+                                "description": "Le niveau de couleur de Rouge",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "g": {
+                                "description": "Le niveau de couleur de Vert",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "b": {
+                                "description": "Le niveau de couleur de Bleu",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "a": {
+                                "description": "Le niveau de transparence Alpha.",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "is_hurt_color": {
+                        "description": "Définit la couleur principale du Modèle quand l'entité est frappé.",
+                        "type": "object",
+                        "properties": {
+                            "r": {
+                                "description": "Le niveau de couleur de Rouge",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "g": {
+                                "description": "Le niveau de couleur de Vert",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "b": {
+                                "description": "Le niveau de couleur de Bleu",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "a": {
+                                "description": "Le niveau de transparence Alpha.",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "on_fire_color": {
+                        "description": "Définit la couleur principale du Modèle quand l'entité brule.",
+                        "properties": {
+                            "r": {
+                                "description": "Le niveau de couleur de Rouge",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "g": {
+                                "description": "Le niveau de couleur de Vert",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "b": {
+                                "description": "Le niveau de couleur de Bleu",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "a": {
+                                "description": "Le niveau de transparence Alpha.",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "overlay_color": {
+                        "description": "Définit la couleur de superposition supplémentaire du Modèle.",
+                        "properties": {
+                            "r": {
+                                "description": "Le niveau de couleur de Rouge",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "g": {
+                                "description": "Le niveau de couleur de Vert",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "b": {
+                                "description": "Le niveau de couleur de Bleu",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            },
+                            "a": {
+                                "description": "Le niveau de transparence Alpha.",
+                                "oneOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "number"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "ignore_lighting": {
+                        "description": "Définir si le modèle de l'entité ignore l'éclairage.",
+                        "type": "boolean"
+                    },
+                    "rebuild_animation_matrices": {
+                        "description": "Définit si les matrices d'animations doivent être reconstruites ou non.",
+                        "type": "boolean"
+                    },
+                    "uv_anim": {
+                        "description": "Spécifie comment animer les coordonnées de texture UV (U pour horizontal et V pour vertical) d'un objet 3D pendant une animation",
+                        "type": "object",
+                        "properties": {
+                            "offset": {
+                                "description": "Contrôle le décalage des coordonnées de texture UV",
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                }
+                            },
+                            "scale": {
+                                "description": "Contrôle l'échelle des coordonnées de texture UV.",
+                                "type": "array",
+                                "items": {
+                                    "oneOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "number"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "light_color_multiplier": {
+                        "description": "Spécifie un multiplicateur de couleur de lumière à appliquer au modèle.",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number"
+                            }
+                        ]
+                    },
+                    "filter_lighting": {
+                        "description": "Active ou désactive le filtrage de l'éclairage sur le modèle.",
+                        "oneOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "boolean"
+                            }
+                        ]
                     }
-                }},
-                "geometry": {"description": "Le modèle d'Entité.", "anyOf": [
-                    {"type": "string", "enum": ["Geometry.default"]},
-                    {"type": "string"}
-                ]},
-                "materials": {"type": "array", "description": "Les Materielles de l'Entité.", "items": {"type": "object", 
-                    "additionalProperties": {"type": "string"}
-                }},
-                "textures": {"type": "array", "description": "Les textures de l'Entité.", "items": {"type": "string"}},
-                "part_visibility": {"type": "array", "description": "Définis les parties visibles du modèle à l'aide de requête Molang.", "items": {"type": "object",
-                    "additionalProperties": {"oneOf": [
-                        {"type": "boolean"},
-                        {"type": "number"},
-                        {"type": "string"}
-                    ]}
-                }},
-                "color": {"type": "object", "description": "Définit la couleur principale du Modèle.", "properties": {
-                    "r": {"description": "Le niveau de couleur de Rouge", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "g": {"description": "Le niveau de couleur de Vert", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "b": {"description": "Le niveau de couleur de Bleu", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "a": {"description": "Le niveau de transparence Alpha.", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}
-                }},
-                "is_hurt_color": {"type": "object", "description": "Définit la couleur principale du Modèle quand l'entité est frappé.", "properties": {
-                    "r": {"description": "Le niveau de couleur de Rouge", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "g": {"description": "Le niveau de couleur de Vert", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "b": {"description": "Le niveau de couleur de Bleu", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "a": {"description": "Le niveau de transparence Alpha.", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}
-                }},
-                "on_fire_color": {"type": "object", "description": "Définit la couleur principale du Modèle quand l'entité brule.", "properties": {
-                    "r": {"description": "Le niveau de couleur de Rouge", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "g": {"description": "Le niveau de couleur de Vert", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "b": {"description": "Le niveau de couleur de Bleu", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "a": {"description": "Le niveau de transparence Alpha.", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}
-                }},
-                "overlay_color": {"type": "object", "description": "Définit la couleur de superposition supplémentaire du Modèle.", "properties": {
-                    "r": {"description": "Le niveau de couleur de Rouge", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "g": {"description": "Le niveau de couleur de Vert", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "b": {"description": "Le niveau de couleur de Bleu", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]},
-                    "a": {"description": "Le niveau de transparence Alpha.", "oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}
-                }},
-                "ignore_lighting": {"type": "boolean", "description": "Définir si le modèle de l'entité ignore l'éclairage."},
-                "rebuild_animation_matrices": {"type": "boolean", "description": "Définit si les matrices d'animations doivent être reconstruites ou non."},
-                "uv_anim": {"type": "object", "description": "Spécifie comment animer les coordonnées de texture UV (U pour horizontal et V pour vertical) d'un objet 3D pendant une animation", "properties": {
-                    "offset": {"type": "array", "description": "Contrôle le décalage des coordonnées de texture UV", "items": {"oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}},
-                    "scale": {"type": "array", "description": "Contrôle l'échelle des coordonnées de texture UV.", "items": {"oneOf": [
-                        {"type": "string"},
-                        {"type": "number"}
-                    ]}}
-                }},
-                "light_color_multiplier": {"description": "Spécifie un multiplicateur de couleur de lumière à appliquer au modèle.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "number"}
-                ]},
-                "filter_lighting": {"description": "Active ou désactive le filtrage de l'éclairage sur le modèle.", "oneOf": [
-                    {"type": "string"},
-                    {"type": "boolean"}
-                ]}
-            }}
+                }
+            }
         }
     }
 }
