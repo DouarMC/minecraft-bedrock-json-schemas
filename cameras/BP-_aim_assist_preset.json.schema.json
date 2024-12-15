@@ -5,8 +5,7 @@
     "properties": {
         "format_version": {
             "description": "La version du Format à utiliser.",
-            "type": "string",
-            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+            "$ref": "../common.schema.json#/definitions/format_version"
         },
         "minecraft:aim_assist_preset": {
             "description": "La configuration de l'assistance à la visée.",
@@ -14,11 +13,12 @@
             "properties": {
                 "identifier": {
                     "description": "L'identifiant de la configuration de l'assistance à la visée.",
-                    "type": "string"
+                    "$ref": "../common.schema.json#/definitions/string_with_namespace"
                 },
                 "categories": {
                     "description": "L'identifiant du groupe de catégories de l'assistance à la visée.",
-                    "type": "string"
+                    "type": "string",
+                    "$ref": "../common.schema.json#/definitions/string_with_namespace"
                 },
                 "item_settings": {
                     "description": "Associe certains items à des catégories spécifiques.",
