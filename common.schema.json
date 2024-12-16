@@ -240,6 +240,8 @@
                 "void", "wither"
             ]
         },
-        "test": {}
+        "test": {
+            "enum": ["test"]
+        }
     }
 }
