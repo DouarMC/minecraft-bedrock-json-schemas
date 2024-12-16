@@ -72,7 +72,8 @@
                             "description": "Les animations et controlleurs d'animations à référencer.",
                             "type": "object",
                             "additionalProperties": {
-                                "type": "string"
+                                "type": "string",
+                                "pattern": "^(controller\\.animation\\.|animation\\.).*"
                             }
                         },
                         "render_controllers": {
