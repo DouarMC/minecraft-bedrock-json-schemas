@@ -239,6 +239,7 @@
                 "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
                 "void", "wither"
             ]
-        }
+        },
+        "test": {}
     }
 }
