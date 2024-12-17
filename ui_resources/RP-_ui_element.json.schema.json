@@ -22,7 +22,7 @@
                             "enum": [
                                 "panel", "stack_panel", "collection_panel", "grid", "label", "image", "input_panel", "button",
                                 "toggle", "dropdown", "slider", "slider_box", "edit_box", "scroll_view", "scrollbar_track",
-                                "scrollbar_box", "factory", "screen", "custom", "selection_wheel"
+                                "scrollbar_box", "factory", "screen", "custom", "selection_wheel", false
                             ]
                         }
                     }
@@ -38,7 +38,7 @@
                             "enum": [
                                 "panel", "stack_panel", "collection_panel", "grid", "label", "image", "input_panel", "button",
                                 "toggle", "dropdown", "slider", "slider_box", "edit_box", "scroll_view", "scrollbar_track",
-                                "scrollbar_box", "factory", "screen", "custom", "selection_wheel"
+                                "scrollbar_box", "factory", "screen", "custom", "selection_wheel", false
                             ]
                         }
                     }
@@ -51,7 +51,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["stack_panel"]
+                            "enum": ["stack_panel", false]
                         }
                     }
                 },
@@ -63,7 +63,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["label"]
+                            "enum": ["label", false]
                         }
                     }
                 },
@@ -75,7 +75,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["stack_panel", "collection_panel", "grid"]
+                            "enum": ["stack_panel", "collection_panel", "grid", false]
                         }
                     }
                 },
@@ -87,7 +87,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["image"]
+                            "enum": ["image", false]
                         }
                     }
                 },
@@ -101,7 +101,7 @@
                         "type": {
                             "enum": [
                                 "panel", "stack_panel", "collection_panel", "grid", "label", "image", "input_panel", "button",
-                                "toggle", "dropdown", "slider", "slider_box", "edit_box", "scroll_view", "screen", "custom", "selection_wheel"
+                                "toggle", "dropdown", "slider", "slider_box", "edit_box", "scroll_view", "screen", "custom", "selection_wheel", false
                             ]
                         }
                     }
@@ -114,7 +114,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["button", "edit_box"]
+                            "enum": ["button", "edit_box", false]
                         }
                     }
                 },
@@ -126,7 +126,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["grid"]
+                            "enum": ["grid", false]
                         }
                     }
                 },
@@ -140,7 +140,7 @@
                         "type": {
                             "enum": [
                                 "input_panel", "button","toggle", "dropdown", "slider", "slider_box", "edit_box", 
-                                "scroll_view", "scrollbar_track", "scrollbar_box", "selection_wheel"
+                                "scroll_view", "scrollbar_track", "scrollbar_box", "selection_wheel", false
                             ]
                         }
                     }
@@ -154,7 +154,7 @@
                     "properties": {
                         "type": {
                             "enum": [
-                                "input_panel", "button", "toggle", "dropdown", "slider", "edit_box", "selection_wheel"
+                                "input_panel", "button", "toggle", "dropdown", "slider", "edit_box", "selection_wheel", false
                             ]
                         }
                     }
@@ -167,7 +167,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["toggle", "dropdown"]
+                            "enum": ["toggle", "dropdown", false]
                         }
                     }
                 },
@@ -179,7 +179,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["dropdown"]
+                            "enum": ["dropdown", false]
                         }
                     }
                 },
@@ -191,7 +191,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["input_panel", "button", "toggle", "dropdown", "slider", "selection_wheel"]
+                            "enum": ["input_panel", "button", "toggle", "dropdown", "slider", "selection_wheel", false]
                         }
                     }
                 },
@@ -203,7 +203,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["edit_box"]
+                            "enum": ["edit_box", false]
                         }
                     }
                 },
@@ -215,7 +215,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["slider"]
+                            "enum": ["slider", false]
                         }
                     }
                 },
@@ -227,7 +227,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["slider_box"]
+                            "enum": ["slider_box", false]
                         }
                     }
                 },
@@ -239,7 +239,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["scroll_view"]
+                            "enum": ["scroll_view", false]
                         }
                     }
                 },
@@ -251,7 +251,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["custom"]
+                            "enum": ["custom", false]
                         }
                     }
                 },
@@ -263,7 +263,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["screen"]
+                            "enum": ["screen", false]
                         }
                     }
                 },
@@ -275,7 +275,7 @@
                 "if": {
                     "properties": {
                         "type": {
-                            "enum": ["selection_wheel"]
+                            "enum": ["selection_wheel", false]
                         }
                     }
                 },
@@ -286,7 +286,9 @@
             {
                 "if": {
                     "properties": {
-                        "anim_type": {}
+                        "anim_type": {
+                            "enum": [true, false]
+                        }
                     }
                 },
                 "then": {
