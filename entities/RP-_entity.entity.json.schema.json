@@ -212,7 +212,7 @@
                         "spawn_egg": {
                             "description": "Définit la texture de l'icône de l'oeuf d'apparition de cet Entité.",
                             "type": "object",
-                            "oneOf": [
+                            "anyOf": [
                                 {
                                     "properties": {
                                         "base_color": {
