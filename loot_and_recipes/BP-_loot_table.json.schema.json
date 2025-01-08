@@ -256,9 +256,18 @@
                         "description": "La Pool devient hierachisé. Elle suit un ordre pour choisir une seule des entrées de Loot à partir d'un index choisi aléatoirement.",
                         "type": "object",
                         "properties": {
-                            "initial_range": {"type": "number", "description": "Définie la range pour choisir l'index initial."},
-                            "bonus_rolls": {"type": "number", "description": "Le nombre de lancer pour avoir une chance de passer à l'index suivant."},
-                            "bonus_chance": {"type": "number", "description": "Le pourcentage de chance que l'index incrémente lors d'un lancer."}
+                            "initial_range": {
+                                "description": "Définie la range pour choisir l'index initial.",
+                                "type": "number"
+                            },
+                            "bonus_rolls": {
+                                "description": "Le nombre de lancer pour avoir une chance de passer à l'index suivant.",
+                                "type": "number"
+                            },
+                            "bonus_chance": {
+                                "description": "Le pourcentage de chance que l'index incrémente lors d'un lancer.",
+                                "type": "number"
+                            }
                         }
                     },
                     "entries": {
@@ -271,9 +280,19 @@
                                     "description": "Contient toutes les conditions à valider pour que cette entrée de Loot s'execute. (ou modificateur de Loot)",
                                     "$ref": "#/properties/pools/items/properties/conditions"
                                 },
-                                "type": {"type": "string", "enum": ["item", "loot_table", "empty"], "description": "Définit le type de Loot."},
-                                "name": {"type": "string", "description": "Définit le type d'item."},
-                                "weight": {"type": "number", "description": "Définit le poids de chance de cette entrée."},
+                                "type": {
+                                    "description": "Définit le type de Loot.",
+                                    "type": "string",
+                                    "enum": ["item", "loot_table", "empty"]
+                                },
+                                "name": {
+                                    "description": "Définit le type d'item.",
+                                    "type": "string"
+                                },
+                                "weight": {
+                                    "description": "Définit le poids de chance de cette entrée.",
+                                    "type": "number"
+                                },
                                 "functions": {
                                     "description": "Contient les différentes fonctions qui appliqueront des modifications à l'Item de l'entrée de Loot.",
                                     "$ref": "../common.schema.json#/definitions/item_functions"
