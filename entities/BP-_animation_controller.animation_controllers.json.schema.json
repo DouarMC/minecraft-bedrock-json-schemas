@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier définit un Animation Controller de type Behvaior.",
+    "type": "object",
+    "required": ["format_version", "animation_controllers"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        },
+        "animation_controllers": {
+            "description": "Contient la définition de chaque Animation Controller.",
+            "type": "object",
+            "additionalProperties": {
+
+            },
+            "propertyNames": {
+                "pattern": "^controller\\.animation\\..*"
+            }
+        }
+    },
+
+    "definitions": {
+        "format_version-def": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "La version du Format à utiliser."},
+        "animation_controllers-def": {"type": "object", "description": "Contient la définition de chaque Render Controller.", 
+            "additionalProperties": {"type": "object", "properties": {
+                "initial_state": {"type": "string", "description": "Définit l'état initial de cet Animation Controller."},
+                "states": {"type": "object", "description": "Contient tous les états de cet Animation Controller.",
+                    "additionalProperties": {"type": "object", "properties": {
+                        "transitions": {"type": "array", "description": "La liste des transitions d'états avec des conditions Molang.", "items": {"type": "object", 
+                            "additionalProperties": {"type": "string"}
+                        }},
+                        "blend_transition": {"description": "Le temps de fondu de transition.", "oneOf": [
+                            {"type": "string"},
+                            {"type": "number"}
+                        ]},
+                        "sound_effects": {"type": "array", "description": "La liste des effets de sons référencés à jouer.", "items": {"type": "object", "properties": {
+                            "effect": {"type": "string", "description": "L'effet de son référencé."}
+                        }}},
+                        "particle_effects": {"type": "array", "description": "La liste des effets de Particules référencés à jouer.", "items": {"type": "object", "properties": {
+                            "effect": {"type": "string", "description": "L'effet de Particule référencé."},
+                            "locator": {"type": "string", "description": "Le locator où se jouera l'effet de Particule."}
+                        }}},
+                        "animations": {"type": "array", "description": "Les animations référencés à jouer.", "items": {"oneOf": [
+                            {"type": "string"},
+                            {"type": "object", "additionalProperties": {"type": "string"}}
+                        ]}},
+                        "variables": {"type": "object", "description": "Contient les Variables Molang sui seront crée et remappabble.",
+                            "additionalProperties": {"type": "object", "properties": {
+                                "input": {"type": "string", "description": "La valeur initial de cette Variable."},
+                                "remap_curve": {"type": "object", "description": "Remappage de la valeur de la variable molang en fonction de la valeur de la requête molang et des propriétés de cette propriété.",
+                                    "additionalProperties": {"type": "number"}
+                                }
+                            }}
+                        },
+                        "blend_via_shortest_path": {"type": "boolean", "description": "Déinit si l'animation prends un chemin plus rapide pour effectuer une rotation."},
+                        "on_entry": {"type": "array", "description": "Les 'Commandes' à exécuter à l'entrée dans cet état. Une commande peut être une slash commande, un déclencheur d'evenement, ou une expression molang arbitraire.", "items": {"type": "string"}},
+                        "on_exit": {"type": "array", "description": "Les 'Commandes' à exécuter à la sortie de cet état. Une commande peut être une slash commande, un déclencheur d'evenement, ou une expression molang arbitraire.", "items": {"type": "string"}}
+                    }}
+                }
+            }}
+        }
+    }
+}
