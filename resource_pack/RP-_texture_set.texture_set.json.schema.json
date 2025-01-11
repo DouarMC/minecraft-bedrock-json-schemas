@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer plusieurs couches PBR (Physically Based Rendering) pour une texture, améliorant ainsi la qualité visuelle",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour ce texture_set (ex: 1.21.50).",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "format_version": {
+                        "const": "1.21.50"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "../format_version/1.21.50/RP-_texture_set.texture_set.json.schema.json"
+            }
+        }
+    ]
+}

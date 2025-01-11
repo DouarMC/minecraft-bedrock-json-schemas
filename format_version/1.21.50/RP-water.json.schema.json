@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer les caractéristiques de l'eau dans Minecraft.",
+    "required": ["format_version", "minecraft:water_settings"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour ces paramètres d'eau (ex: 1.21.50).",
+            "const": "1.21.50"
+        }
+    }
+}

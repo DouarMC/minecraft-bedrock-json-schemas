@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier définit un dialogue de NPC.",
+    "type": "object",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "format_version": {
+                        "const": "1.21.50"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "../format_version/1.21.50/BP-_dialogue.json.schema.json"
+            }
+        }
+    ]
+}

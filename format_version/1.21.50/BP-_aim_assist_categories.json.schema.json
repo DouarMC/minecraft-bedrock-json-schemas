@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer des catégories d'aim assist.",
+    "type": "object",
+    "required": ["format_version", "minecraft:aim_assist_categories"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "const": "1.21.50"
+        },
+        "minecraft:aim_assist_categories": {
+            "description": "La définition des catégories d'assistance à la visée.",
+            "required": ["identifier", "categories"],
+            "properties": {
+                "identifier": {
+                    "description": "L'identifiant.",
+                    "$ref": "../../common.schema.json#/definitions/string_with_namespace"
+                },
+                "categories": {
+                    "description": "Les catégories d'assistance à la visée.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": ["name"],
+                        "properties": {
+                            "name": {
+                                "description": "Le nom de la catégorie.",
+                                "type": "string"
+                            },
+                            "entity_default": {
+                                "description": "La priorité par défaut pour les entités.",
+                                "type": "integer"
+                            },
+                            "block_default": {
+                                "description": "La priorité par défaut pour les blocs.",
+                                "type": "integer"
+                            },
+                            "priorities": {
+                                "description": "Les priorités pour les entités et les blocs par spécificité.",
+                                "type": "object",
+                                "properties": {
+                                    "blocks": {
+                                        "description": "Les priorités pour les blocs.",
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "entities": {
+                                        "description": "Les priorités pour les entités.",
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

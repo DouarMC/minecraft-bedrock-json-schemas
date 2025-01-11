@@ -1,0 +1,98 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "desscription": "Définit les propriétés du client du biome.",
+    "type": "object",
+    "required": ["format_version", "minecraft:client_biome"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "const": "1.21.50"
+        },
+        "minecraft:client_biome": {
+            "description": "Contient toute la définition du client du biome.",
+            "type": "object",
+            "required": ["description", "components"],
+            "properties": {
+                "descripion": {
+                    "description": "Contient toute la descripion du biome.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant du biome",
+                            "type": "string"
+                        }
+                    }
+                },
+                "components": {
+                    "description": "Contient les composants du biome.",
+                    "type": "object",
+                    "properties": {
+                        "minecraft:ambient_sounds": {
+                            "description": "Définit les sons ambiants du biome. Ces sons doivent être dans les 'individual_named_sounds' d'un fichier 'sounds.json'.",
+                            "type": "object",
+                            "properties": {
+                                "addition": {
+                                    "description": "Son qui se joue occasionnellement à la position de l'auditeur.",
+                                    "type": "string"
+                                },
+                                "loop": {
+                                    "description": "Son qui se joue en boucle à la position de l'auditeur.",
+                                    "type": "string"
+                                },
+                                "mood": {
+                                    "description": "Son qui se joue rarement à la position de bloc d'air la plus proche lorsque le niveau de lumière est faible. Les biomes sans son d'ambiance de mood utiliseront le son 'ambient.cave'.",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "minecraft:biome_music": {
+                            "description": "Définit comment la musique est jouée dans le biome.",
+                            "type": "object",
+                            "properties": {
+                                "volume_multiplier": {
+                                    "description": "Multiplicateur temporaire et progressif appliqué au volume de la musique lorsque dans ce biome. Doit être une valeur entre 0 et 1, inclusivement.",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        },
+                        "minecraft:fog_appearance": {
+                            "description": "Définit le brouillard à utiliser.",
+                            "type": "object",
+                            "properties": {
+                                "fog_identifier": {
+                                    "description": "L'identifiant du brouillard à utiliser.",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "minecraft:sky_color": {
+                            "description": "Définit la couleur du ciel.",
+                            "type": "object",
+                            "required": ["sky_color"],
+                            "properties": {
+                                "sky_color": {
+                                    "description": "La couleur du ciel.",
+                                    "$ref": "../common.schema.json#/definitions/color_format"
+                                }
+                            }
+                        },
+                        "minecraft:water_appearance": {
+                            "description": "Définit la couleur de la surface de l'eau.",
+                            "type": "object",
+                            "required": ["surface_color"],
+                            "properties": {
+                                "surface_color": {
+                                    "description": "La couleur de la surface de l'eau.",
+                                    "$ref": "../common.schema.json#/definitions/color_format"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

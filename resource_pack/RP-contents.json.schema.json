@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à repertorier tous les fichiers présents dans un Pack pour des meilleures performances. \nType : object",
+    "type": "object",
+    "properties": {
+        "content": {
+            "description": "Liste contenant le chemin d'accès de tous les fichiers présents dans ce Pack. \nType : object[]",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "path": {
+                        "description": "Le chemin d'accès d'un fichier du pack. \nType : string",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

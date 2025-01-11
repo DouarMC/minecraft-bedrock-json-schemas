@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer l'apparence visuelle du jeu en ajustant des paramètres tels que la saturation, le contraste, la luminosité, et les ombres pour créer des ambiances ou des thèmes spécifiques.",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour ces paramètres de color grading (Ex : 1.21.50)",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "format_version": {
+                        "const": "1.21.50"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "../format_version/1.21.50/RP-color_grading.json.schema.json"
+            }
+        }
+    ]
+}

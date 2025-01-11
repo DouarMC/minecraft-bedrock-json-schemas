@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer des effets de brouillard volumétrique et de rayons lumineux (light shafts)",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour les effets de brouillard (ex: 1.21.50)",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "format_version": {
+                        "const": "1.21.50"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "../format_version/1.21.50/RP-_fog_settings.json.schema.json"
+            }
+        }
+    ]
+}

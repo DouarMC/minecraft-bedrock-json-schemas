@@ -1,0 +1,94 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer un preset de Caméra.",
+    "type": "object",
+    "required": ["format_version", "minecraft:camera_preset"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "const": "1.21.50"
+        },
+        "minecraft:camera_preset": {
+            "type": "object",
+            "properties": {
+                "identifier": {
+                    "description": "L'identifiant du Preset de Caméra.",
+                    "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                },
+                "inherit_from": {
+                    "description": "L'identifiant du Preset de Caméra auquel notre Preset héritera de ces propriétés.",
+                    "type": "string",
+                    "examples": [
+                        "minecraft:fixed_boom",
+                        "minecraft:follow_orbit",
+                        "minecraft:free",
+                        "minecraft:third_person",
+                        "minecraft:third_person_front"
+                    ]
+                },
+                "pos_x": {
+                    "description": "La position X par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "pos_y": {
+                    "description": "La position Y par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "pos_z": {
+                    "description": "La position Z par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "rot_x": {
+                    "description": "La rotation X par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "rot_y": {
+                    "description": "La rotation Y par défaut de ce Preset de Caméra.",
+                    "type": "number"
+                },
+                "player_effects": {
+                    "description": "Défini si ce Preset de Caméra contiendra les effets de potions du joueur comme Vision Nocturne ou Cécité.",
+                    "type": "boolean"
+                },
+                "listener": {
+                    "description": "Définit que la position du joueur sera utilisé pour l'écoute des sons.",
+                    "const": "player"
+                },
+                "view_offset": {
+                    "description": "Point d'ancrage qui est au centre de l'écran. Définit le décalage du joueur entre le centre de l'écran et lui.",
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "entity_offset": {
+                    "description": "",
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "radius": {
+                    "description": "Distance entre la caméra 3rd et le joueur.",
+                    "type": "number"
+                },
+                "rotation_speed": {
+                    "description": "Contrôler la vitesse de rotation pour cibler une entité. Cette valeur sera un flottant qui représente les degrés de rotation par seconde.",
+                    "type": "number"
+                },
+                "snap_to_target": {
+                    "description": "Permettre l'accrochage à l'entité cible lors du premier tick.",
+                    "type": "boolean"
+                },
+                "align_target_and_camera_forward": {
+                    "description": "Aligner la direction de la caméra avec la direction de la cible.",
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

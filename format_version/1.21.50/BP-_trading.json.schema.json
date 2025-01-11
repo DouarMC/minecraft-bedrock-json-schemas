@@ -1,0 +1,185 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à définir une table d'échanges pour les PNJ.",
+    "type": "object",
+    "required": ["format_version", "tiers"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "const": "1.21.50"
+        },
+        "tiers": {
+            "description": "Les différents Tiers de la Table d'échanges.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "groups": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "num_to_select": {
+                                    "description": "Indique le nombre d'échanges à sélectionner pour ce niveau. (Valeur 0 (ou non spécifiée) : Tous les échanges de la liste seront sélectionnés par défaut.)",
+                                    "type": "number"
+                                },
+                                "trades": {
+                                    "description": "Represente une transaction entre un marchand et le joueur.",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "wants": {
+                                                "description": "Les items que le marchand veut.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "oneOf": [
+                                                        {
+                                                            "properties": {
+                                                                "choice": {
+                                                                    "description": "Les choix possibles pour cet item (au hasard).",
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "object",
+                                                                        "properties": {
+                                                                            "item": {
+                                                                                "description": "L'identifiant de l'item.",
+                                                                                "type": "string"
+                                                                            },
+                                                                            "quantity": {
+                                                                                "description": "La quantité de l'item.",
+                                                                                "oneOf": [
+                                                                                    {
+                                                                                        "type": "object",
+                                                                                        "properties": {
+                                                                                            "min": {
+                                                                                                "description": "La quantité minimale de l'item.",
+                                                                                                "type": "integer"
+                                                                                            },
+                                                                                            "max": {
+                                                                                                "description": "La quantité maximale de l'item.",
+                                                                                                "type": "integer"
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ]
+                                                                            },
+                                                                            "price_multiplier": {
+                                                                                "description": "Le multiplicateur de prix pour cet item. Il est optionnel et a une valeur par défaut de 0. Dans le système moderne, il affecte uniquement le premier objet demandé dans un échange, tandis que dans le système hérité, il peut affecter tous les objets demandés.",
+                                                                                "default": 0,
+                                                                                "type": "number"
+                                                                            },
+                                                                            "functions": {
+                                                                                "description": "Les fonctions à appliquer à l'item.",
+                                                                                "$ref": "../common.schema.json#/definitions/item_functions"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        },
+                                                        {
+                                                            "properties": {
+                                                                "item": {
+                                                                    "description": "L'identifiant de l'item.",
+                                                                    "type": "string"
+                                                                },
+                                                                "quantity": {
+                                                                    "description": "La quantité de l'item.",
+                                                                    "oneOf": [
+                                                                        {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "min": {
+                                                                                    "description": "La quantité minimale de l'item.",
+                                                                                    "type": "integer"
+                                                                                },
+                                                                                "max": {
+                                                                                    "description": "La quantité maximale de l'item.",
+                                                                                    "type": "integer"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "price_multiplier": {
+                                                                    "description": "Le multiplicateur de prix pour cet item. Il est optionnel et a une valeur par défaut de 0. Dans le système moderne, il affecte uniquement le premier objet demandé dans un échange, tandis que dans le système hérité, il peut affecter tous les objets demandés.",
+                                                                    "default": 0,
+                                                                    "type": "number"
+                                                                },
+                                                                "functions": {
+                                                                    "description": "Les fonctions à appliquer à l'item.",
+                                                                    "$ref": "../common.schema.json#/definitions/item_functions"
+                                                                }
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "gives": {
+                                                "description": "Les items que le marchand donne.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "item": {
+                                                            "description": "L'identifiant de l'item.",
+                                                            "type": "string"
+                                                        },
+                                                        "quantity": {
+                                                            "description": "La quantité de l'item.",
+                                                            "oneOf": [
+                                                                {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "min": {
+                                                                            "description": "La quantité minimale de l'item.",
+                                                                            "type": "integer"
+                                                                        },
+                                                                        "max": {
+                                                                            "description": "La quantité maximale de l'item.",
+                                                                            "type": "integer"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        "functions": {
+                                                            "description": "Les fonctions à appliquer à l'item.",
+                                                            "$ref": "../common.schema.json#/definitions/item_functions"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "max_uses": {
+                                                "description": "Le nombre maximum de fois que cet échange peut être utilisé avant de devoir être renouvelé.",
+                                                "type": "integer"
+                                            },
+                                            "reward_exp": {
+                                                "description": "Détermine si le joueur reçoit de l'expérience pour avoir effectué cet échange.",
+                                                "type": "boolean"
+                                            },
+                                            "trader_exp": {
+                                                "description": "L'expérience que le marchand reçoit pour avoir effectué cet échange.",
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "total_exp_required": {
+                        "description": "L'expérience totale requise pour atteindre ce niveau.",
+                        "type": "integer"
+                    },
+                    "trades": {
+                        "description": "Les échanges possibles pour ce niveau.",
+                        "$ref": "#/properties/tiers/items/properties/groups/items/properties/trades"
+                    }
+                }
+            }
+        }
+    }
+}

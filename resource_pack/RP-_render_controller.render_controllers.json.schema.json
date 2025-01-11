@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Définit les Render Controllers pour les entités (ou items).",
+    "type": "object",
+    "required": ["format_version"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser.",
+            "$ref": "../common.schema.json#/definitions/format_version"
+        }
+    },
+    "allOf": [
+        {
+            "if": {
+                "properties": {
+                    "format_version": {
+                        "const": "1.21.50"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "../format_version/1.21.50/RP-_render_controller.render_controllers.json.schema.json"
+            }
+        }
+    ]
+}

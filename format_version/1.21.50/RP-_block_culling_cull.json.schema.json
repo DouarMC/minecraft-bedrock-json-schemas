@@ -1,0 +1,63 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à définir les règles de culling de blocs pour un modèle de bloc.",
+    "type": "object",
+    "required": ["format_version", "minecraft:block_culling_rules"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser (ex: 1.21.50).",
+            "const": "1.21.50"
+        },
+        "minecraft:block_culling_rules": {
+            "description": "Contient toute la définition de ces règles de Block Culling.",
+            "type": "object",
+            "required": ["description", "rules"],
+            "properties": {
+                "description": {
+                    "description": "Contient des informations de descriptions du Block Culling.",
+                    "type": "object",
+                    "required": ["identifier"],
+                    "properties": {
+                        "identifier": {
+                            "description": "L'identifiant du Block Culling.",
+                            "type": "string"
+                        }
+                    }
+                },
+                "rules": {
+                    "description": "La liste des règles de ce Block Culling",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "geometry_part": {
+                                "description": "Spécifie l'os, le cube, et la face à cull.",
+                                "type": "object",
+                                "properties": {
+                                    "bone": {
+                                        "description": "L'os (dossier de modèle) qui subira le culling.",
+                                        "type": "string"
+                                    },
+                                    "cube": {
+                                        "description": "L'index du cube de modèle de l'os à cull.",
+                                        "type": "number"
+                                    },
+                                    "face": {
+                                        "description": "La face du cube à cull.",
+                                        "type": "string",
+                                        "enum": ["up", "down", "north", "east", "south", "west"]
+                                    }
+                                }
+                            },
+                            "direction": {
+                                "description": "Spécifie la direction du bloc voisin pour vérifier la sélection. Cette direction pivote avec le component Transform d'un bloc.",
+                                "type": "string",
+                                "enum": ["up", "down", "north", "east", "south", "west"]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

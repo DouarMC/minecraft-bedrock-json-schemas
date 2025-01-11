@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à configurer plusieurs couches PBR (Physically Based Rendering) pour une texture, améliorant ainsi la qualité visuelle",
+    "required": ["format_version", "minecraft:texture_set"],
+    "properties": {
+        "format_version": {
+            "description": "La version du Format à utiliser pour ce texture_set (ex: 1.21.50).",
+            "const": "1.21.50"
+        },
+        "minecraft:texture_set": {
+            "description": "Contient toute la définition des textures PBR.",
+            "type": "object",
+            "properties": {
+                "color": {
+                    "description": "Définit la couleur de la texture (en utilisant soit une image RGBA, soit une couleur uniforme).",
+                    "oneOf": [
+                        {
+                            "$ref": "../common.schema.json#/definitions/color_format_alpha"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "normal": {
+                    "description": "Applique une carte normale (normal map) à la texture, influençant l'apparence de la surface sans changer sa géométrie.",
+                    "type": "string"
+                },
+                "heightmap": {
+                    "description": "Définit la hauteur de la surface à partir d'une texture, affectant l'élévation des pixels pour donner un effet de relief.",
+                    "type": "string"
+                },
+                "metalness_emissive_roughness": {
+                    "description": "Définit la combinaison de trois propriétés : métallisation, émission de lumière, et rugosité de la surface à travers une texture RGB ou une valeur uniforme.",
+                    "oneOf": [
+                        {
+                            "$ref": "../common.schema.json#/definitions/color_format"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "metalness_emissive_roughness_subsurface": {
+                    "description": "Une extension de MER avec un quatrième canal (alpha) pour la diffusion sous-surface, typiquement utilisé pour des matériaux comme la peau ou les plantes (qui peuvent avoir une certaine diffusion de la lumière à travers eux).",
+                    "oneOf": [
+                        {
+                            "$ref": "../common.schema.json#/definitions/color_format_alpha"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
