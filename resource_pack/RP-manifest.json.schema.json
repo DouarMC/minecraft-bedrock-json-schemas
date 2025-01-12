@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "Ce fichier contient toutes les informations basiques d'un pack qui permet auxquels Minecraft a besoin d'identifier. \nType : object",
+    "description": "Ce fichier contient toutes les informations basiques d'un resource pack qui permet auxquels Minecraft a besoin d'identifier. \nType : object",
     "type": "object",
     "required": ["format_version", "header", "modules"],
     "properties": {
@@ -43,6 +43,12 @@
                         "type": "integer",
                         "minimum": 0
                     }
+                },
+                "pack_scope": {
+                    "description": "Définit où le pack peut être activé. \nType : string",
+                    "default": "any",
+                    "type": "string",
+                    "enum": ["world", "global", "any"]
                 }
             }
         },
@@ -59,7 +65,7 @@
                     "type": {
                         "description": "Type du Module. \nType : string",
                         "type": "string",
-                        "enum": ["data", "script"]
+                        "enum": ["resources"]
                     },
                     "uuid": {
                         "description": "L'UUID du module qui doit être différent de l'en-tête. \nType : string",
@@ -75,25 +81,6 @@
                             "minimum": 0
                         }
                     }
-                },
-                "if": {
-                    "properties": {
-                        "type": {
-                            "const": "script"
-                        }
-                    }
-                },
-                "then": {
-                    "properties": {
-                        "language": {
-                            "description": "Le langage de programmation utilisé pour le script. \nType : string",
-                            "const": "javascript"
-                        },
-                        "entry": {
-                            "description": "Chemin d'accès au fichier qui s'executera pour le script. \nType : string",
-                            "type": "string"
-                        }
-                    }
                 }
             }
         },
@@ -107,37 +94,15 @@
                         "description": "UUID du pack auquel ce Pack est dépendant à celui-ci. \nType : string",
                         "$ref": "../common.schema.json#/definitions/uuid"
                     },
-                    "module_name": {
-                        "description": "Nom du module de Script que ce Pack nécessite. \nType : string",
-                        "type": "string",
-                        "enum": [
-                            "@minecraft/server",
-                            "@minecraft/server-ui",
-                            "@minecraft/server-gametest",
-                            "@minecraft/server-net",
-                            "@minecraft/server-admin",
-                            "@minecraft/common",
-                            "@minecraft/debug-utilities",
-                            "@minecraft/server-editor"
-                        ]
-                    },
                     "version": {
-                        "description": "Version de l'autre pack nécessaire ou version du module de script nécéssaire ou version du module de script à utiliser. \nType : number[3] | string",
-                        "oneOf": [
-                            {
-                                "type": "array",
-                                "minItems": 3,
-                                "maxItems": 3,
-                                "items": {
-                                    "type": "integer",
-                                    "minimum": 0
-                                }
-                            },
-                            {
-                                "type": "string",
-                                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-beta)?$"
-                            }
-                        ]
+                        "description": "Version de l'autre pack nécessaire à utiliser. \nType : number[3]",
+                        "type": "array",
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
                     }
                 }
             }
@@ -147,7 +112,7 @@
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["chemistry", "editorExtension", "script_eval"]
+                "enum": ["raytraced", "pbr"]
             }
         },
         "subpacks": {
