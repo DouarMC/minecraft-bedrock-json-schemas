@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "Ce fichier sert à créer une recette.",
+    "description": "Ce fichier sert à créer une recette. \n Type : object",
     "type": "object",
     "required": ["format_version"],
     "properties": {

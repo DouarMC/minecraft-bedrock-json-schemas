@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "Ce fichier sert à executer en boucle des fonctions de commandes. Type : object",
+    "description": "Ce fichier sert à executer en boucle des fonctions de commandes. \n Type : object",
     "type": "object",
     "required": ["values"],
     "properties": {
