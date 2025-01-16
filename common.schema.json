@@ -29,11 +29,23 @@
         },
         "entity_damage_causes_id": {
             "$comment": "Listes des causes de dégâts possibles.",
-            "type": "string",
             "enum": [
                 "all", "anvil", "attack", "block_explosion", "contact", "drowning", "entity_explosion", "fall", "falling_block", "fatal", "fire", "fire_tick", "fly_into_wall", 
                 "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
                 "void", "wither"
+            ]
+        },
+        "vanilla_item_tags_id": {
+            "$comment": "Liste des identifiants des tags d'items.",
+            "enum": [
+                "minecraft:is_armor", "minecraft:arrow", "minecraft:banner", "minecraft:boats", "minecraft:bookshelf_books", "minecraft:chainmail_tier", "minecraft:chest_boat",
+                "minecraft:coals", "minecraft:is_cooked", "minecraft:crimson_stems", "minecraft:diamond_tier", "minecraft:digger", "minecraft:door", "minecraft:is_fish",
+                "minecraft:is_food", "minecraft:golden_tier", "minecraft:hanging_actor", "minecraft:hanging_sign", "minecraft:is_axe", "minecraft:is_hoe", "minecraft:horse_armor",
+                "minecraft:iron_tier", "minecraft:leather_tier", "minecraft:lectern_books", "minecraft:logs", "minecraft:logs_that_burn", "minecraft:mangrove_logs", "minecraft:is_meat",
+                "minecraft:is_minecart", "minecraft:music_disc", "minecraft:netherite_tier", "minecraft:is_pickaxe", "minecraft:piglin_loved", "minecraft:piglin_repellents",
+                "minecraft:planks", "minecraft:sand", "minecraft:is_shovel", "minecraft:sign", "minecraft:soul_fire_base_blocks", "minecraft:spawn_egg", "minecraft:stone_bricks",
+                "minecraft:stone_crafting_materials", "minecraft:stone_tier", "minecraft:stone_tool_materials", "minecraft:is_sword", "minecraft:is_tool", "minecraft:vibration_damper",
+                "minecraft:warped_stems", "minecraft:wooden_slabs", "minecraft:wooden_tier", "minecraft:wool"
             ]
         },
 
@@ -124,59 +136,7 @@
                         "tag": {
                             "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte.",
                             "type": "string",
-                            "examples": [
-                                "minecraft:is_armor",
-                                "minecraft:arrow",
-                                "minecraft:banner",
-                                "minecraft:boats",
-                                "minecraft:bookshelf_books",
-                                "minecraft:chainmail_tier",
-                                "minecraft:chest_boat",
-                                "minecraft:coals",
-                                "minecraft:is_cooked",
-                                "minecraft:crimson_stems",
-                                "minecraft:diamond_tier",
-                                "minecraft:digger",
-                                "minecraft:door",
-                                "minecraft:is_fish",
-                                "minecraft:is_food",
-                                "minecraft:golden_tier",
-                                "minecraft:hanging_actor",
-                                "minecraft:hanging_sign",
-                                "minecraft:is_axe",
-                                "minecraft:is_hoe",
-                                "minecraft:horse_armor",
-                                "minecraft:iron_tier",
-                                "minecraft:leather_tier",
-                                "minecraft:lectern_books",
-                                "minecraft:logs",
-                                "minecraft:logs_that_burn",
-                                "minecraft:mangrove_logs",
-                                "minecraft:is_meat",
-                                "minecraft:is_minecart",
-                                "minecraft:music_disc",
-                                "minecraft:netherite_tier",
-                                "minecraft:is_pickaxe",
-                                "minecraft:piglin_loved",
-                                "minecraft:piglin_repellents",
-                                "minecraft:planks",
-                                "minecraft:sand",
-                                "minecraft:is_shovel",
-                                "minecraft:sign",
-                                "minecraft:soul_fire_base_blocks",
-                                "minecraft:spawn_egg",
-                                "minecraft:stone_bricks",
-                                "minecraft:stone_crafting_materials",
-                                "minecraft:stone_tier",
-                                "minecraft:stone_tool_materials",
-                                "minecraft:is_sword",
-                                "minecraft:is_tool",
-                                "minecraft:vibration_damper",
-                                "minecraft:warped_stems",
-                                "minecraft:wooden_slabs",
-                                "minecraft:wooden_tier",
-                                "minecraft:wool"
-                            ]
+                            "$ref": "#/definitions/vanilla_item_tags_id"
                         },
                         "data": {
                             "description": "La donnée de l'item.",
@@ -259,7 +219,7 @@
                             }
                         },
                         "tags": {
-                            "description": "Les tags du bloc. Type: Molang String",
+                            "description": "Les tags du bloc. \n Type: Molang String",
                             "type": "string"
                         }
                     }
