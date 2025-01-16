@@ -21,6 +21,21 @@
                 "itemGroup.name.woolCarpet"
             ]
         },
+        "vanilla_cooldown_categories_id": {
+            "$comment": "Liste des identifiants des catégories de cooldown vanilla.",
+            "enum": [
+                "minecraft:chorusfruit", "minecraft:ender_pearl", "minecraft:goat_horn", "minecraft:shield", "minecraft:wind_charge"
+            ]
+        },
+        "entity_damage_causes_id": {
+            "$comment": "Listes des causes de dégâts possibles.",
+            "type": "string",
+            "enum": [
+                "all", "anvil", "attack", "block_explosion", "contact", "drowning", "entity_explosion", "fall", "falling_block", "fatal", "fire", "fire_tick", "fly_into_wall", 
+                "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
+                "void", "wither"
+            ]
+        },
 
         "format_version": {
             "$comment": "La version du Format à utiliser (ex: 1.21.50).",
@@ -220,14 +235,14 @@
                     "type": "object",
                     "properties": {
                         "name": {
-                            "description": "Le nom du bloc.",
+                            "description": "Le nom du bloc. \n Type: String",
                             "type": "string"
                         },
                         "states": {
-                            "description": "Les états du bloc.",
+                            "description": "Les états du bloc. \n Type: Object",
                             "type": "object",
                             "additionalProperties": {
-                                "anyOf": [
+                                "oneOf": [
                                     {
                                         "type": "string"
                                     },
@@ -244,20 +259,11 @@
                             }
                         },
                         "tags": {
-                            "description": "Les tags du bloc exprimé en Molang",
+                            "description": "Les tags du bloc. Type: Molang String",
                             "type": "string"
                         }
                     }
                 }
-            ]
-        },
-        "entity_damage_cause": {
-            "$comment": "Listes des causes de dégâts possibles.",
-            "type": "string",
-            "enum": [
-                "all", "anvil", "attack", "block_explosion", "contact", "drowning", "entity_explosion", "fall", "falling_block", "fatal", "fire", "fire_tick", "fly_into_wall", 
-                "lava", "magic", "none", "override", "piston", "projectile", "self_destruct", "sonic_boom", "stalactite", "stalagmite", "starve", "suffocation", "thorns", 
-                "void", "wither"
             ]
         },
         "item_functions": {

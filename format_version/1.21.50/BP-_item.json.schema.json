@@ -20,7 +20,8 @@
                     "properties": {
                         "identifier": {
                             "description": "L'identifiant de l'Item. \n Type: String",
-                            "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                            "type": "string",
+                            "pattern": "^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$"
                         },
                         "menu_category": {
                             "description": "Définit les informations sur la localisation de l'Item dans l'inventaire créatif ou commande. \n Type: Object",
@@ -59,7 +60,7 @@
                     "type": "object",
                     "properties": {
                         "minecraft:allow_off_hand": {
-                            "description": "Définit si cet Item peut s'équipper dans la main gauche.",
+                            "description": "Définit si cet Item peut s'équipper dans la main gauche. \n Type: (Boolean | Object)",
                             "oneOf": [
                                 {
                                     "type": "boolean"
@@ -68,6 +69,7 @@
                                     "type": "object",
                                     "properties": {
                                         "value": {
+                                            "description": "La valeur de l'option. \n Type: Boolean",
                                             "type": "boolean"
                                         }
                                     }
@@ -75,33 +77,33 @@
                             ]
                         },
                         "minecraft:block_placer": {
-                            "description": "Définit le bloc que cet Item placera quand il est posé.",
+                            "description": "Définit le bloc que cet Item placera quand il est posé. \n Type: Object",
                             "type": "object",
                             "properties": {
                                 "block": {
-                                    "description": "Le type de Bloc qui sera placé.",
+                                    "description": "Le type de Bloc qui sera placé. \n Type: String",
                                     "type": "string"
                                 },
                                 "use_on": {
-                                    "description": "Filtre les blocs sur lequel cet Item peut être placé.",
+                                    "description": "Filtre les blocs sur lequel cet Item peut être placé. \n Type: (String | Object)[]",
                                     "type": "array",
                                     "items": {
                                         "$ref": "../common.schema.json#/definitions/block_descriptor"
                                     }
                                 },
                                 "replace_block_item": {
-                                    "description": "[EXPERIMENTAL : Upcoming Creator Features] Spécifie si cet Item remplace l'item crée par défaut pour le bloc.",
+                                    "description": "Spécifie si cet Item remplace l'item crée par défaut pour le 'block'. \n Type: Boolean \n EXPERIMENTAL: (Upcoming Creator Features)",
                                     "default": false,
                                     "type": "boolean"
                                 }
                             }
                         },
                         "minecraft:bundle_interaction": {
-                            "description": "Active le schéma d'interaction et l'info-bulle spécifiques au bundle.",
+                            "description": "Active le schéma d'interaction et l'info-bulle spécifiques au bundle. \n Type: Object \n Note : Nécessite que ce ct Item ait le composant 'minecraft:storage_item'.",
                             "type": "object",
                             "properties": {
                                 "num_viewable_slots": {
-                                    "description": "Définit le nombre maximal de stack d'items qui seront affcihés dans le schéma d'interaction.",
+                                    "description": "Définit le nombre maximal de stack d'items qui seront affcihés dans le schéma d'interaction. \n Type: Integer",
                                     "type": "integer",
                                     "minimum": 1,
                                     "maximum": 64
@@ -109,7 +111,7 @@
                             }
                         },
                         "minecraft:can_destroy_in_creative": {
-                            "description": "Définit si cet Item détruit les blocs quand le joueur est en créatif.",
+                            "description": "Définit si cet Item détruit les blocs quand le joueur est en créatif. \n Type: (Boolean | Object)",
                             "oneOf": [
                                 {
                                     "type": "boolean"
@@ -118,6 +120,7 @@
                                     "type": "object",
                                     "properties": {
                                         "value": {
+                                            "description": "La valeur de l'option. \n Type: Boolean",
                                             "type": "boolean"
                                         }
                                     }
@@ -125,26 +128,30 @@
                             ]
                         },
                         "minecraft:cooldown": {
-                            "description": "Définit le cooldown de cet Item.",
+                            "description": "Définit le cooldown de cet Item. \n Type: Object",
                             "type": "object",
                             "properties": {
                                 "category": {
                                     "description": "Définit la catégorie de cooldown de cet Item.",
-                                    "type": "string",
-                                    "examples": ["minecraft:chorusfruit", "minecraft:ender_pearl", "minecraft:goat_horn", "minecraft:shield", "minecraft:wind_charge"]
+                                    "anyOf": [
+                                        {
+                                            "type": "string",
+                                            "$ref": "../common.schema.json#/definitions/vanilla_cooldown_categories_id"
+                                        }
+                                    ]
                                 },
                                 "duration": {
-                                    "description": "Le temps en secondes du cooldown.",
+                                    "description": "Le temps en secondes du cooldown. \n Type: Number",
                                     "type": "number"
                                 }
                             }
                         },
                         "minecraft:compostable": {
-                            "description": "Définit si cet Item peut être composté dans un composteur.",
+                            "description": "Définit si cet Item peut être composté dans un composteur. \n Type: Object \n EXPERIMENTAL: (Upcoming Creator Features)",
                             "type": "object",
                             "properties": {
                                 "composting_chance": {
-                                    "description": "La probabilité que cet item génère une couche de compost lorsqu'il est utilisé dans un bloc de compost. Les valeurs valides sont comprises entre 1 et 100, inclus.",
+                                    "description": "La probabilité que cet item génère une couche de compost lorsqu'il est utilisé dans un bloc de compost. Type: Integer",
                                     "default": 100,
                                     "type": "integer",
                                     "minimum": 1,
@@ -153,45 +160,40 @@
                             }
                         },
                         "minecraft:custom_components": {
-                            "description": "Les Customs Components de cet Item.",
+                            "description": "Les composants customs de cet Item. \n Type: String[]",
                             "type": "array",
                             "items": {
-                                "$ref": "../common.schema.json#/definitions/string_with_namespace"
+                                "type": "string",
+                                "pattern": "^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$"
                             }
                         },
-                        "minecraft:dyeable": {
-                            "description": "Permet de teindre l'Item dans des chaudrons.",
-                            "type": "object",
-                            "properties": {
-                                "default_color": {
-                                    "description": "La couleur à utiliser par défaut.",
-                                    "$ref": "../common.schema.json#/definitions/color_hex"
-                                }
-                            }
-                        },
+
                         "minecraft:damage": {
-                            "description": "Le nombre de dégâts supplémentaires qu'infligera cet Item",
+                            "description": "Le nombre de dégâts supplémentaires qu'infligera cet Item. \n Type: (Integer | Object)",
                             "oneOf": [
                                 {
-                                    "type": "integer"
+                                    "type": "integer",
+                                    "minimum": 0
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "value": {
-                                            "type": "integer"
+                                            "description": "La valeur de dégâts supplémentaires. \n Type: Integer",
+                                            "type": "integer",
+                                            "minimum": 0
                                         }
                                     }
                                 }
                             ]
                         },
                         "minecraft:damage_absorption": {
-                            "description": "Permet à l'Item d'absorber les dégâts destiné au porteur de cet item.",
+                            "description": "Permet à l'Item d'absorber les dégâts destiné au porteur de cet item. \n Type: Object",
                             "type": "object",
                             "properties": {
                                 "absorbable_causes": {
-                                    "description": "Le type de dégâts que cet Item doit absorber.",
-                                    "$ref": "../common.schema.json#/definitions/entity_damage_cause"
+                                    "description": "Les type de dégâts que cet Item doit absorber. \n Type: String[]",
+                                    "$ref": "../common.schema.json#/definitions/entity_damage_causes_id"
                                 }
                             }
                         },
@@ -286,6 +288,16 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        },
+                        "minecraft:dyeable": {
+                            "description": "Permet de teindre l'Item dans des chaudrons.",
+                            "type": "object",
+                            "properties": {
+                                "default_color": {
+                                    "description": "La couleur à utiliser par défaut.",
+                                    "$ref": "../common.schema.json#/definitions/color_hex"
                                 }
                             }
                         },
