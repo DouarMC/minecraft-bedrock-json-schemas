@@ -1,34 +1,61 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Ce fichier sert à créer un Item personnalisé. \n Type: Object",
     "type": "object",
     "required": ["format_version", "minecraft:item"],
     "properties": {
         "format_version": {
-            "description": "La version du Format à utiliser.",
+            "description": "La version du Format à utiliser. \n Type: String",
             "const": "1.21.50"
         },
         "minecraft:item": {
-            "description": "Contient toute la définition de l'Item.",
+            "description": "Contient toute la définition de l'Item. \n Type: Object",
             "type": "object",
             "required": ["description", "components"],
             "properties": {
                 "description": {
-                    "description": "Contient les propeiétés de Descriptions du Bloc.",
+                    "description": "Contient les propeiétés de descriptions du Bloc. \n Type: Object",
                     "type": "object",
                     "required": ["identifier"],
                     "properties": {
                         "identifier": {
-                            "description": "L'identifiant de l'Item.",
+                            "description": "L'identifiant de l'Item. \n Type: String",
                             "$ref": "../common.schema.json#/definitions/string_with_namespace"
                         },
                         "menu_category": {
-                            "description": "Définit les informations sur la localisation de l'Item dans l'inventaire créatif ou commande.",
-                            "$ref": "../common.schema.json#/definitions/menu_category"
+                            "description": "Définit les informations sur la localisation de l'Item dans l'inventaire créatif ou commande. \n Type: Object",
+                            "type": "object",
+                            "properties": {
+                                "category": {
+                                    "description": "La catégorie du menu créatif où l'Item sera placé. \n Type: String",
+                                    "default": "items",
+                                    "type": "string",
+                                    "enum": ["construction", "nature", "equipment", "items", "none"]
+                                },
+                                "group": {
+                                    "description": "Le groupe d'items du menu créatif où l'Item sera placé. \n Type: String",
+                                    "maxLength": 256,
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "type": "string",
+                                            "$ref": "../common.schema.json#/definitions/vanilla_item_groups_id"
+                                        }
+                                    ]
+                                },
+                                "is_hidden_in_commands": {
+                                    "description": "Définit si l'Item est caché dans les commandes. \n Type: Boolean",
+                                    "default": false,
+                                    "type": "boolean"
+                                }
+                            }
                         }
                     }
                 },
                 "components": {
-                    "description": "La liste des composants de l'Item.",
+                    "description": "Tous les composants de l'Item. \n Type: Object",
                     "type": "object",
                     "properties": {
                         "minecraft:allow_off_hand": {
