@@ -130,20 +130,20 @@
                     "type": "object",
                     "properties": {
                         "item": {
-                            "description": "L'identifiant de l'item.",
+                            "description": "L'identifiant de l'item. \n Type: String",
                             "type": "string"
                         },
                         "tag": {
-                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte.",
+                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte. Type: String",
                             "type": "string",
                             "$ref": "#/definitions/vanilla_item_tags_id"
                         },
                         "data": {
-                            "description": "La donnée de l'item.",
+                            "description": "La donnée de l'item. \n Type: Integer",
                             "type": "integer"
                         },
                         "count": {
-                            "description": "Le nombre d'items.",
+                            "description": "Le nombre d'items. \n Type: Integer",
                             "type": "integer"
                         }
                     }

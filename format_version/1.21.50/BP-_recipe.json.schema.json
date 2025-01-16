@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "Ce fichier sert à créer une recette. \n Type : object",
+    "description": "Ce fichier sert à créer une recette. \n Type : Object",
     "type": "object",
     "required": ["format_version"],
     "properties": {
         "format_version": {
-            "description": "La version du format à utiliser.",
+            "description": "La version du format à utiliser. \n Type : String",
             "const": "1.21.50"
         },
         "minecraft:recipe_furnace": {
@@ -475,5 +475,71 @@
                 }
             }
         }
-    }
+    },
+    "oneOf": [
+        {
+            "type": "object",
+            "properties": {
+                "minecraft:recipe_furnace": {
+                    "description": "Définit une recette de Cuisson. \n Type : Object",
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "description": "Contient les propriétés de description de la recette. \n Type : Object",
+                            "type": "object",
+                            "required": ["identifier"],
+                            "properties": {
+                                "identifier": {
+                                    "description": "L'identifiant de la recette. \n Type : String",
+                                    "type": "string",
+                                    "pattern": "^[a-zA-Z0-9_]+:[a-zA-Z0-9_]+$"
+                                }
+                            }
+                        },
+                        "tags": {
+                            "description": "Les blocs qui possède un des tags définis ici peuvent utiliser cette recette. \n Type : String[]",
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": ["furnace", "blast_furnace", "smoker", "campfire", "soul_campfire"]
+                            }
+                        },
+                        "input": {
+                            "description": "L'item servant d'ingrédient pour cette recette. \n Type : (String | Object)",
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "item": {
+                                            "description": "L'identifiant de l'item. \n Type: String",
+                                            "type": "string"
+                                        },
+                                        "tag": {
+                                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte. Type: String",
+                                            "type": "string",
+                                            "$ref": "../common.schema.json#/definitions/vanilla_item_tags_id"
+                                        },
+                                        "data": {
+                                            "description": "La donnée de l'item. \n Type: Integer",
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        "output": {
+                            "description": "L'item produit par cette recette. \n Type : String",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            
+        }
+    ]
 }
