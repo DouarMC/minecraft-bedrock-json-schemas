@@ -134,7 +134,7 @@
                             "type": "string"
                         },
                         "tag": {
-                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte. Type: String",
+                            "description": "L'identifiant du tag des items qui peuvent être utilisés dans ce contexte. \n Type: String",
                             "type": "string",
                             "$ref": "#/definitions/vanilla_item_tags_id"
                         },

@@ -42,7 +42,7 @@
                                         },
                                         {
                                             "type": "string",
-                                            "$ref": "../common.schema.json#/definitions/vanilla_item_groups_id"
+                                            "$ref": "../../common.schema.json#/definitions/vanilla_item_groups_id"
                                         }
                                     ]
                                 },
@@ -88,7 +88,7 @@
                                     "description": "Filtre les blocs sur lequel cet Item peut être placé. \n Type: (String | Object)[]",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "../common.schema.json#/definitions/block_descriptor"
+                                        "$ref": "../../common.schema.json#/definitions/block_descriptor"
                                     }
                                 },
                                 "replace_block_item": {
@@ -136,7 +136,7 @@
                                     "anyOf": [
                                         {
                                             "type": "string",
-                                            "$ref": "../common.schema.json#/definitions/vanilla_cooldown_categories_id"
+                                            "$ref": "../../common.schema.json#/definitions/vanilla_cooldown_categories_id"
                                         }
                                     ]
                                 },
@@ -193,7 +193,7 @@
                                 "absorbable_causes": {
                                     "description": "Les type de dégâts que cet Item doit absorber. \n Type: String[]",
                                     "type": "string",
-                                    "$ref": "../common.schema.json#/definitions/entity_damage_causes_id"
+                                    "$ref": "../../common.schema.json#/definitions/entity_damage_causes_id"
                                 }
                             }
                         },
@@ -209,7 +209,7 @@
                                         "properties": {
                                             "block": {
                                                 "description": "Le bloc impacté par la vitesse de cassage de blocs. \n Type: (String | Object)",
-                                                "$ref": "../common.schema.json#/definitions/block_descriptor"
+                                                "$ref": "../../common.schema.json#/definitions/block_descriptor"
                                             },
                                             "speed": {
                                                 "description": "Le multiplicateur de vitesse appliqué au cassage de blocs. \n Type: Integer",
@@ -344,7 +344,7 @@
                                     "description": "Filtre les blocs sur lequel cet Item peut être placé par un distributeur. \n Type: (String | Object)[] \n Note : Si cette liste est vide, tous les blocs sont autorisés.",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "../common.schema.json#/definitions/block_descriptor"
+                                        "$ref": "../../common.schema.json#/definitions/block_descriptor"
                                     }
                                 },
                                 "entity": {
@@ -355,7 +355,7 @@
                                     "description": "Filtre les blocs sur lequel cet Item peut être placé. \n Type: (String | Object)[] \n Note : Si cette liste est vide, tous les blocs sont autorisés.",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "../common.schema.json#/definitions/block_descriptor"
+                                        "$ref": "../../common.schema.json#/definitions/block_descriptor"
                                     }
                                 }
                             }
@@ -826,7 +826,7 @@
                                             },
                                             {
                                                 "type": "string",
-                                                "$ref": "../common.schema.json#/definitions/vanilla_tags_id"
+                                                "$ref": "../../common.schema.json#/definitions/vanilla_tags_id"
                                             }
                                         ]
                                     }
